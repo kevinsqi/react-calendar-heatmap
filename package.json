@@ -5,7 +5,7 @@
   "main": "./build/index.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/iqnivek/react-calendar-heatmap.git"
+    "url": "https://github.com/patientslikeme/react-calendar-heatmap.git"
   },
   "license": "MIT",
   "scripts": {
