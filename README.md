@@ -2,6 +2,8 @@
 
 A calendar heatmap component built on SVG, inspired by github's contribution graph. The SVG expands to size of container and colors are configurable.
 
+[![npm version](https://badge.fury.io/js/react-calendar-heatmap.svg)](https://badge.fury.io/js/react-calendar-heatmap)
+
 ![react-calendar-heatmap screenshot](/assets/react-calendar-heatmap.png?raw=true)
 
 ## Usage
