@@ -11,11 +11,13 @@ class CalendarHeatmap extends React.Component {
   constructor(props) {
     super(props);
 
-    this.startDate = new Date(getBeginningOfDate(props.endDate).getTime() - (props.numDays - 1) * MILLISECONDS_IN_ONE_DAY);  // numDays - 1 because endDate is included
+    this.startDate = new Date(getBeginningOfDate(props.endDate));
+    this.startDate.setDate(this.startDate.getDate() - (props.numDays - 1));  // numDays - 1 because endDate is inclusive
     const emptyDaysAtStart = this.startDate.getDay();
     const emptyDaysAtEnd = (DAYS_IN_WEEK - 1) - props.endDate.getDay();
     const numDaysRoundedToWeek = props.numDays + emptyDaysAtStart + emptyDaysAtEnd;
-    this.startDateWithEmptyDays = new Date(this.startDate.getTime() - emptyDaysAtStart * MILLISECONDS_IN_ONE_DAY);
+    this.startDateWithEmptyDays = new Date(this.startDate);
+    this.startDateWithEmptyDays.setDate(this.startDate.getDate() - emptyDaysAtStart);
 
     this.valueAttributes = reduce(props.values, (memo, value) => {
       const index = Math.floor((value.date - this.startDateWithEmptyDays) / MILLISECONDS_IN_ONE_DAY);
