@@ -8,12 +8,12 @@ function getBeginningOfDate(date) {
   return new Date(date.getFullYear(), date.getMonth(), date.getDate());
 }
 
+const SQUARE_SIZE = 10;
+const MONTH_LABEL_GUTTER_SIZE = 4;
+
 class CalendarHeatmap extends React.Component {
   constructor(props) {
     super(props);
-
-    this.squareSize = 10;
-    this.monthLabelGutterSize = 4;
 
     this.state = {
       valueCache: this.getValueCache(props.values),
@@ -33,11 +33,11 @@ class CalendarHeatmap extends React.Component {
   }
 
   getSquareSizeWithGutter() {
-    return this.squareSize + this.props.gutterSize;
+    return SQUARE_SIZE + this.props.gutterSize;
   }
 
   getMonthLabelSize() {
-    return this.props.showMonthLabels ? (this.squareSize + this.monthLabelGutterSize) : 0;
+    return this.props.showMonthLabels ? (SQUARE_SIZE + MONTH_LABEL_GUTTER_SIZE) : 0;
   }
 
   getStartDate() {
@@ -114,8 +114,8 @@ class CalendarHeatmap extends React.Component {
     return (
       <rect
         key={index}
-        width={this.squareSize}
-        height={this.squareSize}
+        width={SQUARE_SIZE}
+        height={SQUARE_SIZE}
         y={dayIndex * this.getSquareSizeWithGutter()}
         className={this.getClassNameForIndex(index)}
         onClick={this.handleClick.bind(this, this.getValueForIndex(index))}
@@ -149,7 +149,7 @@ class CalendarHeatmap extends React.Component {
         <text
           key={weekIndex}
           x={weekIndex * this.getSquareSizeWithGutter()}
-          y={this.getMonthLabelSize() - this.monthLabelGutterSize}
+          y={this.getMonthLabelSize() - MONTH_LABEL_GUTTER_SIZE}
         >
           {MONTH_LABELS[endOfWeek.getMonth()]}
         </text>

@@ -45,11 +45,15 @@ class Demo extends React.Component {
   }
 
   componentDidMount() {
-    setTimeout(() => {
-      this.setState({
-        values: generateRandomValues(200),
-      });
-    }, 3000);
+    let counter = 0;
+    setInterval(() => {
+      if (counter < 200) {
+        this.setState({
+          values: this.state.values.concat([{ date: shiftDate(today, -counter) }])
+        });
+        counter += 1;
+      }
+    }, 500);
   }
 
   render() {
@@ -67,7 +71,6 @@ class Demo extends React.Component {
         <p>Display days that are out of date range</p>
         <CalendarHeatmap
           values={randomValues}
-          classForValue={customClassForValue}
           showOutOfRangeDays={true}
         />
 
@@ -75,7 +78,6 @@ class Demo extends React.Component {
         <CalendarHeatmap
           endDate={halfYearAgo}
           values={pastRandomValues}
-          classForValue={customClassForValue}
         />
 
         <p>Use millisecond timestamps or parseable strings for date attribute</p>
@@ -95,7 +97,6 @@ class Demo extends React.Component {
         <p>No month labels</p>
         <CalendarHeatmap
           values={randomValues}
-          classForValue={customClassForValue}
           showMonthLabels={false}
         />
 
@@ -110,7 +111,6 @@ class Demo extends React.Component {
         <CalendarHeatmap
           numDays={60}
           values={randomValues}
-          classForValue={customClassForValue}
         />
       </div>
     );
