@@ -5,7 +5,7 @@ module.exports = {
     path: './build',
     filename: 'index.js',
     library: 'CalendarHeatmap',
-    libraryTarget: 'var'
+    libraryTarget: 'umd'
   },
   resolve: {
     extensions: ['', '.js', '.jsx'],
