@@ -58,6 +58,15 @@ const Demo = () => (
       classForValue={customClassForValue}
     />
 
+    <p>Use millisecond timestamps or parseable strings for date attribute</p>
+    <CalendarHeatmap
+      endDate={new Date(2016, 3, 1)}
+      values={[
+        { date: '2016-01-01' },
+        { date: (new Date('2016-02-02')).getTime() },
+      ]}
+    />
+
     <p>No month labels</p>
     <CalendarHeatmap
       values={generateRandomValues(200)}

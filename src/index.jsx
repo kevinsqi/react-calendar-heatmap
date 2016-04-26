@@ -19,7 +19,8 @@ class CalendarHeatmap extends React.Component {
     this.startDateWithEmptyDays = shiftDate(this.startDate, -this.emptyDaysAtStart);
 
     this.valueAttributes = reduce(props.values, (memo, value) => {
-      const index = Math.floor((value.date - this.startDateWithEmptyDays) / MILLISECONDS_IN_ONE_DAY);
+      const date = (value.date instanceof Date) ? value.date : (new Date(value.date));
+      const index = Math.floor((date - this.startDateWithEmptyDays) / MILLISECONDS_IN_ONE_DAY);
       memo[index] = {
         value: value,
         className: props.classForValue(value),
@@ -138,7 +139,7 @@ class CalendarHeatmap extends React.Component {
 CalendarHeatmap.propTypes = {
   values: PropTypes.arrayOf(             // array of objects with date and arbitrary metadata
     PropTypes.shape({
-      date: PropTypes.instanceOf(Date),
+      date: PropTypes.oneOf(PropTypes.string, PropTypes.number, PropTypes.instanceOf(Date)),
     }).isRequired
   ).isRequired,
   numDays: PropTypes.number,             // number of days back from endDate to show
