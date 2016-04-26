@@ -1,7 +1,8 @@
 {
   "name": "react-calendar-heatmap",
+  "version": "0.3.0",
   "description": "A calendar heatmap component, inspired by github's contribution graph",
-  "version": "0.2.0",
+  "author": "Kevin Qi <iqnivek@gmail.com>",
   "main": "./build/index.js",
   "repository": {
     "type": "git",
