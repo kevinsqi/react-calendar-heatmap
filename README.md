@@ -27,10 +27,10 @@ To show a heatmap of the last 100 days, ending on April 1st:
   endDate={new Date('2016-04-01')}
   numDays={100}
   values={[
-    { date: new Date('2016-01-01') },
-    { date: new Date('2016-01-22') },
+    { date: '2016-01-01' },
+    { date: '2016-01-22' },
     ...
-    { date: new Date('2016-03-30') }
+    { date: '2016-03-30' }
   ]}
 />
 ```
@@ -43,8 +43,8 @@ You can copy CSS from `demo/index.css` and configure it as needed. If you want t
 <CalendarHeatmap
   ...
   values={[
-    { date: new Date('2016-01-01'), state: 'good' },
-    { date: new Date('2016-01-05'), state: 'bad' }
+    { date: '2016-01-01', state: 'good' },
+    { date: '2016-01-05', state: 'bad' }
   ]}
   classForValue={
     (value) => {
@@ -69,11 +69,11 @@ Then you can use your own CSS classes to set box colors:
 
 ## Development
 
-To view demo locally:
+To develop locally:
 
 ```bash
 npm install
 npm start
 ```
 
-Then go to localhost:8080 to see demo.
+Then go to localhost:8080, which renders demo/index.html.
