@@ -102,7 +102,8 @@ class CalendarHeatmap extends React.Component {
     if (!this.props.showMonthLabels) {
       return null;
     }
-    return range(this.weekCount).map((weekIndex) => {
+    const weekRange = range(this.weekCount - 1);  // don't render for last week, because label will be cut off
+    return weekRange.map((weekIndex) => {
       const endOfWeek = shiftDate(this.startDateWithEmptyDays, (weekIndex + 1) * DAYS_IN_WEEK);
 
       return (endOfWeek.getDate() >= 1 && endOfWeek.getDate() <= DAYS_IN_WEEK) ? (
@@ -144,7 +145,7 @@ CalendarHeatmap.propTypes = {
   endDate: PropTypes.instanceOf(Date),   // end of date range
   gutterSize: PropTypes.number,          // size of space between squares
   showMonthLabels: PropTypes.bool,       // whether to show month labels
-  showOutOfRangeDays: PropTypes.bool,   // whether to render squares for extra days in week after endDate, and before start date
+  showOutOfRangeDays: PropTypes.bool,    // whether to render squares for extra days in week after endDate, and before start date
   titleForValue: PropTypes.func,         // function which returns title text for value
   classForValue: PropTypes.func,         // function which returns html class for value
   onClick: PropTypes.func,               // callback function when a square is clicked
