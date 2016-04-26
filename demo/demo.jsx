@@ -47,7 +47,7 @@ const DemoItem = (props) => (
   </div>
 );
 
-class Demo extends React.Component {
+class AsyncDemo extends React.Component {
   constructor(props) {
     super(props);
 
@@ -57,21 +57,27 @@ class Demo extends React.Component {
   }
 
   componentDidMount() {
-    let counter = 0;
     setInterval(() => {
-      if (counter < 200) {
-        this.setState({
-          values: this.state.values.concat([{ date: shiftDate(today, -counter) }])
-        });
-        counter += 1;
-      }
-    }, 500);
+      this.setState({
+        values: this.state.values.length > 0 ? [] : randomValues,
+      });
+    }, 1500);
   }
 
+  render()  {
+    return (
+      <CalendarHeatmap
+        values={this.state.values}
+      />
+    );
+  }
+}
+
+class Demo extends React.Component {
   render() {
     return (
       <div className="container">
-        <div className="row m-t-3">
+        <div className="row m-y-3">
           <div className="text-md-center">
             <h1><a href="https://github.com/patientslikeme/react-calendar-heatmap">react-calendar-heatmap</a></h1>
             <p>A calendar heatmap component built on SVG, inspired by github's contribution graph.</p>
@@ -137,14 +143,6 @@ class Demo extends React.Component {
         </DemoItem>
 
         <DemoItem
-          description="Loading values asynchronously"
-        >
-          <CalendarHeatmap
-            values={this.state.values}
-          />
-        </DemoItem>
-
-        <DemoItem
           description="Removing month labels"
         >
           <CalendarHeatmap
@@ -161,6 +159,12 @@ class Demo extends React.Component {
             classForValue={customClassForValue}
             onClick={(value) => alert(`Clicked on ${value.date} with value ${value.count}`)}
           />
+        </DemoItem>
+
+        <DemoItem
+          description="Loading values asynchronously"
+        >
+          <AsyncDemo />
         </DemoItem>
       </div>
     );
