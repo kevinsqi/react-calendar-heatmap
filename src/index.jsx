@@ -15,10 +15,10 @@ class CalendarHeatmap extends React.Component {
     const emptyDaysAtStart = this.startDate.getDay();
     const emptyDaysAtEnd = (DAYS_IN_WEEK - 1) - props.endDate.getDay();
     const numDaysRoundedToWeek = props.numDays + emptyDaysAtStart + emptyDaysAtEnd;
-    this.startDateWithEmptyDaysTime = this.startDate.getTime() - emptyDaysAtStart * MILLISECONDS_IN_ONE_DAY;
+    this.startDateWithEmptyDays = new Date(this.startDate.getTime() - emptyDaysAtStart * MILLISECONDS_IN_ONE_DAY);
 
     this.valueAttributes = reduce(props.values, (memo, value) => {
-      const index = Math.floor((value.date.getTime() - this.startDateWithEmptyDaysTime) / MILLISECONDS_IN_ONE_DAY);
+      const index = Math.floor((value.date - this.startDateWithEmptyDays) / MILLISECONDS_IN_ONE_DAY);
       memo[index] = {
         value: value,
         className: props.classForValue(value),
@@ -98,8 +98,8 @@ class CalendarHeatmap extends React.Component {
       return null;
     }
     return range(this.weekCount).map((weekIndex) => {
-      const weekStartTime = this.startDateWithEmptyDaysTime + weekIndex * DAYS_IN_WEEK * MILLISECONDS_IN_ONE_DAY;
-      const weekEndDate = new Date(weekStartTime + DAYS_IN_WEEK * MILLISECONDS_IN_ONE_DAY);
+      const weekEndDate = new Date(this.startDateWithEmptyDays);
+      weekEndDate.setDate(this.startDateWithEmptyDays.getDate() + (weekIndex + 1) * DAYS_IN_WEEK);
 
       return (weekEndDate.getDate() >= 1 && weekEndDate.getDate() <= DAYS_IN_WEEK) ? (
         <text
