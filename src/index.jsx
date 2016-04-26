@@ -13,11 +13,11 @@ class CalendarHeatmap extends React.Component {
 
     this.startDate = new Date(getBeginningOfDate(props.endDate));
     this.startDate.setDate(this.startDate.getDate() - (props.numDays - 1));  // numDays - 1 because endDate is inclusive
-    const emptyDaysAtStart = this.startDate.getDay();
+    this.emptyDaysAtStart = this.startDate.getDay();
     const emptyDaysAtEnd = (DAYS_IN_WEEK - 1) - props.endDate.getDay();
-    const numDaysRoundedToWeek = props.numDays + emptyDaysAtStart + emptyDaysAtEnd;
+    const numDaysRoundedToWeek = props.numDays + this.emptyDaysAtStart + emptyDaysAtEnd;
     this.startDateWithEmptyDays = new Date(this.startDate);
-    this.startDateWithEmptyDays.setDate(this.startDate.getDate() - emptyDaysAtStart);
+    this.startDateWithEmptyDays.setDate(this.startDate.getDate() - this.emptyDaysAtStart);
 
     this.valueAttributes = reduce(props.values, (memo, value) => {
       const index = Math.floor((value.date - this.startDateWithEmptyDays) / MILLISECONDS_IN_ONE_DAY);
@@ -69,6 +69,10 @@ class CalendarHeatmap extends React.Component {
   }
 
   renderSquare(dayIndex, index) {
+    const indexOutOfRange = index < this.emptyDaysAtStart || index >= this.emptyDaysAtStart + this.props.numDays;
+    if (indexOutOfRange && !this.props.showOutOfRangeDays) {
+      return null;
+    }
     return (
       <rect
         key={index}
@@ -142,6 +146,7 @@ CalendarHeatmap.propTypes = {
   endDate: PropTypes.instanceOf(Date),   // end of date range
   gutterSize: PropTypes.number,          // size of space between squares
   showMonthLabels: PropTypes.bool,       // whether to show month labels
+  showOutOfRangeDays: PropTypes.bool,   // whether to render squares for extra days in week after endDate, and before start date
   titleForValue: PropTypes.func,         // function which returns title text for value
   classForValue: PropTypes.func,         // function which returns html class for value
   onClick: PropTypes.func,               // callback function when a square is clicked
@@ -152,6 +157,7 @@ CalendarHeatmap.defaultProps = {
   endDate: new Date(),
   gutterSize: 1,
   showMonthLabels: true,
+  showOutOfRangeDays: false,
   titleForValue: (value) => {
     return value ? JSON.stringify(value) : null;
   },

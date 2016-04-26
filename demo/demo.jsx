@@ -31,10 +31,10 @@ const Demo = () => (
       values={generateRandomValues(200)}
     />
 
-    <p>Shorter time span</p>
+    <p>Display days that are out of date range</p>
     <CalendarHeatmap
-      numDays={60}
-      values={generateRandomValues(60)}
+      values={generateRandomValues(200)}
+      showOutOfRangeDays={true}
     />
 
     <p>Setting an end date in the past</p>
@@ -53,6 +53,12 @@ const Demo = () => (
     <CalendarHeatmap
       values={generateRandomValues(200)}
       onClick={(value) => alert(`Clicked on ${value.date} with value ${value.count}`)}
+    />
+
+    <p>Shorter time span</p>
+    <CalendarHeatmap
+      numDays={60}
+      values={generateRandomValues(60)}
     />
   </div>
 );
