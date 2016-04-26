@@ -2,6 +2,7 @@ import React, { PropTypes } from 'react';
 import range from 'lodash.range';
 import reduce from 'lodash.reduce';
 import { DAYS_IN_WEEK, MILLISECONDS_IN_ONE_DAY, MONTH_LABELS } from './constants';
+import shiftDate from './shiftDate';
 
 function getBeginningOfDate(date) {
   return new Date(date.getFullYear(), date.getMonth(), date.getDate());
@@ -11,13 +12,11 @@ class CalendarHeatmap extends React.Component {
   constructor(props) {
     super(props);
 
-    this.startDate = new Date(getBeginningOfDate(props.endDate));
-    this.startDate.setDate(this.startDate.getDate() - (props.numDays - 1));  // numDays - 1 because endDate is inclusive
+    this.startDate = shiftDate(getBeginningOfDate(props.endDate), -props.numDays + 1); // +1 because endDate is inclusive
     this.emptyDaysAtStart = this.startDate.getDay();
     const emptyDaysAtEnd = (DAYS_IN_WEEK - 1) - props.endDate.getDay();
     const numDaysRoundedToWeek = props.numDays + this.emptyDaysAtStart + emptyDaysAtEnd;
-    this.startDateWithEmptyDays = new Date(this.startDate);
-    this.startDateWithEmptyDays.setDate(this.startDate.getDate() - this.emptyDaysAtStart);
+    this.startDateWithEmptyDays = shiftDate(this.startDate, -this.emptyDaysAtStart);
 
     this.valueAttributes = reduce(props.values, (memo, value) => {
       const index = Math.floor((value.date - this.startDateWithEmptyDays) / MILLISECONDS_IN_ONE_DAY);
@@ -104,16 +103,15 @@ class CalendarHeatmap extends React.Component {
       return null;
     }
     return range(this.weekCount).map((weekIndex) => {
-      const weekEndDate = new Date(this.startDateWithEmptyDays);
-      weekEndDate.setDate(this.startDateWithEmptyDays.getDate() + (weekIndex + 1) * DAYS_IN_WEEK);
+      const endOfWeek = shiftDate(this.startDateWithEmptyDays, (weekIndex + 1) * DAYS_IN_WEEK);
 
-      return (weekEndDate.getDate() >= 1 && weekEndDate.getDate() <= DAYS_IN_WEEK) ? (
+      return (endOfWeek.getDate() >= 1 && endOfWeek.getDate() <= DAYS_IN_WEEK) ? (
         <text
           key={weekIndex}
           x={weekIndex * this.squareSizeWithGutter}
           y={this.monthLabelSize - this.monthLabelGutterSize}
         >
-          {MONTH_LABELS[weekEndDate.getMonth()]}
+          {MONTH_LABELS[endOfWeek.getMonth()]}
         </text>
       ) : null;
     });
