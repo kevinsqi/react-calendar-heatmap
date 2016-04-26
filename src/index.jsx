@@ -18,7 +18,7 @@ class CalendarHeatmap extends React.Component {
     this.startDateWithEmptyDaysTime = this.startDate.getTime() - emptyDaysAtStart * MILLISECONDS_IN_ONE_DAY;
 
     this.valueAttributes = reduce(props.values, (memo, value) => {
-      const index = Math.ceil((value.date.getTime() - this.startDateWithEmptyDaysTime) / MILLISECONDS_IN_ONE_DAY);
+      const index = Math.floor((value.date.getTime() - this.startDateWithEmptyDaysTime) / MILLISECONDS_IN_ONE_DAY);
       memo[index] = {
         value: value,
         className: props.classForValue(value),
