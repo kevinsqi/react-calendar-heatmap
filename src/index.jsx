@@ -162,17 +162,7 @@ CalendarHeatmap.defaultProps = {
     return value ? JSON.stringify(value) : null;
   },
   classForValue: (value) => {
-    if (!value) {
-      return 'color-empty';
-    } else if (value.count < 7) {
-      return 'color-small';
-    } else if (value.count < 14) {
-      return 'color-medium';
-    } else if (value.count < 20) {
-      return 'color-large';
-    } else {
-      return 'color-huge';
-    }
+    return value ? 'color-filled' : 'color-empty';
   },
 };
 

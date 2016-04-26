@@ -12,6 +12,10 @@
 .react-calendar-heatmap .color-empty {
   fill: #eeeeee;
 }
+.react-calendar-heatmap .color-filled {
+  fill: #8cc665;
+}
+
 .react-calendar-heatmap .color-small {
   fill: #d6e685;
 }
