@@ -139,7 +139,7 @@ class CalendarHeatmap extends React.Component {
 CalendarHeatmap.propTypes = {
   values: PropTypes.arrayOf(             // array of objects with date and arbitrary metadata
     PropTypes.shape({
-      date: PropTypes.oneOf(PropTypes.string, PropTypes.number, PropTypes.instanceOf(Date)),
+      date: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.instanceOf(Date)]).isRequired,
     }).isRequired
   ).isRequired,
   numDays: PropTypes.number,             // number of days back from endDate to show
