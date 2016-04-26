@@ -98,9 +98,8 @@ class CalendarHeatmap extends React.Component {
       return null;
     }
     return range(this.weekCount).map((weekIndex) => {
-      const weekStartMillis = this.startDate.getTime() + weekIndex * DAYS_IN_WEEK * MILLISECONDS_IN_ONE_DAY;
-      const weekEndMillis = weekStartMillis + DAYS_IN_WEEK * MILLISECONDS_IN_ONE_DAY;
-      const weekEndDate = new Date(weekEndMillis);
+      const weekStartTime = this.startDateWithEmptyDaysTime + weekIndex * DAYS_IN_WEEK * MILLISECONDS_IN_ONE_DAY;
+      const weekEndDate = new Date(weekStartTime + DAYS_IN_WEEK * MILLISECONDS_IN_ONE_DAY);
 
       return (weekEndDate.getDate() >= 1 && weekEndDate.getDate() <= DAYS_IN_WEEK) ? (
         <text
