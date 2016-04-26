@@ -11,12 +11,14 @@ class CalendarHeatmap extends React.Component {
   constructor(props) {
     super(props);
 
-    const endOfWeekForEndDate = getBeginningOfDate(this.props.endDate).getTime() + ((DAYS_IN_WEEK - 1) - this.props.endDate.getDay()) * MILLISECONDS_IN_ONE_DAY;
-
-    this.startDate = new Date(endOfWeekForEndDate - (this.props.numDays * MILLISECONDS_IN_ONE_DAY));
+    this.startDate = new Date(getBeginningOfDate(props.endDate).getTime() - (props.numDays - 1) * MILLISECONDS_IN_ONE_DAY);  // numDays - 1 because endDate is included
+    const emptyDaysAtStart = this.startDate.getDay();
+    const emptyDaysAtEnd = (DAYS_IN_WEEK - 1) - props.endDate.getDay();
+    const numDaysRoundedToWeek = props.numDays + emptyDaysAtStart + emptyDaysAtEnd;
+    this.startDateWithEmptyDaysTime = this.startDate.getTime() - emptyDaysAtStart * MILLISECONDS_IN_ONE_DAY;
 
     this.valueAttributes = reduce(props.values, (memo, value) => {
-      const index = Math.ceil((value.date.getTime() - this.startDate.getTime()) / MILLISECONDS_IN_ONE_DAY);
+      const index = Math.ceil((value.date.getTime() - this.startDateWithEmptyDaysTime) / MILLISECONDS_IN_ONE_DAY);
       memo[index] = {
         value: value,
         className: props.classForValue(value),
@@ -29,7 +31,7 @@ class CalendarHeatmap extends React.Component {
     this.squareSizeWithGutter = this.squareSize + props.gutterSize;
     this.monthLabelGutterSize = 4;
     this.monthLabelSize = props.showMonthLabels ? (this.squareSize + this.monthLabelGutterSize) : 0;
-    this.weekCount = Math.ceil(props.numDays / DAYS_IN_WEEK);
+    this.weekCount = Math.ceil(numDaysRoundedToWeek / DAYS_IN_WEEK);
     this.width = this.weekCount * this.squareSizeWithGutter - props.gutterSize;
     this.height = DAYS_IN_WEEK * this.squareSizeWithGutter + this.monthLabelSize - props.gutterSize;
   }
