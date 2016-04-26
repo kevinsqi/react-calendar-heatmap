@@ -3,14 +3,20 @@ import range from 'lodash.range';
 import reduce from 'lodash.reduce';
 import { DAYS_IN_WEEK, MILLISECONDS_IN_ONE_DAY, MONTH_LABELS } from './constants';
 
+function getBeginningOfDate(date) {
+  return new Date(date.getFullYear(), date.getMonth(), date.getDate());
+}
+
 class CalendarHeatmap extends React.Component {
   constructor(props) {
     super(props);
 
-    this.startDate = new Date(this.props.endDate.getTime() - (this.props.numDays * MILLISECONDS_IN_ONE_DAY));
+    const endOfWeekForEndDate = getBeginningOfDate(this.props.endDate).getTime() + ((DAYS_IN_WEEK - 1) - this.props.endDate.getDay()) * MILLISECONDS_IN_ONE_DAY;
+
+    this.startDate = new Date(endOfWeekForEndDate - (this.props.numDays * MILLISECONDS_IN_ONE_DAY));
 
     this.valueAttributes = reduce(props.values, (memo, value) => {
-      const index = Math.floor((value.date.getTime() - this.startDate.getTime()) / MILLISECONDS_IN_ONE_DAY);
+      const index = Math.ceil((value.date.getTime() - this.startDate.getTime()) / MILLISECONDS_IN_ONE_DAY);
       memo[index] = {
         value: value,
         className: props.classForValue(value),
@@ -92,8 +98,8 @@ class CalendarHeatmap extends React.Component {
     return range(this.weekCount).map((weekIndex) => {
       const weekStartMillis = this.startDate.getTime() + weekIndex * DAYS_IN_WEEK * MILLISECONDS_IN_ONE_DAY;
       const weekEndMillis = weekStartMillis + DAYS_IN_WEEK * MILLISECONDS_IN_ONE_DAY;
-
       const weekEndDate = new Date(weekEndMillis);
+
       return (weekEndDate.getDate() >= 1 && weekEndDate.getDate() <= DAYS_IN_WEEK) ? (
         <text
           key={weekIndex}
