@@ -12,38 +12,18 @@ class CalendarHeatmap extends React.Component {
   constructor(props) {
     super(props);
 
-    this.recomputeForProps(props);
-  }
-
-  componentWillUpdate(nextProps) {
-    this.recomputeForProps(nextProps);
-  }
-
-  recomputeForProps(props) {
-    this.startDate = shiftDate(getBeginningOfDate(props.endDate), -props.numDays + 1); // +1 because endDate is inclusive
-    this.emptyDaysAtStart = this.startDate.getDay();
-    const emptyDaysAtEnd = (DAYS_IN_WEEK - 1) - props.endDate.getDay();
-    const numDaysRoundedToWeek = props.numDays + this.emptyDaysAtStart + emptyDaysAtEnd;
-    this.startDateWithEmptyDays = shiftDate(this.startDate, -this.emptyDaysAtStart);
-
-    this.valueAttributes = reduce(props.values, (memo, value) => {
-      const date = (value.date instanceof Date) ? value.date : (new Date(value.date));
-      const index = Math.floor((date - this.startDateWithEmptyDays) / MILLISECONDS_IN_ONE_DAY);
-      memo[index] = {
-        value: value,
-        className: props.classForValue(value),
-        title: props.titleForValue(value),
-      };
-      return memo;
-    }, {});
-
     this.squareSize = 10;
-    this.squareSizeWithGutter = this.squareSize + props.gutterSize;
     this.monthLabelGutterSize = 4;
-    this.monthLabelSize = props.showMonthLabels ? (this.squareSize + this.monthLabelGutterSize) : 0;
-    this.weekCount = Math.ceil(numDaysRoundedToWeek / DAYS_IN_WEEK);
-    this.width = this.weekCount * this.squareSizeWithGutter - props.gutterSize;
-    this.height = DAYS_IN_WEEK * this.squareSizeWithGutter + this.monthLabelSize - props.gutterSize;
+
+    this.state = {
+      valueCache: this.getValueCache(props.values),
+    };
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+      valueCache: this.getValueCache(nextProps.values),
+    });
   }
 
   handleClick(value) {
@@ -52,32 +32,82 @@ class CalendarHeatmap extends React.Component {
     }
   }
 
+  getSquareSizeWithGutter() {
+    return this.squareSize + this.props.gutterSize;
+  }
+
+  getMonthLabelSize() {
+    return this.props.showMonthLabels ? (this.squareSize + this.monthLabelGutterSize) : 0;
+  }
+
+  getStartDate() {
+    return shiftDate(getBeginningOfDate(this.props.endDate), -this.props.numDays + 1); // +1 because endDate is inclusive
+  }
+
+  getStartDateWithEmptyDays() {
+    return shiftDate(this.getStartDate(), -this.getNumEmptyDaysAtStart());
+  }
+
+  getNumEmptyDaysAtStart() {
+    return this.getStartDate().getDay();
+  }
+
+  getNumEmptyDaysAtEnd() {
+    return (DAYS_IN_WEEK - 1) - this.props.endDate.getDay();
+  }
+
+  getWeekCount() {
+    const numDaysRoundedToWeek = this.props.numDays + this.getNumEmptyDaysAtStart() + this.getNumEmptyDaysAtEnd();
+    return Math.ceil(numDaysRoundedToWeek / DAYS_IN_WEEK);
+  }
+
+  getWidth() {
+    return this.getWeekCount() * this.getSquareSizeWithGutter() - this.props.gutterSize;
+  }
+
+  getHeight() {
+    return DAYS_IN_WEEK * this.getSquareSizeWithGutter() + this.getMonthLabelSize() - this.props.gutterSize;
+  }
+
+  getValueCache(values) {
+    return reduce(values, (memo, value) => {
+      const date = (value.date instanceof Date) ? value.date : (new Date(value.date));
+      const index = Math.floor((date - this.getStartDateWithEmptyDays()) / MILLISECONDS_IN_ONE_DAY);
+      memo[index] = {
+        value: value,
+        className: this.props.classForValue(value),
+        title: this.props.titleForValue(value),
+      };
+      return memo;
+    }, {});
+  }
+
   getValueForIndex(index) {
-    if (this.valueAttributes[index]) {
-      return this.valueAttributes[index].value;
+    if (this.state.valueCache[index]) {
+      return this.state.valueCache[index].value;
     } else {
       return null;
     }
   }
 
   getClassNameForIndex(index) {
-    if (this.valueAttributes[index]) {
-      return this.valueAttributes[index].className;
+    if (this.state.valueCache[index]) {
+      return this.state.valueCache[index].className;
     } else {
       return this.props.classForValue(null);
     }
   }
 
   getTitleForIndex(index) {
-    if (this.valueAttributes[index]) {
-      return this.valueAttributes[index].title;
+    if (this.state.valueCache[index]) {
+      return this.state.valueCache[index].title;
     } else {
       return this.props.titleForValue(null);
     }
   }
 
   renderSquare(dayIndex, index) {
-    const indexOutOfRange = index < this.emptyDaysAtStart || index >= this.emptyDaysAtStart + this.props.numDays;
+    const indexOutOfRange = index < this.getNumEmptyDaysAtStart() || index >= this.getNumEmptyDaysAtStart() + this.props.numDays;
     if (indexOutOfRange && !this.props.showOutOfRangeDays) {
       return null;
     }
@@ -86,7 +116,7 @@ class CalendarHeatmap extends React.Component {
         key={index}
         width={this.squareSize}
         height={this.squareSize}
-        y={dayIndex * this.squareSizeWithGutter}
+        y={dayIndex * this.getSquareSizeWithGutter()}
         className={this.getClassNameForIndex(index)}
         onClick={this.handleClick.bind(this, this.getValueForIndex(index))}
       >
@@ -97,29 +127,29 @@ class CalendarHeatmap extends React.Component {
 
   renderWeek(weekIndex) {
     return (
-      <g key={weekIndex} transform={`translate(${weekIndex * this.squareSizeWithGutter}, 0)`}>
+      <g key={weekIndex} transform={`translate(${weekIndex * this.getSquareSizeWithGutter()}, 0)`}>
         {range(DAYS_IN_WEEK).map((dayIndex) => this.renderSquare(dayIndex, weekIndex * DAYS_IN_WEEK + dayIndex))}
       </g>
     );
   }
 
   renderAllWeeks() {
-    return range(this.weekCount).map((weekIndex) => this.renderWeek(weekIndex));
+    return range(this.getWeekCount()).map((weekIndex) => this.renderWeek(weekIndex));
   }
 
   renderMonthLabels() {
     if (!this.props.showMonthLabels) {
       return null;
     }
-    const weekRange = range(this.weekCount - 1);  // don't render for last week, because label will be cut off
+    const weekRange = range(this.getWeekCount() - 1);  // don't render for last week, because label will be cut off
     return weekRange.map((weekIndex) => {
-      const endOfWeek = shiftDate(this.startDateWithEmptyDays, (weekIndex + 1) * DAYS_IN_WEEK);
+      const endOfWeek = shiftDate(this.getStartDateWithEmptyDays(), (weekIndex + 1) * DAYS_IN_WEEK);
 
       return (endOfWeek.getDate() >= 1 && endOfWeek.getDate() <= DAYS_IN_WEEK) ? (
         <text
           key={weekIndex}
-          x={weekIndex * this.squareSizeWithGutter}
-          y={this.monthLabelSize - this.monthLabelGutterSize}
+          x={weekIndex * this.getSquareSizeWithGutter()}
+          y={this.getMonthLabelSize() - this.monthLabelGutterSize}
         >
           {MONTH_LABELS[endOfWeek.getMonth()]}
         </text>
@@ -131,12 +161,12 @@ class CalendarHeatmap extends React.Component {
     return (
       <svg
         className="react-calendar-heatmap"
-        viewBox={`0 0 ${this.width} ${this.height}`}
+        viewBox={`0 0 ${this.getWidth()} ${this.getHeight()}`}
       >
         <g>
           {this.renderMonthLabels()}
         </g>
-        <g transform={`translate(0, ${this.monthLabelSize})`}>
+        <g transform={`translate(0, ${this.getMonthLabelSize()})`}>
           {this.renderAllWeeks()}
         </g>
       </svg>
