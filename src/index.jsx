@@ -12,6 +12,14 @@ class CalendarHeatmap extends React.Component {
   constructor(props) {
     super(props);
 
+    this.recomputeForProps(props);
+  }
+
+  componentWillUpdate(nextProps) {
+    this.recomputeForProps(nextProps);
+  }
+
+  recomputeForProps(props) {
     this.startDate = shiftDate(getBeginningOfDate(props.endDate), -props.numDays + 1); // +1 because endDate is inclusive
     this.emptyDaysAtStart = this.startDate.getDay();
     const emptyDaysAtEnd = (DAYS_IN_WEEK - 1) - props.endDate.getDay();
