@@ -35,6 +35,18 @@ const randomValues = generateRandomValues(200);
 const halfYearAgo = shiftDate(new Date(), -180);
 const pastRandomValues = generateRandomValues(200, halfYearAgo);
 
+const DemoItem = (props) => (
+  <div className="row m-b-3">
+    <div className="col-md-6">
+      {props.children}
+    </div>
+    <div className="col-md-6">
+      <p>{props.description}</p>
+      <small><a href="https://github.com/patientslikeme/react-calendar-heatmap/blob/master/demo/demo.jsx">See demo.jsx</a></small>
+    </div>
+  </div>
+);
+
 class Demo extends React.Component {
   constructor(props) {
     super(props);
@@ -58,60 +70,98 @@ class Demo extends React.Component {
 
   render() {
     return (
-      <div>
-        <p>No data points</p>
-        <CalendarHeatmap values={[]} />
+      <div className="container">
+        <div className="row m-t-3">
+          <div className="text-md-center">
+            <h1><a href="https://github.com/patientslikeme/react-calendar-heatmap">react-calendar-heatmap</a></h1>
+            <p>A calendar heatmap component built on SVG, inspired by github's contribution graph.</p>
+          </div>
+        </div>
 
-        <p>Default configuration with custom color scheme and randomly generated data</p>
-        <CalendarHeatmap
-          values={randomValues}
-          classForValue={customClassForValue}
-        />
+        <DemoItem
+          description="Default configuration with custom color scheme and randomly generated data"
+        >
+          <CalendarHeatmap
+            values={randomValues}
+            classForValue={customClassForValue}
+          />
+        </DemoItem>
 
-        <p>Display days that are out of date range</p>
-        <CalendarHeatmap
-          values={randomValues}
-          showOutOfRangeDays={true}
-        />
+        <DemoItem
+          description="Shorter or longer time spans"
+        >
+          <div className="row">
+            <div className="col-md-4">
+              <CalendarHeatmap
+                numDays={60}
+                values={randomValues}
+              />
+            </div>
+            <div className="col-md-8">
+              <CalendarHeatmap
+                numDays={400}
+                values={randomValues}
+              />
+            </div>
+          </div>
+        </DemoItem>
 
-        <p>Setting an end date in the past</p>
-        <CalendarHeatmap
-          endDate={halfYearAgo}
-          values={pastRandomValues}
-        />
+        <DemoItem
+          description="Display days that are out of date range"
+        >
+          <CalendarHeatmap
+            values={randomValues}
+            showOutOfRangeDays={true}
+          />
+        </DemoItem>
 
-        <p>Use millisecond timestamps or parseable strings for date attribute</p>
-        <CalendarHeatmap
-          endDate={new Date(2016, 3, 1)}
-          values={[
-            { date: '2016-01-01' },
-            { date: (new Date('2016-02-02')).getTime() },
-          ]}
-        />
+        <DemoItem
+          description="Adjusting date window"
+        >
+          <CalendarHeatmap
+            endDate={halfYearAgo}
+            values={pastRandomValues}
+          />
+        </DemoItem>
 
-        <p>Loading values asynchronously</p>
-        <CalendarHeatmap
-          values={this.state.values}
-        />
+        <DemoItem
+          description="Use millisecond timestamps or parseable strings for date attribute"
+        >
+          <CalendarHeatmap
+            endDate={new Date(2016, 3, 1)}
+            values={[
+              { date: '2016-01-01' },
+              { date: (new Date('2016-02-02')).getTime() },
+            ]}
+          />
+        </DemoItem>
 
-        <p>No month labels</p>
-        <CalendarHeatmap
-          values={randomValues}
-          showMonthLabels={false}
-        />
+        <DemoItem
+          description="Loading values asynchronously"
+        >
+          <CalendarHeatmap
+            values={this.state.values}
+          />
+        </DemoItem>
 
-        <p>Custom click handler</p>
-        <CalendarHeatmap
-          values={randomValues}
-          classForValue={customClassForValue}
-          onClick={(value) => alert(`Clicked on ${value.date} with value ${value.count}`)}
-        />
+        <DemoItem
+          description="Removing month labels"
+        >
+          <CalendarHeatmap
+            values={randomValues}
+            showMonthLabels={false}
+          />
+        </DemoItem>
 
-        <p>Shorter time span</p>
-        <CalendarHeatmap
-          numDays={60}
-          values={randomValues}
-        />
+        <DemoItem
+          description="Setting an onClick callback"
+        >
+          <CalendarHeatmap
+            values={randomValues}
+            classForValue={customClassForValue}
+            onClick={(value) => alert(`Clicked on ${value.date} with value ${value.count}`)}
+          />
+        </DemoItem>
       </div>
     );
   }
