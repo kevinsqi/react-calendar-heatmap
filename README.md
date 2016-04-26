@@ -10,13 +10,13 @@ A calendar heatmap component built on SVG, inspired by github's contribution gra
 
 Install the npm module:
 
-```
+```bash
 npm install react-calendar-heatmap
 ```
 
 Import the component:
 
-```
+```javascript
 import CalendarHeatmap from 'react-calendar-heatmap';
 ```
 
@@ -27,10 +27,10 @@ To show a heatmap of the last 100 days, ending on April 1st:
   endDate={new Date('2016-04-01')}
   numDays={100}
   values={[
-    { date: new Date('2016-01-01'), count: 6 },
-    { date: new Date('2016-01-22'), count: 2 },
+    { date: new Date('2016-01-01') },
+    { date: new Date('2016-01-22') },
     ...
-    { date: new Date('2016-03-30'), count: 19 }
+    { date: new Date('2016-03-30') }
   ]}
 />
 ```
