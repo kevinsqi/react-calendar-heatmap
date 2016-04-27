@@ -2,3 +2,5 @@ node_modules
 npm-debug.log
 .DS_Store
 build
+build_demo
+demo/demo.build.js
