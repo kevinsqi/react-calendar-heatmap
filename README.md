@@ -47,12 +47,14 @@ You can copy CSS from `demo/index.css` and configure it as needed. If you want t
   ]}
   classForValue={
     (value) => {
-      if (value.state === 'good') {
-        return 'green';
-      } elsif (value.state === 'bad') {
-        return 'red';
+      switch(value.state) {
+        case 'good':
+          return 'green';
+        case 'bad':
+          return 'red';
+        default:
+          return 'gray';
       }
-      return 'gray';
     }
   }
 />
