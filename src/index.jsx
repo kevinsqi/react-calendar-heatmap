@@ -2,11 +2,7 @@ import React, { PropTypes } from 'react';
 import range from 'lodash.range';
 import reduce from 'lodash.reduce';
 import { DAYS_IN_WEEK, MILLISECONDS_IN_ONE_DAY, MONTH_LABELS } from './constants';
-import shiftDate from './shiftDate';
-
-function getBeginningOfDate(date) {
-  return new Date(date.getFullYear(), date.getMonth(), date.getDate());
-}
+import { shiftDate, getBeginningTimeForDate } from './dateHelpers';
 
 const SQUARE_SIZE = 10;
 const MONTH_LABEL_GUTTER_SIZE = 4;
@@ -41,7 +37,7 @@ class CalendarHeatmap extends React.Component {
   }
 
   getStartDate() {
-    return shiftDate(getBeginningOfDate(this.props.endDate), -this.props.numDays + 1); // +1 because endDate is inclusive
+    return shiftDate(getBeginningTimeForDate(this.props.endDate), -this.props.numDays + 1); // +1 because endDate is inclusive
   }
 
   getStartDateWithEmptyDays() {

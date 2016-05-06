@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import range from 'lodash.range';
 import CalendarHeatmap from '../src';
-import shiftDate from '../src/shiftDate';
+import { shiftDate } from '../src/dateHelpers';
 
 const today = new Date();
 
