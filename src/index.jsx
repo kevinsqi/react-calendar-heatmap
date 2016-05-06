@@ -1,3 +1,5 @@
+import './styles.scss';
+
 import React, { PropTypes } from 'react';
 import range from 'lodash.range';
 import reduce from 'lodash.reduce';
