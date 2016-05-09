@@ -1,6 +1,11 @@
 module.exports = {
   context: __dirname,
-  entry: './src/index.jsx',
+  entry: {
+    'react-calendar-heatmap': [
+      'webpack-dev-server/client?http://0.0.0.0:8080',
+      './src/index.jsx'
+    ]
+  },
   output: {
     path: './build',
     filename: 'index.js',
