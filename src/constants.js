@@ -12,5 +12,5 @@ export const MONTH_LABELS = {
   8: 'Sep',
   9: 'Oct',
   10: 'Nov',
-  11: 'Dec',
+  11: 'Dec'
 };

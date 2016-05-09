@@ -64,7 +64,7 @@ class CalendarHeatmap extends React.Component {
   }
 
   getHeight() {
-    return DAYS_IN_WEEK * this.getSquareSizeWithGutter() + this.getMonthLabelSize() - this.props.gutterSize;
+    return DAYS_IN_WEEK * this.getSquareSizeWithGutter() + this.getMonthLabelSize() + this.getLegendDimensions().outerHeight - this.props.gutterSize;
   }
 
   getValueCache(values) {
@@ -102,6 +102,54 @@ class CalendarHeatmap extends React.Component {
     } else {
       return this.props.titleForValue(null);
     }
+  }
+
+  getLegendDimensions() {
+    const { legendConfig } = this.props;
+    const legendKeyHeight = 10 + this.props.gutterSize;
+    if (legendConfig) {
+      return {
+        keyWidth: 150,
+        keyHeight: legendKeyHeight,
+        outerHeight: legendKeyHeight * legendConfig.length
+      }
+    }
+    return {
+      outerHeight: 0
+    };
+  }
+
+  renderLegend() {
+    const { legendConfig } = this.props;
+    if (legendConfig) {
+      const {keyWidth, keyHeight, outerHeight} = this.getLegendDimensions();
+      return (
+        <g
+          transform={`translate(0, ${this.getHeight() - outerHeight})`}
+          className="react-calendar-heatmap-legend"
+          height={outerHeight}
+          width={this.getWidth()}
+        >
+          {legendConfig.map((key, index) => {
+            let yPos = keyHeight * (index + 1);
+            return (
+              <g>
+                <rect
+                  width={SQUARE_SIZE}
+                  height={SQUARE_SIZE}
+                  y={yPos - keyHeight + this.props.gutterSize + 1}
+                  className={key.className}
+                />
+                <text y={yPos} x={SQUARE_SIZE + this.props.gutterSize} key={index}>
+                  {key.label}
+                </text>
+              </g>
+            )
+          })}
+        </g>
+      );
+    }
+    return null;
   }
 
   renderSquare(dayIndex, index) {
@@ -144,13 +192,15 @@ class CalendarHeatmap extends React.Component {
       const endOfWeek = shiftDate(this.getStartDateWithEmptyDays(), (weekIndex + 1) * DAYS_IN_WEEK);
 
       return (endOfWeek.getDate() >= 1 && endOfWeek.getDate() <= DAYS_IN_WEEK) ? (
-        <text
-          key={weekIndex}
-          x={weekIndex * this.getSquareSizeWithGutter()}
-          y={this.getMonthLabelSize() - MONTH_LABEL_GUTTER_SIZE}
-        >
-          {MONTH_LABELS[endOfWeek.getMonth()]}
-        </text>
+        <g>
+          <text
+            key={weekIndex}
+            x={weekIndex * this.getSquareSizeWithGutter()}
+            y={this.getMonthLabelSize() - MONTH_LABEL_GUTTER_SIZE}
+          >
+            {MONTH_LABELS[endOfWeek.getMonth()]}
+          </text>
+        </g>
       ) : null;
     });
   }
@@ -161,12 +211,11 @@ class CalendarHeatmap extends React.Component {
         className="react-calendar-heatmap"
         viewBox={`0 0 ${this.getWidth()} ${this.getHeight()}`}
       >
-        <g>
-          {this.renderMonthLabels()}
-        </g>
+        {this.renderMonthLabels()}
         <g transform={`translate(0, ${this.getMonthLabelSize()})`}>
           {this.renderAllWeeks()}
         </g>
+        {this.renderLegend()}
       </svg>
     );
   }
@@ -188,7 +237,13 @@ CalendarHeatmap.propTypes = {
   onClick: PropTypes.func,               // callback function when a square is clicked
   orientation: PropTypes.oneOf([
     'horizontal', 'vertical'
-  ])
+  ]),
+  legendConfig: PropTypes.arrayOf(
+    PropTypes.shape({
+      className: PropTypes.string,
+      label: PropTypes.string,
+    })
+  )
 };
 
 CalendarHeatmap.defaultProps = {
