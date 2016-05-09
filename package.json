@@ -15,7 +15,7 @@
     "clean": "rimraf build",
     "lint": "eslint src test",
     "prepublish": "npm run clean && npm run build",
-    "start": "cd demo && webpack-dev-server --progress"
+    "start": "cd demo && webpack-dev-server --progress --hot --inline"
   },
   "devDependencies": {
     "babel-core": "^6.3.15",
