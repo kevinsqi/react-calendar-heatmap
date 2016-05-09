@@ -31,6 +31,14 @@ function customClassForValue(value) {
   }[value.count];
 }
 
+const customLabelForClass = [
+  { className: 'color-empty', label: 'No Data' },
+  { className: 'color-small', label: 'Small' },
+  { className: 'color-medium', label: 'Medium' },
+  { className: 'color-large', label: 'Large' },
+  { className: 'color-huge', label: 'Huge' }
+];
+
 const randomValues = generateRandomValues(200);
 const halfYearAgo = shiftDate(new Date(), -180);
 const pastRandomValues = generateRandomValues(200, halfYearAgo);
@@ -90,6 +98,7 @@ class Demo extends React.Component {
           <CalendarHeatmap
             values={randomValues}
             classForValue={customClassForValue}
+            legendConfig={customLabelForClass}
           />
         </DemoItem>
 
