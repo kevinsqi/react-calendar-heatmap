@@ -14,6 +14,8 @@ Install the npm module:
 npm install react-calendar-heatmap
 ```
 
+Include the default styles into your CSS by copying [src/styles.css](src/styles.css) into your repo.
+
 Import the component:
 
 ```javascript
@@ -37,7 +39,7 @@ To show a heatmap of 100 days ending on April 1st:
 
 ## Configuring colors and styles
 
-You can copy CSS from `demo/index.css` and configure it as needed. If you want to map values to colors in a different way, override the `classForValue` prop, which determines which CSS class to apply to each value.
+If you want to map values to colors in a different way, override the `classForValue` prop, which determines which CSS class to apply to each value.
 
 ```javascript
 <CalendarHeatmap
