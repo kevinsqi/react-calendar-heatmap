@@ -166,6 +166,19 @@ class Demo extends React.Component {
         >
           <AsyncDemo />
         </DemoItem>
+
+        <DemoItem
+          description="Vertical orientation"
+        >
+          <h1>May</h1>
+          <CalendarHeatmap
+            values={randomValues}
+            showMonthLabels={false}
+            numDays={31}
+            orientation='vertical'
+            classForValue={customClassForValue}
+          />
+        </DemoItem>
       </div>
     );
   }
