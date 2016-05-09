@@ -168,9 +168,8 @@ class Demo extends React.Component {
         </DemoItem>
 
         <DemoItem
-          description="Vertical orientation"
+          description="Vertical orientation, e.g. for showing a traditional calendar view"
         >
-          <h1>May</h1>
           <CalendarHeatmap
             values={randomValues}
             showMonthLabels={false}
