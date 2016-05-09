@@ -186,9 +186,13 @@ CalendarHeatmap.propTypes = {
   titleForValue: PropTypes.func,         // function which returns title text for value
   classForValue: PropTypes.func,         // function which returns html class for value
   onClick: PropTypes.func,               // callback function when a square is clicked
+  orientation: PropTypes.oneOf([
+    'horizontal', 'vertical'
+  ])
 };
 
 CalendarHeatmap.defaultProps = {
+  orientation: 'horizontal',
   numDays: 200,
   endDate: new Date(),
   gutterSize: 1,
