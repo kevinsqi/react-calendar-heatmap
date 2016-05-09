@@ -179,6 +179,15 @@ class Demo extends React.Component {
                 classForValue={customClassForValue}
               />
             </div>
+            <div className="col-md-4">
+              <CalendarHeatmap
+                values={randomValues}
+                numDays={31}
+                horizontal={false}
+                showMonthLabels={false}
+                classForValue={customClassForValue}
+              />
+            </div>
           </div>
         </DemoItem>
       </div>
