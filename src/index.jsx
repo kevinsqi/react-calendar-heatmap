@@ -1,4 +1,4 @@
-import './styles.scss';
+import './styles.css';
 
 import React, { PropTypes } from 'react';
 import range from 'lodash.range';

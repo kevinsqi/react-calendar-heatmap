@@ -25,11 +25,9 @@
     "css-loader": "^0.23.1",
     "eslint": "^1.10.3",
     "eslint-plugin-react": "^3.11.3",
-    "node-sass": "^3.7.0",
     "react-addons-test-utils": "^15.0.0",
     "react-dom": "^15.0.1",
     "rimraf": "^2.3.4",
-    "sass-loader": "^3.2.0",
     "style-loader": "^0.13.1",
     "webpack": "^1.12.9",
     "webpack-dev-server": "^1.14.1"
