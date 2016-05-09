@@ -175,7 +175,7 @@ class Demo extends React.Component {
             values={randomValues}
             showMonthLabels={false}
             numDays={31}
-            orientation='vertical'
+            horizontal={false}
             classForValue={customClassForValue}
           />
         </DemoItem>

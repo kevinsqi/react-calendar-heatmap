@@ -105,15 +105,27 @@ class CalendarHeatmap extends React.Component {
   }
 
   getTransformForWeek(weekIndex) {
-    return `translate(${weekIndex * this.getSquareSizeWithGutter()}, 0)`;
+    if (this.props.horizontal) {
+      return `translate(${weekIndex * this.getSquareSizeWithGutter()}, 0)`;
+    } else {
+      return `translate(0, ${weekIndex * this.getSquareSizeWithGutter()})`;
+    }
   }
 
   getViewBox() {
-    return `0 0 ${this.getWidth()} ${this.getHeight()}`;
+    if (this.props.horizontal) {
+      return `0 0 ${this.getWidth()} ${this.getHeight()}`;
+    } else {
+      return `0 0 ${this.getHeight()} ${this.getWidth()}`;
+    }
   }
 
-  getSquareY(dayIndex) {
-    return dayIndex * this.getSquareSizeWithGutter();
+  getSquareCoordinates(dayIndex) {
+    if (this.props.horizontal) {
+      return [0, dayIndex * this.getSquareSizeWithGutter()];
+    } else {
+      return [dayIndex * this.getSquareSizeWithGutter(), 0];
+    }
   }
 
   renderSquare(dayIndex, index) {
@@ -121,12 +133,14 @@ class CalendarHeatmap extends React.Component {
     if (indexOutOfRange && !this.props.showOutOfRangeDays) {
       return null;
     }
+    const [x, y] = this.getSquareCoordinates(dayIndex);
     return (
       <rect
         key={index}
         width={SQUARE_SIZE}
         height={SQUARE_SIZE}
-        y={this.getSquareY(dayIndex)}
+        x={x}
+        y={y}
         className={this.getClassNameForIndex(index)}
         onClick={this.handleClick.bind(this, this.getValueForIndex(index))}
       >
@@ -193,21 +207,19 @@ CalendarHeatmap.propTypes = {
   numDays: PropTypes.number,             // number of days back from endDate to show
   endDate: PropTypes.instanceOf(Date),   // end of date range
   gutterSize: PropTypes.number,          // size of space between squares
+  horizontal: PropTypes.bool,            // whether to orient horizontally or vertically
   showMonthLabels: PropTypes.bool,       // whether to show month labels
   showOutOfRangeDays: PropTypes.bool,    // whether to render squares for extra days in week after endDate, and before start date
   titleForValue: PropTypes.func,         // function which returns title text for value
   classForValue: PropTypes.func,         // function which returns html class for value
   onClick: PropTypes.func,               // callback function when a square is clicked
-  orientation: PropTypes.oneOf([
-    'horizontal', 'vertical'
-  ])
 };
 
 CalendarHeatmap.defaultProps = {
-  orientation: 'horizontal',
   numDays: 200,
   endDate: new Date(),
   gutterSize: 1,
+  horizontal: true,
   showMonthLabels: true,
   showOutOfRangeDays: false,
   titleForValue: (value) => {
