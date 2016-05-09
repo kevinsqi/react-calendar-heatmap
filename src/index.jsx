@@ -104,6 +104,18 @@ class CalendarHeatmap extends React.Component {
     }
   }
 
+  getTransformForWeek(weekIndex) {
+    return `translate(${weekIndex * this.getSquareSizeWithGutter()}, 0)`;
+  }
+
+  getViewBox() {
+    return `0 0 ${this.getWidth()} ${this.getHeight()}`;
+  }
+
+  getSquareY(dayIndex) {
+    return dayIndex * this.getSquareSizeWithGutter();
+  }
+
   renderSquare(dayIndex, index) {
     const indexOutOfRange = index < this.getNumEmptyDaysAtStart() || index >= this.getNumEmptyDaysAtStart() + this.props.numDays;
     if (indexOutOfRange && !this.props.showOutOfRangeDays) {
@@ -114,7 +126,7 @@ class CalendarHeatmap extends React.Component {
         key={index}
         width={SQUARE_SIZE}
         height={SQUARE_SIZE}
-        y={dayIndex * this.getSquareSizeWithGutter()}
+        y={this.getSquareY(dayIndex)}
         className={this.getClassNameForIndex(index)}
         onClick={this.handleClick.bind(this, this.getValueForIndex(index))}
       >
@@ -125,7 +137,7 @@ class CalendarHeatmap extends React.Component {
 
   renderWeek(weekIndex) {
     return (
-      <g key={weekIndex} transform={`translate(${weekIndex * this.getSquareSizeWithGutter()}, 0)`}>
+      <g key={weekIndex} transform={this.getTransformForWeek(weekIndex)}>
         {range(DAYS_IN_WEEK).map((dayIndex) => this.renderSquare(dayIndex, weekIndex * DAYS_IN_WEEK + dayIndex))}
       </g>
     );
@@ -159,7 +171,7 @@ class CalendarHeatmap extends React.Component {
     return (
       <svg
         className="react-calendar-heatmap"
-        viewBox={`0 0 ${this.getWidth()} ${this.getHeight()}`}
+        viewBox={this.getViewBox()}
       >
         <g>
           {this.renderMonthLabels()}
