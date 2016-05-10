@@ -1,3 +1,8 @@
+## 0.4.2
+
+* Allow endDate to be string/milliseconds
+* Don't show titles by default
+
 ## 0.4.1
 
 * Fix broken package issue
