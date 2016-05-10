@@ -31,6 +31,10 @@ function customClassForValue(value) {
   }[value.count];
 }
 
+function customTitleForValue(value) {
+  return value ? JSON.stringify(value) : null;
+}
+
 const randomValues = generateRandomValues(200);
 const halfYearAgo = shiftDate(new Date(), -180);
 const pastRandomValues = generateRandomValues(200, halfYearAgo);
@@ -85,11 +89,12 @@ class Demo extends React.Component {
         </div>
 
         <DemoItem
-          description="Default configuration with custom color scheme and randomly generated data"
+          description="Default configuration with custom color scheme, tooltips, and randomly generated data"
         >
           <CalendarHeatmap
             values={randomValues}
             classForValue={customClassForValue}
+            titleForValue={customTitleForValue}
           />
         </DemoItem>
 

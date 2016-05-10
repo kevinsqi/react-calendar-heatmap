@@ -86,7 +86,7 @@ class CalendarHeatmap extends React.Component {
       memo[index] = {
         value: value,
         className: this.props.classForValue(value),
-        title: this.props.titleForValue(value),
+        title: this.props.titleForValue ? this.props.titleForValue(value) : null,
       };
       return memo;
     }, {});
@@ -112,7 +112,7 @@ class CalendarHeatmap extends React.Component {
     if (this.state.valueCache[index]) {
       return this.state.valueCache[index].title;
     } else {
-      return this.props.titleForValue(null);
+      return this.props.titleForValue ? this.props.titleForValue(null) : null;
     }
   }
 
@@ -265,9 +265,7 @@ CalendarHeatmap.defaultProps = {
   horizontal: true,
   showMonthLabels: true,
   showOutOfRangeDays: false,
-  titleForValue: (value) => {
-    return value ? JSON.stringify(value) : null;
-  },
+  titleForValue: null,
   classForValue: (value) => {
     return value ? 'color-filled' : 'color-empty';
   },
