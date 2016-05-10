@@ -8,3 +8,8 @@ export function shiftDate(date, numDays) {
 export function getBeginningTimeForDate(date) {
   return new Date(date.getFullYear(), date.getMonth(), date.getDate());
 }
+
+// obj can be a parseable string, a millisecond timestamp, or a Date object
+export function convertToDate(obj) {
+  return (obj instanceof Date) ? obj : (new Date(obj));
+}

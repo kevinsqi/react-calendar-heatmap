@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react';
 import range from 'lodash.range';
 import reduce from 'lodash.reduce';
 import { DAYS_IN_WEEK, MILLISECONDS_IN_ONE_DAY, MONTH_LABELS } from './constants';
-import { shiftDate, getBeginningTimeForDate } from './dateHelpers';
+import { shiftDate, getBeginningTimeForDate, convertToDate } from './dateHelpers';
 
 const SQUARE_SIZE = 10;
 const MONTH_LABEL_GUTTER_SIZE = 4;
@@ -43,7 +43,11 @@ class CalendarHeatmap extends React.Component {
   }
 
   getStartDate() {
-    return shiftDate(getBeginningTimeForDate(this.props.endDate), -this.props.numDays + 1); // +1 because endDate is inclusive
+    return shiftDate(this.getEndDate(), -this.props.numDays + 1); // +1 because endDate is inclusive
+  }
+
+  getEndDate() {
+    return getBeginningTimeForDate(convertToDate(this.props.endDate));
   }
 
   getStartDateWithEmptyDays() {
@@ -55,7 +59,7 @@ class CalendarHeatmap extends React.Component {
   }
 
   getNumEmptyDaysAtEnd() {
-    return (DAYS_IN_WEEK - 1) - this.props.endDate.getDay();
+    return (DAYS_IN_WEEK - 1) - this.getEndDate().getDay();
   }
 
   getWeekCount() {
@@ -77,7 +81,7 @@ class CalendarHeatmap extends React.Component {
 
   getValueCache(values) {
     return reduce(values, (memo, value) => {
-      const date = (value.date instanceof Date) ? value.date : (new Date(value.date));
+      const date = convertToDate(value.date);
       const index = Math.floor((date - this.getStartDateWithEmptyDays()) / MILLISECONDS_IN_ONE_DAY);
       memo[index] = {
         value: value,
@@ -244,7 +248,7 @@ CalendarHeatmap.propTypes = {
     }).isRequired
   ).isRequired,
   numDays: PropTypes.number,             // number of days back from endDate to show
-  endDate: PropTypes.instanceOf(Date),   // end of date range
+  endDate: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.instanceOf(Date)]),  // end of date range
   gutterSize: PropTypes.number,          // size of space between squares
   horizontal: PropTypes.bool,            // whether to orient horizontally or vertically
   showMonthLabels: PropTypes.bool,       // whether to show month labels
