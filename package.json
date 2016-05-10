@@ -11,7 +11,7 @@
   "license": "MIT",
   "scripts": {
     "build": "webpack",
-    "build:demo": "cd demo && webpack -p && mkdir ../build_demo && cp *.css *.html demo.build.js ../build_demo",
+    "build:demo": "./scripts/build_demo.sh",
     "clean": "rimraf build",
     "lint": "eslint src test",
     "prepublish": "npm run clean && npm run build",
