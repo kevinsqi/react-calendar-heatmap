@@ -10,13 +10,13 @@
   },
   "license": "MIT",
   "scripts": {
-    "build": "webpack",
-    "build:demo": "./scripts/build_demo.sh",
+    "build": "NODE_ENV=production webpack",
+    "build:demo": "NODE_ENV=demo webpack",
     "clean": "rimraf build",
     "lint": "eslint src test",
     "prepublish": "npm run clean && npm run build",
-    "start": "cd demo && webpack-dev-server --progress --hot --inline",
-    "test": "mocha --compilers js:babel-register --recursive --require ./test/setup.js"
+    "test": "mocha --compilers js:babel-register --recursive --require ./test/setup.js",
+    "start": "webpack-dev-server --progress --inline"
   },
   "devDependencies": {
     "babel-core": "^6.3.15",

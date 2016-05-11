@@ -1,13 +1,16 @@
-module.exports = {
+const webpack = require('webpack');
+const path = require('path');
+const nodeEnv = process.env.NODE_ENV || 'development';
+
+const webpackConfig = {
   context: __dirname,
   entry: {
     'react-calendar-heatmap': [
-      'webpack-dev-server/client?http://0.0.0.0:8080',
-      './src/index.jsx'
+      path.resolve(__dirname, 'src', 'index.jsx')
     ]
   },
   output: {
-    path: './build',
+    path: path.resolve(__dirname),
     filename: 'index.js',
     library: 'CalendarHeatmap',
     libraryTarget: 'umd'
@@ -15,14 +18,6 @@ module.exports = {
   resolve: {
     extensions: ['', '.js', '.jsx'],
     modulesDirectories: ['node_modules']
-  },
-  externals: {
-    'react': {
-      root: 'React',
-      commonjs2: 'react',
-      commonjs: 'react',
-      amd: 'react'
-    }
   },
   module: {
     loaders: [
@@ -32,5 +27,43 @@ module.exports = {
         loader: 'babel'
       }
     ]
-  }
+  },
+  plugins: [
+    new webpack.DefinePlugin({
+      'process.env.NODE_ENV': JSON.stringify(nodeEnv)
+    }),
+    new webpack.optimize.OccurenceOrderPlugin(),
+  ]
 };
+
+if (nodeEnv === 'development') {
+  webpackConfig.devtool = 'source-map';
+  webpackConfig.debug = true;
+  webpackConfig.devServer = { contentBase: './demo'};
+  webpackConfig.entry['react-calendar-heatmap'].unshift('webpack-dev-server/client?http://0.0.0.0:8080/');
+  webpackConfig.entry['react-calendar-heatmap'].push(path.resolve(__dirname, 'demo', 'demo.jsx'));
+  webpackConfig.output.publicPath = '/';
+}
+
+if (nodeEnv === 'demo') {
+  webpackConfig.entry['react-calendar-heatmap'].push(path.resolve(__dirname, 'demo', 'demo.jsx'));
+  webpackConfig.output.path = path.resolve(__dirname, 'demo');
+}
+
+if (nodeEnv === 'production') {
+  webpackConfig.externals = {
+    'react': {
+      root: 'React',
+      commonjs2: 'react',
+      commonjs: 'react',
+      amd: 'react'
+    }
+  };
+  webpackConfig.output.path = path.resolve(__dirname, 'build');
+  webpackConfig.plugins.push(new webpack.optimize.UglifyJsPlugin({
+    compress: { warnings: false },
+    sourceMap: false
+  }));
+}
+
+module.exports = webpackConfig;
