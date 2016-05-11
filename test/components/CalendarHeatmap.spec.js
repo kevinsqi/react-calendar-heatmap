@@ -1,6 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import TestUtils from 'react-addons-test-utils';
 import { assert } from 'chai';
 import { shallow } from 'enzyme';
 import CalendarHeatmap from '../../src';
@@ -12,9 +10,7 @@ describe('CalendarHeatmap', () => {
   });
 
   it('should not throw exceptions in base case', () => {
-    assert.doesNotThrow(() => {
-      <CalendarHeatmap values={[]} />
-    });
+    assert.doesNotThrow(() => <CalendarHeatmap values={[]} />);
   });
 
   it.skip('should start on the correct day', () => {
