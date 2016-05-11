@@ -16,6 +16,7 @@
     "lint": "eslint src test",
     "prepublish": "npm run clean && npm run build",
     "test": "mocha --compilers js:babel-register --recursive --require ./test/setup.js",
+    "test:watch": "npm test -- --watch",
     "start": "webpack-dev-server --progress --inline"
   },
   "devDependencies": {
@@ -26,6 +27,7 @@
     "babel-preset-react": "^6.3.13",
     "babel-register": "^6.8.0",
     "chai": "^3.5.0",
+    "enzyme": "^2.3.0",
     "eslint": "^2.9.0",
     "eslint-config-airbnb": "^9.0.1",
     "eslint-plugin-react": "^5.0.1",
