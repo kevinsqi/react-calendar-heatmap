@@ -83,8 +83,8 @@ class Demo extends React.Component {
       <div className="container">
         <div className="row m-y-3">
           <div className="text-md-center">
-            <h1><a href="https://github.com/patientslikeme/react-calendar-heatmap">react-calendar-heatmap</a></h1>
-            <p>A calendar heatmap component built on SVG, inspired by github's contribution graph.</p>
+            <h1><a href="https://github.com/patientslikeme/react-calendar-heatmap">{process.env.COMPONENT_NAME}</a></h1>
+            <p>{process.env.COMPONENT_DESCRIPTION} <small>v{process.env.COMPONENT_VERSION}</small></p>
           </div>
         </div>
 
