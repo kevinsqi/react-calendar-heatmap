@@ -1,3 +1,7 @@
+## 0.4.3
+
+* Build configuration updates
+
 ## 0.4.2
 
 * Allow endDate to be string/milliseconds
