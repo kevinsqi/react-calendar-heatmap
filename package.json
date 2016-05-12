@@ -1,6 +1,6 @@
 {
   "name": "react-calendar-heatmap",
-  "version": "0.4.2",
+  "version": "0.4.3",
   "description": "A calendar heatmap component built on SVG, inspired by github's contribution graph.",
   "author": "Kevin Qi <iqnivek@gmail.com>",
   "main": "./build/index.js",
