@@ -31,10 +31,7 @@ const webpackConfig = {
   },
   plugins: [
     new webpack.DefinePlugin({
-      'process.env.NODE_ENV': JSON.stringify(nodeEnv),
-      'COMPONENT_NAME': JSON.stringify(pak.name),
-      'COMPONENT_VERSION': JSON.stringify(pak.version),
-      'COMPONENT_DESCRIPTION': JSON.stringify(pak.description)
+      'process.env.NODE_ENV': JSON.stringify(nodeEnv)
     })
   ]
 };
@@ -51,6 +48,14 @@ if (nodeEnv === 'development') {
 if (nodeEnv === 'demo') {
   webpackConfig.entry['react-calendar-heatmap'].push(path.resolve(__dirname, 'demo', 'demo.jsx'));
   webpackConfig.output.path = path.resolve(__dirname, 'demo');
+}
+
+if (nodeEnv === 'development' || nodeEnv === 'demo') {
+  webpackConfig.plugins.push(new webpack.DefinePlugin({
+    'COMPONENT_NAME': JSON.stringify(pak.name),
+    'COMPONENT_VERSION': JSON.stringify(pak.version),
+    'COMPONENT_DESCRIPTION': JSON.stringify(pak.description)
+  }));
 }
 
 if (nodeEnv === 'production') {
