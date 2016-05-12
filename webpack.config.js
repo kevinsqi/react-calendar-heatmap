@@ -2,7 +2,6 @@ const webpack = require('webpack');
 const path = require('path');
 const pak = require('./package.json');
 const nodeEnv = process.env.NODE_ENV || 'development';
-const InlineEnviromentVariablesPlugin = require('inline-environment-variables-webpack-plugin');
 
 const webpackConfig = {
   context: __dirname,
@@ -32,13 +31,10 @@ const webpackConfig = {
   },
   plugins: [
     new webpack.DefinePlugin({
-      'process.env.NODE_ENV': JSON.stringify(nodeEnv)
-    }),
-    new webpack.optimize.OccurenceOrderPlugin(),
-    new InlineEnviromentVariablesPlugin({
-      COMPONENT_NAME: pak.name,
-      COMPONENT_VERSION: pak.version,
-      COMPONENT_DESCRIPTION: pak.description
+      'process.env.NODE_ENV': JSON.stringify(nodeEnv),
+      'COMPONENT_NAME': JSON.stringify(pak.name),
+      'COMPONENT_VERSION': JSON.stringify(pak.version),
+      'COMPONENT_DESCRIPTION': JSON.stringify(pak.description)
     })
   ]
 };
