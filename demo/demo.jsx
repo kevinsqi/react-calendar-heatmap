@@ -83,8 +83,9 @@ class Demo extends React.Component {
       <div className="container">
         <div className="row m-y-3">
           <div className="text-md-center">
-            <h1><a href="https://github.com/patientslikeme/react-calendar-heatmap">{COMPONENT_NAME}</a></h1>
+            <h1 className="m-b-2"><a href="https://github.com/patientslikeme/react-calendar-heatmap">{COMPONENT_NAME}</a></h1>
             <p>{COMPONENT_DESCRIPTION} <span className="text-muted">v{COMPONENT_VERSION}</span></p>
+            <p><code>npm install {COMPONENT_NAME}</code></p>
           </div>
         </div>
 
