@@ -6,6 +6,6 @@ mv ./.cache/demo/* .
 rm demo.jsx
 rm -rf .cache
 git add .
-git c 'update gh-pages'
+git commit -m "Update demo page"
 git push
 git checkout master
