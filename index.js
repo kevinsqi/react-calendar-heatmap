@@ -8004,12 +8004,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	    { className: 'row m-b-3' },
 	    _react2.default.createElement(
 	      'div',
-	      { className: 'col-md-6' },
+	      { className: 'col-md-4' },
 	      props.children
 	    ),
 	    _react2.default.createElement(
 	      'div',
-	      { className: 'col-md-6' },
+	      { className: 'col-md-8' },
 	      _react2.default.createElement(
 	        'p',
 	        null,
@@ -8169,7 +8169,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            { className: 'row' },
 	            _react2.default.createElement(
 	              'div',
-	              { className: 'col-md-4' },
+	              { className: 'col-xs-4' },
 	              _react2.default.createElement(_src2.default, {
 	                numDays: 60,
 	                values: randomValues
@@ -8177,7 +8177,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            ),
 	            _react2.default.createElement(
 	              'div',
-	              { className: 'col-md-8' },
+	              { className: 'col-xs-8' },
 	              _react2.default.createElement(_src2.default, {
 	                numDays: 400,
 	                values: randomValues
@@ -8229,7 +8229,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            { className: 'row' },
 	            _react2.default.createElement(
 	              'div',
-	              { className: 'col-md-4' },
+	              { className: 'col-xs-4' },
 	              _react2.default.createElement(_src2.default, {
 	                values: randomValues,
 	                numDays: 150,
@@ -8239,7 +8239,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            ),
 	            _react2.default.createElement(
 	              'div',
-	              { className: 'col-md-4' },
+	              { className: 'col-xs-4' },
 	              _react2.default.createElement(_src2.default, {
 	                values: randomValues,
 	                numDays: 31,
@@ -8250,6 +8250,22 @@ return /******/ (function(modules) { // webpackBootstrap
 	            )
 	          )
 	        ),
+	        _react2.default.createElement(DemoItem, {
+	          name: 'gutterSize',
+	          description: 'Gutter size, relative to size of square'
+	        }),
+	        _react2.default.createElement(DemoItem, {
+	          name: 'onClick',
+	          description: 'Callback to invoke when a square is clicked'
+	        }),
+	        _react2.default.createElement(DemoItem, {
+	          name: 'titleForValue',
+	          description: 'Callback for determining hover tooltip of each value'
+	        }),
+	        _react2.default.createElement(DemoItem, {
+	          name: 'classForValue',
+	          description: 'Callback for determining CSS class to apply to each value'
+	        }),
 	        _react2.default.createElement('hr', null),
 	        _react2.default.createElement(
 	          'h2',
