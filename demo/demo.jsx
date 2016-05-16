@@ -41,10 +41,10 @@ const pastRandomValues = generateRandomValues(200, halfYearAgo);
 
 const DemoItem = (props) => (
   <div className="row m-b-3">
-    <div className="col-md-6">
+    <div className="col-md-4">
       {props.children}
     </div>
-    <div className="col-md-6">
+    <div className="col-md-8">
       <p>{props.name ? <code>{props.name}</code> : null} {props.description}</p>
       <small><a href="https://github.com/patientslikeme/react-calendar-heatmap/blob/master/demo/demo.jsx">See sample config</a></small>
     </div>
@@ -122,13 +122,13 @@ class Demo extends React.Component {
           description="Time span in days"
         >
           <div className="row">
-            <div className="col-md-4">
+            <div className="col-xs-4">
               <CalendarHeatmap
                 numDays={60}
                 values={randomValues}
               />
             </div>
-            <div className="col-md-8">
+            <div className="col-xs-8">
               <CalendarHeatmap
                 numDays={400}
                 values={randomValues}
@@ -172,7 +172,7 @@ class Demo extends React.Component {
           description="Whether to orient horizontally or vertically. Can be used in combination with numDays/endDate to show just the current month"
         >
           <div className="row">
-            <div className="col-md-4">
+            <div className="col-xs-4">
               <CalendarHeatmap
                 values={randomValues}
                 numDays={150}
@@ -180,7 +180,7 @@ class Demo extends React.Component {
                 classForValue={customClassForValue}
               />
             </div>
-            <div className="col-md-4">
+            <div className="col-xs-4">
               <CalendarHeatmap
                 values={randomValues}
                 numDays={31}
@@ -190,6 +190,30 @@ class Demo extends React.Component {
               />
             </div>
           </div>
+        </DemoItem>
+
+        <DemoItem
+          name="gutterSize"
+          description="Gutter size, relative to size of square"
+        >
+        </DemoItem>
+
+        <DemoItem
+          name="onClick"
+          description="Callback to invoke when a square is clicked"
+        >
+        </DemoItem>
+
+        <DemoItem
+          name="titleForValue"
+          description="Callback for determining hover tooltip of each value"
+        >
+        </DemoItem>
+
+        <DemoItem
+          name="classForValue"
+          description="Callback for determining CSS class to apply to each value"
+        >
         </DemoItem>
 
         <hr />
