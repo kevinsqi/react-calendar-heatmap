@@ -45,8 +45,8 @@ const DemoItem = (props) => (
       {props.children}
     </div>
     <div className="col-md-6">
-      <p>{props.description}</p>
-      <small><a href="https://github.com/patientslikeme/react-calendar-heatmap/blob/master/demo/demo.jsx">See demo.jsx</a></small>
+      <p>{props.name ? <code>{props.name}</code> : null} {props.description}</p>
+      <small><a href="https://github.com/patientslikeme/react-calendar-heatmap/blob/master/demo/demo.jsx">See sample config</a></small>
     </div>
   </div>
 );
@@ -84,22 +84,41 @@ class Demo extends React.Component {
         <div className="row m-y-3">
           <div className="text-md-center">
             <h1><a href="https://github.com/patientslikeme/react-calendar-heatmap">{COMPONENT_NAME}</a></h1>
-            <p>{COMPONENT_DESCRIPTION} <small>v{COMPONENT_VERSION}</small></p>
+            <p>{COMPONENT_DESCRIPTION} <span className="text-muted">v{COMPONENT_VERSION}</span></p>
           </div>
         </div>
 
+        <div className="row m-b-3">
+          <div className="col-md-6 offset-md-3">
+            <CalendarHeatmap
+              values={randomValues}
+              classForValue={customClassForValue}
+              titleForValue={customTitleForValue}
+              onClick={(value) => alert(`Clicked on ${value.date} with value ${value.count}`)}
+            />
+          </div>
+        </div>
+
+        <hr />
+        <h2 className="text-md-center m-y-3">Configuration</h2>
+
         <DemoItem
-          description="Default configuration with custom color scheme, tooltips, and randomly generated data"
+          name="values"
+          description="Required array of objects which each have a date property, which can be a Date object, millisecond timestamps, or parseable strings"
         >
           <CalendarHeatmap
-            values={randomValues}
-            classForValue={customClassForValue}
-            titleForValue={customTitleForValue}
+            endDate={new Date(2016, 3, 1)}
+            values={[
+              { date: '2016-01-01' },
+              { date: (new Date('2016-01-02')).getTime() },
+              { date: new Date('2016-01-03') },
+            ]}
           />
         </DemoItem>
 
         <DemoItem
-          description="Shorter or longer time spans"
+          name="numDays"
+          description="Time span in days"
         >
           <div className="row">
             <div className="col-md-4">
@@ -118,16 +137,8 @@ class Demo extends React.Component {
         </DemoItem>
 
         <DemoItem
-          description="Display days that are out of date range"
-        >
-          <CalendarHeatmap
-            values={randomValues}
-            showOutOfRangeDays={true}
-          />
-        </DemoItem>
-
-        <DemoItem
-          description="Adjusting date window"
+          name="endDate"
+          description="End of date range"
         >
           <CalendarHeatmap
             endDate={halfYearAgo}
@@ -136,19 +147,8 @@ class Demo extends React.Component {
         </DemoItem>
 
         <DemoItem
-          description="Use millisecond timestamps or parseable strings for date attribute"
-        >
-          <CalendarHeatmap
-            endDate={new Date(2016, 3, 1)}
-            values={[
-              { date: '2016-01-01' },
-              { date: (new Date('2016-02-02')).getTime() },
-            ]}
-          />
-        </DemoItem>
-
-        <DemoItem
-          description="Removing month labels"
+          name="showMonthLabels"
+          description="Toggle for removing month labels"
         >
           <CalendarHeatmap
             values={randomValues}
@@ -157,23 +157,18 @@ class Demo extends React.Component {
         </DemoItem>
 
         <DemoItem
-          description="Setting an onClick callback"
+          name="showOutOfRangeDays"
+          description="Show extra days in week that are past endDate and before beginning of range"
         >
           <CalendarHeatmap
             values={randomValues}
-            classForValue={customClassForValue}
-            onClick={(value) => alert(`Clicked on ${value.date} with value ${value.count}`)}
+            showOutOfRangeDays={true}
           />
         </DemoItem>
 
         <DemoItem
-          description="Loading values asynchronously"
-        >
-          <AsyncDemo />
-        </DemoItem>
-
-        <DemoItem
-          description="Vertical orientation, e.g. for showing a traditional calendar view"
+          name="horizontal"
+          description="Whether to orient horizontally or vertically. Can be used in combination with numDays/endDate to show just the current month"
         >
           <div className="row">
             <div className="col-md-4">
@@ -194,6 +189,15 @@ class Demo extends React.Component {
               />
             </div>
           </div>
+        </DemoItem>
+
+        <hr />
+        <h2 className="text-md-center m-y-3">Other examples</h2>
+
+        <DemoItem
+          description="Values can be loaded asynchronously"
+        >
+          <AsyncDemo />
         </DemoItem>
       </div>
     );
