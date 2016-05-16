@@ -11,7 +11,7 @@ git checkout gh-pages
 mv ./.cache/* .
 rm -rf .cache
 
-git add .
-git commit -m "Update demo page"
-git push
-git checkout master
+# git add .
+# git commit -m "Update demo page"
+# git push
+# git checkout master
