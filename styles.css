@@ -14,16 +14,3 @@
 .react-calendar-heatmap .color-filled {
   fill: #8cc665;
 }
-
-.react-calendar-heatmap .color-small {
-  fill: #d6e685;
-}
-.react-calendar-heatmap .color-medium {
-  fill: #8cc665;
-}
-.react-calendar-heatmap .color-large {
-  fill: #44a340;
-}
-.react-calendar-heatmap .color-huge {
-  fill: #1e6823;
-}
