@@ -50,19 +50,17 @@ The default configuration and CSS only provides a very simple color mapping, bec
     { date: '2016-01-06', count: 2 },
     // ...and so on
   ]}
-  classForValue={
-    (value) => {
-      if (!value) {
-        return 'color-empty';
-      }
-      return {
-        1: 'color-small',
-        2: 'color-medium',
-        3: 'color-large',
-        4: 'color-huge',
-      }[value.count];
+  classForValue={(value) => {
+    if (!value) {
+      return 'color-empty';
     }
-  }
+    return {
+      1: 'color-small',
+      2: 'color-medium',
+      3: 'color-large',
+      4: 'color-huge',
+    }[value.count];
+  }}
 />
 ```
 
