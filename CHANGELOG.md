@@ -1,3 +1,8 @@
+## 1.0.0
+
+* Improve tooltip support with tooltipDataAttrs prop, allowing usage of e.g. bootstrap tooltips
+* titleForValue now sets a square's title attribute instead of setting svg `<title>` element
+
 ## 0.4.3
 
 * Build configuration updates
