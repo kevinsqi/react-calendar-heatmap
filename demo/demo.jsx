@@ -34,12 +34,12 @@ function customClassForValue(value) {
 }
 
 function customTitleForValue(value) {
-  return value ? `You're hovering over ${value.date} with value ${value.count}` : null;
+  return value ? `You're hovering over ${value.date.toDateString()} with value ${value.count}` : null;
 }
 
 function customOnClick(value) {
   if (value) {
-    alert(`Clicked on ${value.date} with value ${value.count}`);
+    alert(`Clicked on ${value.date.toDateString()} with value ${value.count}`);
   }
 }
 
