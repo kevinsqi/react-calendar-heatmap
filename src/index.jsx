@@ -184,10 +184,11 @@ class CalendarHeatmap extends React.Component {
         height={SQUARE_SIZE}
         x={x}
         y={y}
+        data-toggle="tooltip"
+        title={this.getTitleForIndex(index)}
         className={this.getClassNameForIndex(index)}
         onClick={this.handleClick.bind(this, this.getValueForIndex(index))}
       >
-        <title>{this.getTitleForIndex(index)}</title>
       </rect>
     );
   }
