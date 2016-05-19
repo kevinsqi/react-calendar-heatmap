@@ -23,7 +23,7 @@ Import the component:
 import CalendarHeatmap from 'react-calendar-heatmap';
 ```
 
-To show a heatmap of 100 days ending on April 1st:
+To show a basic heatmap of 100 days ending on April 1st:
 
 ```javascript
 <CalendarHeatmap
@@ -38,40 +38,54 @@ To show a heatmap of 100 days ending on April 1st:
 />
 ```
 
-## Configuring colors and styles
+## Configuring colors
 
-If you want to map values to colors in a different way, override the `classForValue` prop, which determines which CSS class to apply to each value.
+The default configuration and CSS only provides a very simple color mapping, because in most cases it'll be customized significantly based on the dataset. To achieve the github-like color scale shown in the [live demo](http://patientslikeme.github.io/react-calendar-heatmap/), you can override the `classForValue` prop, a function that determines which CSS class to apply to each value:
 
 ```javascript
 <CalendarHeatmap
   values={[
-    { date: '2016-01-01', state: 'good' },
-    { date: '2016-01-05', state: 'bad' }
+    { date: '2016-01-01', count: 1 },
+    { date: '2016-01-05', count: 4 },
+    { date: '2016-01-05', count: 2 },
+    { date: '2016-01-05', count: 3 },
   ]}
   classForValue={
     (value) => {
-      switch(value.state) {
-        case 'good':
-          return 'green';
-        case 'bad':
-          return 'red';
-        default:
-          return 'gray';
+      if (!value) {
+        return 'color-empty';
       }
+      return {
+        1: 'color-small',
+        2: 'color-medium',
+        3: 'color-large',
+        4: 'color-huge',
+      }[value.count];
     }
   }
 />
 ```
 
-Then you can use your own CSS classes to set box colors:
+Then you use CSS to set colors for each class:
 
 ```css
-.react-calendar-heatmap .green {
-  fill: #6f6;
+.react-calendar-heatmap .color-small {
+  fill: #d6e685;
+}
+.react-calendar-heatmap .color-medium {
+  fill: #8cc665;
+}
+.react-calendar-heatmap .color-large {
+  fill: #44a340;
+}
+.react-calendar-heatmap .color-huge {
+  fill: #1e6823;
 }
 ```
 
-See more configuration options on the [live demo page](http://patientslikeme.github.io/react-calendar-heatmap/).
+## Props
+
+See configuration options on the [live demo page](http://patientslikeme.github.io/react-calendar-heatmap/).
 
 ## Development
 

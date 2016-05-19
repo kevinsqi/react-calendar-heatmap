@@ -4,6 +4,8 @@ import range from 'lodash.range';
 import CalendarHeatmap from '../src';
 import { shiftDate } from '../src/dateHelpers';
 
+console.log(`react-calendar-heatmap v${COMPONENT_VERSION}`);
+
 const today = new Date();
 
 function getRandomInt(min, max) {
@@ -68,8 +70,7 @@ class Demo extends React.Component {
         <div className="row m-y-3">
           <div className="text-md-center">
             <h1 className="m-b-2"><a href="https://github.com/patientslikeme/react-calendar-heatmap">{COMPONENT_NAME}</a></h1>
-            <p>{COMPONENT_DESCRIPTION} <span className="text-muted">v{COMPONENT_VERSION}</span></p>
-            <p><code>npm install {COMPONENT_NAME}</code></p>
+            <p>{COMPONENT_DESCRIPTION}</p>
           </div>
         </div>
 
@@ -82,6 +83,12 @@ class Demo extends React.Component {
               onClick={customOnClick}
             />
           </div>
+        </div>
+
+        <div className="text-xs-center m-y-3">
+          <p>Install with npm:</p>
+          <p className="m-b-3"><code>npm install {COMPONENT_NAME}</code></p>
+          <a className="btn btn-info btn-lg" href={githubURL}>View project on Github</a>
         </div>
 
         <hr />
