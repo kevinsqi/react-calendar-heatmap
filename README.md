@@ -1,6 +1,6 @@
 # React Calendar Heatmap
 
-A calendar heatmap component built on SVG, inspired by github's contribution graph. The SVG expands to size of container and colors are fully configurable. [See a live demo](http://patientslikeme.github.io/react-calendar-heatmap/).
+A calendar heatmap component built on SVG, inspired by github's commit calendar graph. The SVG expands to size of container and colors are fully configurable. [See a live demo](http://patientslikeme.github.io/react-calendar-heatmap/).
 
 [![npm version](https://badge.fury.io/js/react-calendar-heatmap.svg)](https://badge.fury.io/js/react-calendar-heatmap)
 [![Build Status](https://travis-ci.org/patientslikeme/react-calendar-heatmap.svg?branch=master)](https://travis-ci.org/patientslikeme/react-calendar-heatmap)
@@ -40,7 +40,7 @@ To show a basic heatmap of 100 days ending on April 1st:
 
 ## Configuring colors
 
-The default configuration and CSS only provides a very simple color mapping, because in most cases it'll be customized significantly based on the dataset. To achieve the github-like color scale shown in the [live demo](http://patientslikeme.github.io/react-calendar-heatmap/), you can override the `classForValue` prop, a function that determines which CSS class to apply to each value:
+The default configuration and CSS only provides a very simple color mapping, because in most cases it'll be customized based on the dataset. To use the color scale shown in the [live demo](http://patientslikeme.github.io/react-calendar-heatmap/) (which is based on the github contribution graph), you can override the `classForValue` prop, a function that determines which CSS class to apply to each value:
 
 ```javascript
 <CalendarHeatmap
