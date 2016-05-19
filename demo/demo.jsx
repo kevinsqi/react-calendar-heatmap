@@ -32,12 +32,21 @@ function customClassForValue(value) {
 }
 
 function customTitleForValue(value) {
-  return value ? JSON.stringify(value) : null;
+  return value ? `You're hovering over ${value.date} with value ${value.count}` : null;
+}
+
+function customOnClick(value) {
+  if (value) {
+    alert(`Clicked on ${value.date} with value ${value.count}`);
+  }
 }
 
 const randomValues = generateRandomValues(200);
 const halfYearAgo = shiftDate(new Date(), -180);
 const pastRandomValues = generateRandomValues(200, halfYearAgo);
+
+const githubURL = "https://github.com/patientslikeme/react-calendar-heatmap";
+const githubDemoFileURL = "https://github.com/patientslikeme/react-calendar-heatmap/blob/master/demo/demo.jsx";
 
 const DemoItem = (props) => (
   <div className="row m-b-3">
@@ -45,37 +54,12 @@ const DemoItem = (props) => (
       {props.children}
     </div>
     <div className="col-md-8">
-      <p>{props.name ? <code>{props.name}</code> : null} {props.description}</p>
-      <small><a href="https://github.com/patientslikeme/react-calendar-heatmap/blob/master/demo/demo.jsx">See sample config</a></small>
+      <p><code>{props.name}</code></p>
+      <p>{props.description}</p>
+      <small><a href={githubDemoFileURL}>See configuration</a></small>
     </div>
   </div>
 );
-
-class AsyncDemo extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      values: [],
-    };
-  }
-
-  componentDidMount() {
-    setInterval(() => {
-      this.setState({
-        values: this.state.values.length > 0 ? [] : randomValues,
-      });
-    }, 1500);
-  }
-
-  render()  {
-    return (
-      <CalendarHeatmap
-        values={this.state.values}
-      />
-    );
-  }
-}
 
 class Demo extends React.Component {
   render() {
@@ -95,7 +79,7 @@ class Demo extends React.Component {
               values={randomValues}
               classForValue={customClassForValue}
               titleForValue={customTitleForValue}
-              onClick={(value) => alert(`Clicked on ${value.date} with value ${value.count}`)}
+              onClick={customOnClick}
             />
           </div>
         </div>
@@ -119,27 +103,17 @@ class Demo extends React.Component {
 
         <DemoItem
           name="numDays"
-          description="Time span in days"
+          description="Set time span in days"
         >
-          <div className="row">
-            <div className="col-xs-4">
-              <CalendarHeatmap
-                numDays={60}
-                values={randomValues}
-              />
-            </div>
-            <div className="col-xs-8">
-              <CalendarHeatmap
-                numDays={400}
-                values={randomValues}
-              />
-            </div>
-          </div>
+          <CalendarHeatmap
+            numDays={400}
+            values={randomValues}
+          />
         </DemoItem>
 
         <DemoItem
           name="endDate"
-          description="End of date range"
+          description="Set end of date range"
         >
           <CalendarHeatmap
             endDate={halfYearAgo}
@@ -159,7 +133,7 @@ class Demo extends React.Component {
 
         <DemoItem
           name="showOutOfRangeDays"
-          description="Show extra days in week that are past endDate and before beginning of range"
+          description="Toggle extra days in week that are past endDate and before beginning of range"
         >
           <CalendarHeatmap
             values={randomValues}
@@ -175,9 +149,8 @@ class Demo extends React.Component {
             <div className="col-xs-4">
               <CalendarHeatmap
                 values={randomValues}
-                numDays={150}
+                numDays={100}
                 horizontal={false}
-                classForValue={customClassForValue}
               />
             </div>
             <div className="col-xs-4">
@@ -186,7 +159,6 @@ class Demo extends React.Component {
                 numDays={31}
                 horizontal={false}
                 showMonthLabels={false}
-                classForValue={customClassForValue}
               />
             </div>
           </div>
@@ -194,36 +166,48 @@ class Demo extends React.Component {
 
         <DemoItem
           name="gutterSize"
-          description="Gutter size, relative to size of square"
+          description="Increase or decrease gutter size"
         >
+          <CalendarHeatmap
+            values={randomValues}
+            gutterSize={2}
+          />
         </DemoItem>
 
         <DemoItem
           name="onClick"
           description="Callback to invoke when a square is clicked"
         >
+          <CalendarHeatmap
+            values={randomValues}
+            onClick={customOnClick}
+          />
         </DemoItem>
 
         <DemoItem
           name="titleForValue"
           description="Callback for determining hover tooltip of each value"
         >
+          <CalendarHeatmap
+            values={randomValues}
+            titleForValue={customTitleForValue}
+          />
         </DemoItem>
 
         <DemoItem
           name="classForValue"
           description="Callback for determining CSS class to apply to each value"
         >
+          <CalendarHeatmap
+            values={randomValues}
+            classForValue={customClassForValue}
+          />
         </DemoItem>
 
         <hr />
-        <h2 className="text-md-center m-y-3">Other examples</h2>
-
-        <DemoItem
-          description="Values can be loaded asynchronously"
-        >
-          <AsyncDemo />
-        </DemoItem>
+        <div className="text-xs-center m-y-3">
+          <a className="btn btn-info btn-lg" href={githubURL}>View project on Github</a>
+        </div>
       </div>
     );
   }
