@@ -34,15 +34,16 @@ function customClassForValue(value) {
 }
 
 function customTitleForValue(value) {
-  return value ? `You're hovering over ${value.date} with value ${value.count}` : null;
+  return value ? `You're hovering over ${value.date.toDateString()} with value ${value.count}` : null;
 }
 
 function customOnClick(value) {
   if (value) {
-    alert(`Clicked on ${value.date} with value ${value.count}`);
+    alert(`Clicked on ${value.date.toDateString()} with value ${value.count}`);
   }
 }
 
+const customTooltipDataAttrs = { 'data-toggle': 'tooltip' };
 const randomValues = generateRandomValues(200);
 const halfYearAgo = shiftDate(new Date(), -180);
 const pastRandomValues = generateRandomValues(200, halfYearAgo);
@@ -80,6 +81,7 @@ class Demo extends React.Component {
               values={randomValues}
               classForValue={customClassForValue}
               titleForValue={customTitleForValue}
+              tooltipDataAttrs={customTooltipDataAttrs}
               onClick={customOnClick}
             />
           </div>
@@ -150,7 +152,7 @@ class Demo extends React.Component {
 
         <DemoItem
           name="horizontal"
-          description="Whether to orient horizontally or vertically. Can be used in combination with numDays/endDate to show just the current month"
+          description="Whether to orient horizontally or vertically. Can be used in combination with numDays/endDate to show just the current month."
         >
           <div className="row">
             <div className="col-xs-4">
@@ -192,12 +194,13 @@ class Demo extends React.Component {
         </DemoItem>
 
         <DemoItem
-          name="titleForValue"
-          description="Callback for determining hover tooltip of each value"
+          name="titleForValue, tooltipDataAttrs"
+          description="These props configure each value's title and data attributes, for generating 3rd party hover tooltips (this demo uses bootstrap tooltips)"
         >
           <CalendarHeatmap
             values={randomValues}
             titleForValue={customTitleForValue}
+            tooltipDataAttrs={customTooltipDataAttrs}
           />
         </DemoItem>
 

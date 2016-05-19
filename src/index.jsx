@@ -184,10 +184,11 @@ class CalendarHeatmap extends React.Component {
         height={SQUARE_SIZE}
         x={x}
         y={y}
+        title={this.getTitleForIndex(index)}
         className={this.getClassNameForIndex(index)}
         onClick={this.handleClick.bind(this, this.getValueForIndex(index))}
+        {...this.props.tooltipDataAttrs}
       >
-        <title>{this.getTitleForIndex(index)}</title>
       </rect>
     );
   }
@@ -253,6 +254,7 @@ CalendarHeatmap.propTypes = {
   horizontal: PropTypes.bool,            // whether to orient horizontally or vertically
   showMonthLabels: PropTypes.bool,       // whether to show month labels
   showOutOfRangeDays: PropTypes.bool,    // whether to render squares for extra days in week after endDate, and before start date
+  tooltipDataAttrs: PropTypes.object,    // data attributes to add to square for setting 3rd party tooltips, e.g. { 'data-toggle': 'tooltip' } for bootstrap tooltips
   titleForValue: PropTypes.func,         // function which returns title text for value
   classForValue: PropTypes.func,         // function which returns html class for value
   onClick: PropTypes.func,               // callback function when a square is clicked
@@ -265,7 +267,6 @@ CalendarHeatmap.defaultProps = {
   horizontal: true,
   showMonthLabels: true,
   showOutOfRangeDays: false,
-  titleForValue: null,
   classForValue: (value) => {
     return value ? 'color-filled' : 'color-empty';
   },
