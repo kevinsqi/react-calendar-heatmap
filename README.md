@@ -89,11 +89,13 @@ See full configuration options on the [live demo page](http://patientslikeme.git
 
 ## Development
 
-To develop locally:
+To run demo locally on localhost:8080:
 
 ```bash
 npm install
 npm start
 ```
 
-Then go to localhost:8080, which renders demo/index.html.
+Keep [CI tests](https://travis-ci.org/patientslikeme/react-calendar-heatmap) passing by running `npm test` and `npm run lint` often.
+
+Deploy updates to the demo page with `npm run deploy:demo`.
