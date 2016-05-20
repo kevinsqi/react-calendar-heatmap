@@ -56,12 +56,7 @@ The default configuration and CSS only provides a very simple color mapping, bec
     if (!value) {
       return 'color-empty';
     }
-    return {
-      1: 'color-small',
-      2: 'color-medium',
-      3: 'color-large',
-      4: 'color-huge',
-    }[value.count];
+    return `color-scale-${value.count}`;
   }}
 />
 ```
@@ -69,18 +64,10 @@ The default configuration and CSS only provides a very simple color mapping, bec
 Then you use CSS to set colors for each class:
 
 ```css
-.react-calendar-heatmap .color-small {
-  fill: #d6e685;
-}
-.react-calendar-heatmap .color-medium {
-  fill: #8cc665;
-}
-.react-calendar-heatmap .color-large {
-  fill: #44a340;
-}
-.react-calendar-heatmap .color-huge {
-  fill: #1e6823;
-}
+.react-calendar-heatmap .color-scale-1 { fill: #d6e685; }
+.react-calendar-heatmap .color-scale-2 { fill: #8cc665; }
+.react-calendar-heatmap .color-scale-3 { fill: #44a340; }
+.react-calendar-heatmap .color-scale-4 { fill: #1e6823; }
 ```
 
 ## Other configuration
