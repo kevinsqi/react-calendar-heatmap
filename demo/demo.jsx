@@ -179,7 +179,7 @@ class Demo extends React.Component {
                 horizontal={false}
               />
             </div>
-            <div className="col-xs-4">
+            <div className="col-xs-4 offset-xs-2">
               <CalendarHeatmap
                 values={randomValues}
                 numDays={31}
