@@ -19,7 +19,7 @@ describe('CalendarHeatmap', () => {
 
   it('should be able to orient horizontally and vertically', () => {
     const horizontal = shallow(
-      <CalendarHeatmap numDays={100} values={[]} horizontal={true} />
+      <CalendarHeatmap numDays={100} values={[]} horizontal />
     );
     const [, , horWidth, horHeight] = horizontal.props().viewBox.split(' ');
     assert(Number(horWidth) > Number(horHeight), 'horizontal orientation width should be greater than height');
