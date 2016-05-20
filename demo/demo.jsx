@@ -55,7 +55,11 @@ const DemoItem = (props) => (
     <div className="col-md-6 offset-md-3">
       <p><code>{props.name}</code><small className="text-muted m-l-1">{props.example ? `e.g. ${props.example}` : null}</small></p>
       <p>{props.description}</p>
-      {props.children}
+      <div className="row">
+        <div className="col-xs-6 offset-xs-3">
+          {props.children}
+        </div>
+      </div>
     </div>
   </div>
 );
@@ -128,12 +132,10 @@ class Demo extends React.Component {
           description="Toggle for removing month labels."
         >
           <div className="row">
-            <div className="col-xs-6">
-              <CalendarHeatmap
-                values={randomValues}
-                showMonthLabels={false}
-              />
-            </div>
+            <CalendarHeatmap
+              values={randomValues}
+              showMonthLabels={false}
+            />
           </div>
         </DemoItem>
 
@@ -143,12 +145,10 @@ class Demo extends React.Component {
           description="Toggle display of extra days in week that are past endDate and before beginning of range."
         >
           <div className="row">
-            <div className="col-xs-6">
-              <CalendarHeatmap
-                values={randomValues}
-                showOutOfRangeDays={true}
-              />
-            </div>
+            <CalendarHeatmap
+              values={randomValues}
+              showOutOfRangeDays={true}
+            />
           </div>
         </DemoItem>
 
@@ -158,14 +158,14 @@ class Demo extends React.Component {
           description="Whether to orient horizontally or vertically. Can be used in combination with numDays/endDate to show just the current month."
         >
           <div className="row">
-            <div className="col-xs-3">
+            <div className="col-xs-6">
               <CalendarHeatmap
                 values={randomValues}
                 numDays={100}
                 horizontal={false}
               />
             </div>
-            <div className="col-xs-2 offset-xs-1">
+            <div className="col-xs-6">
               <CalendarHeatmap
                 values={randomValues}
                 numDays={31}
@@ -182,12 +182,10 @@ class Demo extends React.Component {
           description="Size of gutters relative to squares."
         >
           <div className="row">
-            <div className="col-xs-6">
-              <CalendarHeatmap
-                values={randomValues}
-                gutterSize={2}
-              />
-            </div>
+            <CalendarHeatmap
+              values={randomValues}
+              gutterSize={2}
+            />
           </div>
         </DemoItem>
 
