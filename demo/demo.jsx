@@ -135,7 +135,7 @@ class Demo extends React.Component {
 
         <DemoItem
           name="endDate"
-          example="'2016-01-01'"
+          example="new Date()"
           description="End of date range - a Date object, parseable string, or millisecond timestamp."
         >
           <CalendarHeatmap
