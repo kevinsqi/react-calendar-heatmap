@@ -239,7 +239,7 @@ class Demo extends React.Component {
         <DemoItem
           name="classForValue"
           example="(value) => (value.count > 0 ? 'blue' : 'white')"
-          description="Callback for determining CSS class to apply to each value"
+          description="Callback for determining CSS class to apply to each value."
         >
           <CalendarHeatmap
             values={randomValues}
