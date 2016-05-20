@@ -21,16 +21,18 @@ function generateRandomValues(count, date = today) {
   })
 }
 
-function customClassForValue(value) {
+function githubClassForValue(value) {
   if (!value) {
     return 'color-empty';
   }
-  return {
-    1: 'color-small',
-    2: 'color-medium',
-    3: 'color-large',
-    4: 'color-huge',
-  }[value.count];
+  return `color-github-${value.count}`;
+}
+
+function gitlabClassForValue(value) {
+  if (!value) {
+    return 'color-empty';
+  }
+  return `color-gitlab-${value.count}`;
 }
 
 function customTitleForValue(value) {
@@ -76,10 +78,19 @@ class Demo extends React.Component {
         </div>
 
         <div className="row m-b-3">
-          <div className="col-md-6 offset-md-3">
+          <div className="col-md-6">
             <CalendarHeatmap
               values={randomValues}
-              classForValue={customClassForValue}
+              classForValue={githubClassForValue}
+              titleForValue={customTitleForValue}
+              tooltipDataAttrs={customTooltipDataAttrs}
+              onClick={customOnClick}
+            />
+          </div>
+          <div className="col-md-6">
+            <CalendarHeatmap
+              values={randomValues}
+              classForValue={gitlabClassForValue}
               titleForValue={customTitleForValue}
               tooltipDataAttrs={customTooltipDataAttrs}
               onClick={customOnClick}
@@ -232,7 +243,7 @@ class Demo extends React.Component {
         >
           <CalendarHeatmap
             values={randomValues}
-            classForValue={customClassForValue}
+            classForValue={githubClassForValue}
           />
         </DemoItem>
 
