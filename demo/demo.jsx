@@ -57,7 +57,7 @@ const DemoItem = (props) => (
       {props.children}
     </div>
     <div className="col-md-8">
-      <p><code>{props.name}</code></p>
+      <p><code>{props.name}</code><small className="text-muted m-l-1">{props.example ? `e.g. ${props.example}` : null}</small></p>
       <p>{props.description}</p>
       <small><a href={githubDemoFileURL}>See configuration</a></small>
     </div>
@@ -98,7 +98,8 @@ class Demo extends React.Component {
 
         <DemoItem
           name="values"
-          description="Required array of objects which each have a date property, which can be a Date object, millisecond timestamps, or parseable strings"
+          example="[{ date: '2016-01-01', count: 6 }]"
+          description="Required array of objects which each have a date property, which can be a Date object, parseable string, or millisecond timestamp."
         >
           <CalendarHeatmap
             endDate={new Date(2016, 3, 1)}
@@ -112,7 +113,8 @@ class Demo extends React.Component {
 
         <DemoItem
           name="numDays"
-          description="Set time span in days"
+          example="200"
+          description="Time span in days."
         >
           <CalendarHeatmap
             numDays={400}
@@ -122,7 +124,8 @@ class Demo extends React.Component {
 
         <DemoItem
           name="endDate"
-          description="Set end of date range"
+          example="'2016-01-01'"
+          description="End of date range - a Date object, parseable string, or millisecond timestamp."
         >
           <CalendarHeatmap
             endDate={halfYearAgo}
@@ -132,7 +135,8 @@ class Demo extends React.Component {
 
         <DemoItem
           name="showMonthLabels"
-          description="Toggle for removing month labels"
+          example="true"
+          description="Toggle for removing month labels."
         >
           <CalendarHeatmap
             values={randomValues}
@@ -142,7 +146,8 @@ class Demo extends React.Component {
 
         <DemoItem
           name="showOutOfRangeDays"
-          description="Toggle extra days in week that are past endDate and before beginning of range"
+          example="false"
+          description="Toggle extra days in week that are past endDate and before beginning of range."
         >
           <CalendarHeatmap
             values={randomValues}
@@ -152,6 +157,7 @@ class Demo extends React.Component {
 
         <DemoItem
           name="horizontal"
+          example="true"
           description="Whether to orient horizontally or vertically. Can be used in combination with numDays/endDate to show just the current month."
         >
           <div className="row">
@@ -175,7 +181,8 @@ class Demo extends React.Component {
 
         <DemoItem
           name="gutterSize"
-          description="Increase or decrease gutter size"
+          example="1"
+          description="Size of gutters relative to squares."
         >
           <CalendarHeatmap
             values={randomValues}
@@ -185,7 +192,8 @@ class Demo extends React.Component {
 
         <DemoItem
           name="onClick"
-          description="Callback to invoke when a square is clicked"
+          example="(value) => { alert(value) }"
+          description="Callback to invoke when a square is clicked."
         >
           <CalendarHeatmap
             values={randomValues}
@@ -194,8 +202,21 @@ class Demo extends React.Component {
         </DemoItem>
 
         <DemoItem
-          name="titleForValue, tooltipDataAttrs"
-          description="These props configure each value's title and data attributes, for generating 3rd party hover tooltips (this demo uses bootstrap tooltips)"
+          name="titleForValue"
+          example="(value) => `Date is ${value.date}`"
+          description="Function to determine each square's title attribute, for generating 3rd party hover tooltips (may also need to configure tooltipDataAttrs)."
+        >
+          <CalendarHeatmap
+            values={randomValues}
+            titleForValue={customTitleForValue}
+            tooltipDataAttrs={customTooltipDataAttrs}
+          />
+        </DemoItem>
+
+        <DemoItem
+          name="tooltipDataAttrs"
+          example="{ 'data-toggle': 'tooltip' }"
+          description="Sets data attributes for all squares, for generating 3rd party hover tooltips (this demo uses bootstrap tooltips)."
         >
           <CalendarHeatmap
             values={randomValues}
@@ -206,6 +227,7 @@ class Demo extends React.Component {
 
         <DemoItem
           name="classForValue"
+          example="(value) => (value.count > 0 ? 'blue' : 'white')"
           description="Callback for determining CSS class to apply to each value"
         >
           <CalendarHeatmap
