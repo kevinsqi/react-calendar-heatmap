@@ -19,6 +19,23 @@ describe('CalendarHeatmap', () => {
 });
 
 describe('CalendarHeatmap props', () => {
+  it('values', () => {
+    const values = [
+      { date: '2016-01-01' },
+      { date: (new Date('2016-01-02')).getTime() },
+      { date: new Date('2016-01-03') },
+    ];
+    const wrapper = shallow(
+      <CalendarHeatmap
+        endDate={new Date('2016-02-01')}
+        numDays={40}
+        values={values}
+      />
+    );
+
+    assert.equal(values.length, wrapper.find('.color-filled').length, 'values should handle Date/string/number formats');
+  });
+
   it('horizontal', () => {
     const horizontal = shallow(
       <CalendarHeatmap numDays={100} values={[]} horizontal />
