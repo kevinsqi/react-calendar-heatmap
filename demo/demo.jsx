@@ -52,7 +52,7 @@ const githubURL = "https://github.com/patientslikeme/react-calendar-heatmap";
 
 const DemoItem = (props) => (
   <div className="row m-b-3">
-    <div className="col-md-6 offset-md-3">
+    <div className="col-xs-12 col-md-6 offset-md-3">
       <p><code>{props.name}</code><small className="text-muted m-l-1">{props.example ? `e.g. ${props.example}` : null}</small></p>
       <p>{props.description}</p>
       <div className="row">
@@ -69,14 +69,16 @@ class Demo extends React.Component {
     return (
       <div className="container">
         <div className="row m-y-3">
-          <div className="text-md-center">
-            <h1 className="m-b-2"><a href="https://github.com/patientslikeme/react-calendar-heatmap">{COMPONENT_NAME}</a></h1>
-            <p>{COMPONENT_DESCRIPTION}</p>
+          <div className="col-xs-12">
+            <div className="text-md-center">
+              <h1 className="m-b-2"><a href="https://github.com/patientslikeme/react-calendar-heatmap">{COMPONENT_NAME}</a></h1>
+              <p>{COMPONENT_DESCRIPTION}</p>
+            </div>
           </div>
         </div>
 
         <div className="row m-b-3">
-          <div className="col-md-6">
+          <div className="col-xs-12 col-md-6">
             <CalendarHeatmap
               values={randomValues}
               classForValue={githubClassForValue}
@@ -85,7 +87,7 @@ class Demo extends React.Component {
               onClick={customOnClick}
             />
           </div>
-          <div className="col-md-6">
+          <div className="col-xs-12 col-md-6">
             <CalendarHeatmap
               values={randomValues}
               classForValue={gitlabClassForValue}
