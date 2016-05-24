@@ -107,4 +107,23 @@ describe('CalendarHeatmap props', () => {
     // assert(wrapper.first('rect[title=0]').hasClass('white'));
     // assert(wrapper.first('rect[title=1]').hasClass('red'));
   });
+
+  it('showMonthLabels', () => {
+    const visible = shallow(
+      <CalendarHeatmap
+        numDays={100}
+        values={[]}
+        showMonthLabels
+      />
+    );
+    assert(visible.find('text').length > 0);
+
+    const hidden = shallow(
+      <CalendarHeatmap
+        values={[]}
+        showMonthLabels={false}
+      />
+    );
+    assert.equal(0, hidden.find('text').length);
+  });
 });
