@@ -70,8 +70,8 @@ class Demo extends React.Component {
       <div className="container">
         <div className="row m-y-3">
           <div className="col-xs-12">
-            <div className="text-md-center">
-              <h1 className="m-b-2"><a href="https://github.com/patientslikeme/react-calendar-heatmap">{COMPONENT_NAME}</a></h1>
+            <div className="text-xs-center">
+              <h1 className="m-b-2">{COMPONENT_NAME}</h1>
               <p>{COMPONENT_DESCRIPTION}</p>
             </div>
           </div>
@@ -105,7 +105,7 @@ class Demo extends React.Component {
         </div>
 
         <hr />
-        <h2 className="text-md-center m-y-3">Configuration</h2>
+        <h2 className="text-xs-center m-y-3">Props</h2>
 
         <DemoItem
           name="values"
