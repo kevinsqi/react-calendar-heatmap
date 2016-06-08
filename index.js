@@ -7990,15 +7990,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	            { className: 'col-xs-12' },
 	            _react2.default.createElement(
 	              'div',
-	              { className: 'text-md-center' },
+	              { className: 'text-xs-center' },
 	              _react2.default.createElement(
 	                'h1',
 	                { className: 'm-b-2' },
-	                _react2.default.createElement(
-	                  'a',
-	                  { href: 'https://github.com/patientslikeme/react-calendar-heatmap' },
-	                  ("react-calendar-heatmap")
-	                )
+	                ("react-calendar-heatmap")
 	              ),
 	              _react2.default.createElement(
 	                'p',
@@ -8061,8 +8057,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	        _react2.default.createElement('hr', null),
 	        _react2.default.createElement(
 	          'h2',
-	          { className: 'text-md-center m-y-3' },
-	          'Configuration'
+	          { className: 'text-xs-center m-y-3' },
+	          'Props'
 	        ),
 	        _react2.default.createElement(DemoItem, {
 	          name: 'values',
