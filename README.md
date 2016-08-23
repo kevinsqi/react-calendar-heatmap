@@ -86,3 +86,7 @@ npm start
 Keep [CI tests](https://travis-ci.org/patientslikeme/react-calendar-heatmap) passing by running `npm test` and `npm run lint` often.
 
 Deploy updates to the demo page with `npm run deploy:demo`.
+
+## License
+
+react-calendar-heatmap is Copyright &copy; 2016 PatientsLikeMe, Inc. and is released under an MIT License.  See COPYING for details.
