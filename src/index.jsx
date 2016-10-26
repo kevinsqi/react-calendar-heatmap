@@ -32,7 +32,7 @@ class CalendarHeatmap extends React.Component {
     } else if (this.props.horizontal) {
       return SQUARE_SIZE + MONTH_LABEL_GUTTER_SIZE;
     }
-    return 2 * SQUARE_SIZE + MONTH_LABEL_GUTTER_SIZE;
+    return 2 * (SQUARE_SIZE + MONTH_LABEL_GUTTER_SIZE);
   }
 
   getStartDate() {
@@ -65,11 +65,11 @@ class CalendarHeatmap extends React.Component {
   }
 
   getWidth() {
-    return this.getWeekCount() * this.getSquareSizeWithGutter() - this.props.gutterSize;
+    return (this.getWeekCount() * this.getSquareSizeWithGutter()) - this.props.gutterSize;
   }
 
   getHeight() {
-    return this.getWeekWidth() + this.getMonthLabelSize() - this.props.gutterSize;
+    return this.getWeekWidth() + (this.getMonthLabelSize() - this.props.gutterSize);
   }
 
   getValueCache(values) {
@@ -151,7 +151,7 @@ class CalendarHeatmap extends React.Component {
     const verticalOffset = -2;
     return [
       0,
-      (weekIndex + 1) * this.getSquareSizeWithGutter() + verticalOffset,
+      ((weekIndex + 1) * this.getSquareSizeWithGutter()) + verticalOffset,
     ];
   }
 
@@ -178,21 +178,20 @@ class CalendarHeatmap extends React.Component {
         className={this.getClassNameForIndex(index)}
         onClick={this.handleClick.bind(this, this.getValueForIndex(index))}
         {...this.props.tooltipDataAttrs}
-      >
-      </rect>
+      />
     );
   }
 
   renderWeek(weekIndex) {
     return (
       <g key={weekIndex} transform={this.getTransformForWeek(weekIndex)}>
-        {range(DAYS_IN_WEEK).map((dayIndex) => this.renderSquare(dayIndex, weekIndex * DAYS_IN_WEEK + dayIndex))}
+        {range(DAYS_IN_WEEK).map(dayIndex => this.renderSquare(dayIndex, (weekIndex * DAYS_IN_WEEK) + dayIndex))}
       </g>
     );
   }
 
   renderAllWeeks() {
-    return range(this.getWeekCount()).map((weekIndex) => this.renderWeek(weekIndex));
+    return range(this.getWeekCount()).map(weekIndex => this.renderWeek(weekIndex));
   }
 
   renderMonthLabels() {
@@ -257,7 +256,7 @@ CalendarHeatmap.defaultProps = {
   horizontal: true,
   showMonthLabels: true,
   showOutOfRangeDays: false,
-  classForValue: (value) => (value ? 'color-filled' : 'color-empty'),
+  classForValue: value => (value ? 'color-filled' : 'color-empty'),
 };
 
 export default CalendarHeatmap;
