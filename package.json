@@ -22,8 +22,9 @@
     "clean": "rimraf build",
     "lint": "eslint --ext .js,.jsx --cache . && echo \"eslint: no lint errors found\" || true",
     "prepublish": "npm run clean && npm run build",
-    "test": "mocha --compilers js:babel-register --recursive --require ./test/setup.js",
+    "test": "mocha --compilers js:babel-register --recursive --require ./test/setup.js ./test/components/**/*.js* || true",
     "test:watch": "npm test -- --watch",
+
     "start": "webpack-dev-server --progress --inline"
   },
   "devDependencies": {
