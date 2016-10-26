@@ -126,4 +126,27 @@ describe('CalendarHeatmap props', () => {
     );
     assert.equal(0, hidden.find('text').length);
   });
+
+  describe('tooltipDataAttrs', () => {
+    it('allows a function to be passed', () => {
+      const today = new Date();
+      const numDays = 10;
+      const expectedStartDate = shiftDate(today, -numDays + 1);
+      const wrapper = shallow(
+        <CalendarHeatmap
+          values={[
+            { date: today, count: 1 },
+            { date: expectedStartDate, count: 0 },
+          ]}
+          endDate={today}
+          numDays={numDays}
+          tooltipDataAttrs={({ count }) => ({
+            'data-tooltip': `Count: ${count}`,
+          })}
+        />
+      );
+
+      assert(wrapper.find('[data-tooltip="Count: 1"]').length === 1);
+    });
+  });
 });
