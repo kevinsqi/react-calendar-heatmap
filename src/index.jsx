@@ -22,12 +22,6 @@ class CalendarHeatmap extends React.Component {
     });
   }
 
-  handleClick(value) {
-    if (this.props.onClick) {
-      this.props.onClick(value);
-    }
-  }
-
   getSquareSizeWithGutter() {
     return SQUARE_SIZE + this.props.gutterSize;
   }
@@ -37,9 +31,8 @@ class CalendarHeatmap extends React.Component {
       return 0;
     } else if (this.props.horizontal) {
       return SQUARE_SIZE + MONTH_LABEL_GUTTER_SIZE;
-    } else {
-      return 2 * SQUARE_SIZE + MONTH_LABEL_GUTTER_SIZE;
     }
+    return 2 * SQUARE_SIZE + MONTH_LABEL_GUTTER_SIZE;
   }
 
   getStartDate() {
@@ -84,7 +77,7 @@ class CalendarHeatmap extends React.Component {
       const date = convertToDate(value.date);
       const index = Math.floor((date - this.getStartDateWithEmptyDays()) / MILLISECONDS_IN_ONE_DAY);
       memo[index] = {
-        value: value,
+        value,
         className: this.props.classForValue(value),
         title: this.props.titleForValue ? this.props.titleForValue(value) : null,
       };
@@ -95,65 +88,57 @@ class CalendarHeatmap extends React.Component {
   getValueForIndex(index) {
     if (this.state.valueCache[index]) {
       return this.state.valueCache[index].value;
-    } else {
-      return null;
     }
+    return null;
   }
 
   getClassNameForIndex(index) {
     if (this.state.valueCache[index]) {
       return this.state.valueCache[index].className;
-    } else {
-      return this.props.classForValue(null);
     }
+    return this.props.classForValue(null);
   }
 
   getTitleForIndex(index) {
     if (this.state.valueCache[index]) {
       return this.state.valueCache[index].title;
-    } else {
-      return this.props.titleForValue ? this.props.titleForValue(null) : null;
     }
+    return this.props.titleForValue ? this.props.titleForValue(null) : null;
   }
 
   getTransformForWeek(weekIndex) {
     if (this.props.horizontal) {
       return `translate(${weekIndex * this.getSquareSizeWithGutter()}, 0)`;
-    } else {
-      return `translate(0, ${weekIndex * this.getSquareSizeWithGutter()})`;
     }
+    return `translate(0, ${weekIndex * this.getSquareSizeWithGutter()})`;
   }
 
   getTransformForMonthLabels() {
     if (this.props.horizontal) {
       return null;
-    } else {
-      return `translate(${this.getWeekWidth() + MONTH_LABEL_GUTTER_SIZE}, 0)`;
     }
+    return `translate(${this.getWeekWidth() + MONTH_LABEL_GUTTER_SIZE}, 0)`;
   }
 
   getTransformForAllWeeks() {
     if (this.props.horizontal) {
       return `translate(0, ${this.getMonthLabelSize()})`;
-    } else {
-      return null;
     }
+    return null;
   }
 
   getViewBox() {
     if (this.props.horizontal) {
       return `0 0 ${this.getWidth()} ${this.getHeight()}`;
-    } else {
-      return `0 0 ${this.getHeight()} ${this.getWidth()}`;
     }
+    return `0 0 ${this.getHeight()} ${this.getWidth()}`;
   }
 
   getSquareCoordinates(dayIndex) {
     if (this.props.horizontal) {
       return [0, dayIndex * this.getSquareSizeWithGutter()];
-    } else {
-      return [dayIndex * this.getSquareSizeWithGutter(), 0];
     }
+    return [dayIndex * this.getSquareSizeWithGutter(), 0];
   }
 
   getMonthLabelCoordinates(weekIndex) {
@@ -162,12 +147,17 @@ class CalendarHeatmap extends React.Component {
         weekIndex * this.getSquareSizeWithGutter(),
         this.getMonthLabelSize() - MONTH_LABEL_GUTTER_SIZE,
       ];
-    } else {
-      const verticalOffset = -2;
-      return [
-        0,
-        (weekIndex + 1) * this.getSquareSizeWithGutter() + verticalOffset,
-      ];
+    }
+    const verticalOffset = -2;
+    return [
+      0,
+      (weekIndex + 1) * this.getSquareSizeWithGutter() + verticalOffset,
+    ];
+  }
+
+  handleClick(value) {
+    if (this.props.onClick) {
+      this.props.onClick(value);
     }
   }
 
@@ -267,9 +257,7 @@ CalendarHeatmap.defaultProps = {
   horizontal: true,
   showMonthLabels: true,
   showOutOfRangeDays: false,
-  classForValue: (value) => {
-    return value ? 'color-filled' : 'color-empty';
-  },
+  classForValue: (value) => (value ? 'color-filled' : 'color-empty'),
 };
 
 export default CalendarHeatmap;
