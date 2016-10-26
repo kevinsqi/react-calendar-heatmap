@@ -20,7 +20,7 @@
     "build:demo": "NODE_ENV=demo webpack",
     "deploy:demo": "npm run build:demo && ./scripts/build_ghpages.sh",
     "clean": "rimraf build",
-    "lint": "eslint src test",
+    "lint": "eslint --ext .js,.jsx --cache . && echo \"eslint: no lint errors found\" || true",
     "prepublish": "npm run clean && npm run build",
     "test": "mocha --compilers js:babel-register --recursive --require ./test/setup.js",
     "test:watch": "npm test -- --watch",
