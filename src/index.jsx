@@ -87,6 +87,7 @@ class CalendarHeatmap extends React.Component {
         value: value,
         className: this.props.classForValue(value),
         title: this.props.titleForValue ? this.props.titleForValue(value) : null,
+        tooltipDataAttrs: this.getTooltipDataAttrsForValue(value),
       };
       return memo;
     }, {});
@@ -113,6 +114,24 @@ class CalendarHeatmap extends React.Component {
       return this.state.valueCache[index].title;
     } else {
       return this.props.titleForValue ? this.props.titleForValue(null) : null;
+    }
+  }
+
+  getTooltipDataAttrsForIndex(index) {
+    if (this.state.valueCache[index]) {
+      return this.state.valueCache[index].tooltipDataAttrs;
+    } else {
+      return this.getTooltipDataAttrsForValue(null);
+    }
+  }
+
+  getTooltipDataAttrsForValue(value) {
+    const { tooltipDataAttrs } = this.props;
+
+    if (typeof tooltipDataAttrs === "function") {
+      return tooltipDataAttrs(value);
+    } else {
+      return tooltipDataAttrs;
     }
   }
 
@@ -187,7 +206,7 @@ class CalendarHeatmap extends React.Component {
         title={this.getTitleForIndex(index)}
         className={this.getClassNameForIndex(index)}
         onClick={this.handleClick.bind(this, this.getValueForIndex(index))}
-        {...this.props.tooltipDataAttrs}
+        {...this.getTooltipDataAttrsForIndex(index)}
       >
       </rect>
     );
@@ -254,7 +273,7 @@ CalendarHeatmap.propTypes = {
   horizontal: PropTypes.bool,            // whether to orient horizontally or vertically
   showMonthLabels: PropTypes.bool,       // whether to show month labels
   showOutOfRangeDays: PropTypes.bool,    // whether to render squares for extra days in week after endDate, and before start date
-  tooltipDataAttrs: PropTypes.object,    // data attributes to add to square for setting 3rd party tooltips, e.g. { 'data-toggle': 'tooltip' } for bootstrap tooltips
+  tooltipDataAttrs: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),    // data attributes to add to square for setting 3rd party tooltips, e.g. { 'data-toggle': 'tooltip' } for bootstrap tooltips
   titleForValue: PropTypes.func,         // function which returns title text for value
   classForValue: PropTypes.func,         // function which returns html class for value
   onClick: PropTypes.func,               // callback function when a square is clicked
