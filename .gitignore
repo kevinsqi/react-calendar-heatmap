@@ -4,3 +4,4 @@ npm-debug.log
 build
 demo/index.js
 .cache
+.eslintcache
