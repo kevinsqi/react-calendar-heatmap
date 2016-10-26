@@ -141,12 +141,12 @@ describe('CalendarHeatmap props', () => {
           endDate={today}
           numDays={numDays}
           tooltipDataAttrs={({ count }) => ({
-            'data-tooltip': `Count: ${count}`
+            'data-tooltip': `Count: ${count}`,
           })}
         />
       );
 
-      assert(wrapper.find("[data-tooltip=\"Count: 1\"]").length === 1);
-    })
-  })
+      assert(wrapper.find('[data-tooltip="Count: 1"]').length === 1);
+    });
+  });
 });
