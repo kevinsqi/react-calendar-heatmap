@@ -90,7 +90,7 @@ describe('CalendarHeatmap props', () => {
         ]}
         endDate={today}
         numDays={numDays}
-        titleForValue={(value) => (value ? value.count : null)}
+        titleForValue={value => (value ? value.count : null)}
         classForValue={(value) => {
           if (!value) {
             return null;

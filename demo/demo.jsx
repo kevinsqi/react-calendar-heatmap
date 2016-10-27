@@ -4,8 +4,6 @@ import range from 'lodash.range';
 import CalendarHeatmap from '../src';
 import { shiftDate } from '../src/dateHelpers';
 
-console.log(`react-calendar-heatmap v${COMPONENT_VERSION}`);
-
 const today = new Date();
 
 function getRandomInt(min, max) {

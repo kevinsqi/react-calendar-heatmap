@@ -1,9 +1,15 @@
 {
   "extends": "airbnb",
   "rules": {
-    "max-len": 0
+    "max-len": "off",
+    "import/no-extraneous-dependencies": ["error", {"devDependencies": true}],
+    "no-param-reassign": "off",
+    "react/forbid-prop-types": "off",
+    "react/jsx-no-bind": "off",
+    "react/no-unused-prop-types": "off", // re-enable, there's a bug in eslint that leads to false-positives
   },
   "env": {
+    "browser": true,
     "mocha": true
   }
 }
