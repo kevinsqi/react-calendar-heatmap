@@ -205,7 +205,7 @@ class Demo extends React.Component {
 
         <DemoItem
           name="tooltipDataAttrs"
-          example="{ 'data-toggle': 'tooltip' }"
+          example="{ 'data-toggle': 'tooltip' } or (value) => ({ 'data-tooltip': `Tooltip: ${value}` })"
           description="Sets data attributes for all squares, for generating 3rd party hover tooltips (this demo uses bootstrap tooltips)."
         >
         </DemoItem>
