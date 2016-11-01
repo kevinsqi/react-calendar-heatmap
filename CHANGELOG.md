@@ -1,3 +1,7 @@
+## 1.1.0
+
+* Allow tooltipDataAttrs to be a function rather than an object (thanks @RSO!)
+
 ## 1.0.0
 
 * Improve tooltip support with tooltipDataAttrs prop, allowing usage of e.g. bootstrap tooltips
