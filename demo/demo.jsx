@@ -217,6 +217,13 @@ class Demo extends React.Component {
         >
         </DemoItem>
 
+        <DemoItem
+          name="transformDayElement"
+          example="(element, value, index) => React.cloneElement(element, {title: `${value.date}, ${index}`)"
+          description="A function to further transform generated svg element for a single day, can be used to attach event handlers, add tooltips and more"
+        >
+        </DemoItem>
+
         <hr />
         <div className="text-xs-center m-y-3">
           <a className="btn btn-info btn-lg" href={githubURL}>View project on Github</a>
