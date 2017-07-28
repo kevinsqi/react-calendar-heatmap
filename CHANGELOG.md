@@ -1,3 +1,7 @@
+## 1.2.0
+
+* Add transformDayElement prop to improve flexibility (thanks @otakustay!)
+
 ## 1.1.0
 
 * Allow tooltipDataAttrs to be a function rather than an object (thanks @RSO!)
