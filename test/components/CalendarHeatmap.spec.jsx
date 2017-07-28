@@ -127,6 +127,27 @@ describe('CalendarHeatmap props', () => {
     assert.equal(0, hidden.find('text').length);
   });
 
+  it('transformDayElement', () => {
+    const transform = (rect, value, index) => {
+      return React.cloneElement(rect, {'data-test': 'ok'});
+    };
+    const today = new Date();
+    const expectedStartDate = shiftDate(today, -1);
+    const wrapper = shallow(
+      <CalendarHeatmap
+        values={[
+          { date: today },
+          { date: expectedStartDate },
+        ]}
+        endDate={today}
+        numDays={1}
+        transformDayElement={transform}
+      />
+    );
+
+    assert(wrapper.find('[data-test="ok"]').length === 1);
+  });
+
   describe('tooltipDataAttrs', () => {
     it('allows a function to be passed', () => {
       const today = new Date();

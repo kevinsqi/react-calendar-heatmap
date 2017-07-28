@@ -184,7 +184,8 @@ class CalendarHeatmap extends React.Component {
       return null;
     }
     const [x, y] = this.getSquareCoordinates(dayIndex);
-    return (
+    const value = this.getValueForIndex(index);
+    const rect = (
       <rect
         key={index}
         width={SQUARE_SIZE}
@@ -193,10 +194,12 @@ class CalendarHeatmap extends React.Component {
         y={y}
         title={this.getTitleForIndex(index)}
         className={this.getClassNameForIndex(index)}
-        onClick={this.handleClick.bind(this, this.getValueForIndex(index))}
+        onClick={this.handleClick.bind(this, value)}
         {...this.getTooltipDataAttrsForIndex(index)}
       />
     );
+    const transformDayElement = this.props.transformDayElement;
+    return transformDayElement ? transformDayElement(rect, value, index) : rect;
   }
 
   renderWeek(weekIndex) {
@@ -264,6 +267,7 @@ CalendarHeatmap.propTypes = {
   titleForValue: PropTypes.func,         // function which returns title text for value
   classForValue: PropTypes.func,         // function which returns html class for value
   onClick: PropTypes.func,               // callback function when a square is clicked
+  transformDayElement: PropTypes.func    // function to further transform the svg element for a single day
 };
 
 CalendarHeatmap.defaultProps = {
