@@ -228,7 +228,7 @@ class CalendarHeatmap extends React.Component {
           x={x}
           y={y}
         >
-          {MONTH_LABELS[endOfWeek.getMonth()]}
+          {this.props.monthLabels[endOfWeek.getMonth()]}
         </text>
       ) : null;
     });
@@ -266,6 +266,7 @@ CalendarHeatmap.propTypes = {
   tooltipDataAttrs: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),    // data attributes to add to square for setting 3rd party tooltips, e.g. { 'data-toggle': 'tooltip' } for bootstrap tooltips
   titleForValue: PropTypes.func,         // function which returns title text for value
   classForValue: PropTypes.func,         // function which returns html class for value
+  monthLabels: PropTypes.arrayOf(PropTypes.string), // An array with 12 strings representing the text from janurary to december
   onClick: PropTypes.func,               // callback function when a square is clicked
   transformDayElement: PropTypes.func    // function to further transform the svg element for a single day
 };
@@ -277,6 +278,7 @@ CalendarHeatmap.defaultProps = {
   horizontal: true,
   showMonthLabels: true,
   showOutOfRangeDays: false,
+  monthLabels: MONTH_LABELS,
   classForValue: value => (value ? 'color-filled' : 'color-empty'),
 };
 

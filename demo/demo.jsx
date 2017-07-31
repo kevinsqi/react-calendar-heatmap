@@ -92,6 +92,7 @@ class Demo extends React.Component {
               titleForValue={customTitleForValue}
               tooltipDataAttrs={customTooltipDataAttrs}
               onClick={customOnClick}
+              monthLabels={['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12']}
             />
           </div>
         </div>
@@ -214,6 +215,13 @@ class Demo extends React.Component {
           name="classForValue"
           example="(value) => (value.count > 0 ? 'blue' : 'white')"
           description="Callback for determining CSS class to apply to each value."
+        >
+        </DemoItem>
+
+        <DemoItem
+          name="monthLabels"
+          example="['01', '02', ..., '12']"
+          description="An array with 12 strings representing the text from janurary to december"
         >
         </DemoItem>
 
