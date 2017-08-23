@@ -128,9 +128,7 @@ describe('CalendarHeatmap props', () => {
   });
 
   it('transformDayElement', () => {
-    const transform = (rect, value, index) => {
-      return React.cloneElement(rect, {'data-test': 'ok'});
-    };
+    const transform = rect => React.cloneElement(rect, { 'data-test': 'ok' });
     const today = new Date();
     const expectedStartDate = shiftDate(today, -1);
     const wrapper = shallow(
