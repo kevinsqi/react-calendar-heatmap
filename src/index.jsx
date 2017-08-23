@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import range from 'lodash.range';
 import reduce from 'lodash.reduce';
 import { DAYS_IN_WEEK, MILLISECONDS_IN_ONE_DAY, MONTH_LABELS } from './constants';
@@ -267,7 +268,7 @@ CalendarHeatmap.propTypes = {
   titleForValue: PropTypes.func,         // function which returns title text for value
   classForValue: PropTypes.func,         // function which returns html class for value
   onClick: PropTypes.func,               // callback function when a square is clicked
-  transformDayElement: PropTypes.func    // function to further transform the svg element for a single day
+  transformDayElement: PropTypes.func,    // function to further transform the svg element for a single day
 };
 
 CalendarHeatmap.defaultProps = {
