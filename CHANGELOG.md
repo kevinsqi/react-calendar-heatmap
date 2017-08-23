@@ -1,3 +1,7 @@
+## 1.2.1
+
+* Update React to `v15.6.1` & add `prop-types` package (thanks @easingthemes!)
+
 ## 1.2.0
 
 * Add transformDayElement prop to improve flexibility (thanks @otakustay!)
