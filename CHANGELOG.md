@@ -1,3 +1,7 @@
+## 1.3.0
+
+* Allow customizeable month strings (thanks @otakustay!)
+
 ## 1.2.1
 
 * Update React to `v15.6.1` & add `prop-types` package (thanks @easingthemes!)
