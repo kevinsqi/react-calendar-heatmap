@@ -141,6 +141,19 @@ class Demo extends React.Component {
         </DemoItem>
 
         <DemoItem
+          name="showWeekdayLabels"
+          example="true"
+          description="Toggle for removing weekday labels."
+        >
+          <div className="row">
+            <CalendarHeatmap
+              values={randomValues}
+              showWeekdayLabels={false}
+            />
+          </div>
+        </DemoItem>
+
+        <DemoItem
           name="showOutOfRangeDays"
           example="false"
           description="Toggle display of extra days in week that are past endDate and before beginning of range."
@@ -222,6 +235,13 @@ class Demo extends React.Component {
           name="monthLabels"
           example="['01', '02', ..., '12']"
           description="An array with 12 strings representing the text from janurary to december"
+        >
+        </DemoItem>
+
+        <DemoItem
+          name="weekdayLabels"
+          example="['Sun', 'Mon', ..., 'Sat']"
+          description="An array with 7 strings representing the text from Sunday to Saturday"
         >
         </DemoItem>
 
