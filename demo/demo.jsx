@@ -5,6 +5,10 @@ import CalendarHeatmap from '../src';
 import { shiftDate } from '../src/dateHelpers';
 
 const today = new Date();
+let date100DaysBefore = new Date();
+let date31DaysBefore = new Date();
+date100DaysBefore.setDate(today.getDate() - 100);
+date31DaysBefore.setDate(today.getDate() - 31);
 
 function getRandomInt(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -114,9 +118,9 @@ class Demo extends React.Component {
         </DemoItem>
 
         <DemoItem
-          name="numDays"
-          example="200"
-          description="Time span in days."
+          name="startDate"
+          example="new Date()"
+          description="Start of date range - a Date object, parseable string, or millisecond timestamp."
         >
         </DemoItem>
 
@@ -156,20 +160,20 @@ class Demo extends React.Component {
         <DemoItem
           name="horizontal"
           example="true"
-          description="Whether to orient horizontally or vertically. Can be used in combination with numDays/endDate to show just the current month."
+          description="Whether to orient horizontally or vertically. Can be used in combination with startDate/endDate to show just the current month."
         >
           <div className="row">
             <div className="col-xs-6">
               <CalendarHeatmap
                 values={randomValues}
-                numDays={100}
+                startDate={date100DaysBefore}
                 horizontal={false}
               />
             </div>
             <div className="col-xs-6">
               <CalendarHeatmap
                 values={randomValues}
-                numDays={31}
+                startDate={date31DaysBefore}
                 horizontal={false}
                 showMonthLabels={false}
               />
