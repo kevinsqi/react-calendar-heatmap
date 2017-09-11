@@ -4,6 +4,7 @@ import range from 'lodash.range';
 import reduce from 'lodash.reduce';
 import { DAYS_IN_WEEK, MILLISECONDS_IN_ONE_DAY, MONTH_LABELS } from './constants';
 import { shiftDate, getBeginningTimeForDate, convertToDate } from './dateHelpers';
+import moment from 'moment';
 
 const SQUARE_SIZE = 10;
 const MONTH_LABEL_GUTTER_SIZE = 4;
@@ -23,6 +24,15 @@ class CalendarHeatmap extends React.Component {
     });
   }
 
+  getDateDifferenceInDays() {
+    const { startDate, endDate, numDays } = this.props;
+    if (numDays) {
+      console.warn('numDays is the deprecated prop, so it will be removed in the next release. Consider using of startDate prop instead.');
+      return numDays;
+    }
+    return moment(endDate).diff(startDate, 'days')
+  }
+
   getSquareSizeWithGutter() {
     return SQUARE_SIZE + this.props.gutterSize;
   }
@@ -37,7 +47,7 @@ class CalendarHeatmap extends React.Component {
   }
 
   getStartDate() {
-    return shiftDate(this.getEndDate(), -this.props.numDays + 1); // +1 because endDate is inclusive
+    return shiftDate(this.getEndDate(), -this.getDateDifferenceInDays() + 1); // +1 because endDate is inclusive
   }
 
   getEndDate() {
@@ -57,7 +67,7 @@ class CalendarHeatmap extends React.Component {
   }
 
   getWeekCount() {
-    const numDaysRoundedToWeek = this.props.numDays + this.getNumEmptyDaysAtStart() + this.getNumEmptyDaysAtEnd();
+    const numDaysRoundedToWeek = this.getDateDifferenceInDays() + this.getNumEmptyDaysAtStart() + this.getNumEmptyDaysAtEnd();
     return Math.ceil(numDaysRoundedToWeek / DAYS_IN_WEEK);
   }
 
@@ -180,7 +190,7 @@ class CalendarHeatmap extends React.Component {
   }
 
   renderSquare(dayIndex, index) {
-    const indexOutOfRange = index < this.getNumEmptyDaysAtStart() || index >= this.getNumEmptyDaysAtStart() + this.props.numDays;
+    const indexOutOfRange = index < this.getNumEmptyDaysAtStart() || index >= this.getNumEmptyDaysAtStart() + this.getDateDifferenceInDays();
     if (indexOutOfRange && !this.props.showOutOfRangeDays) {
       return null;
     }
@@ -259,6 +269,7 @@ CalendarHeatmap.propTypes = {
     }).isRequired
   ).isRequired,
   numDays: PropTypes.number,             // number of days back from endDate to show
+  startDate: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.instanceOf(Date)]),  // start of date range
   endDate: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.instanceOf(Date)]),  // end of date range
   gutterSize: PropTypes.number,          // size of space between squares
   horizontal: PropTypes.bool,            // whether to orient horizontally or vertically
@@ -272,8 +283,12 @@ CalendarHeatmap.propTypes = {
   transformDayElement: PropTypes.func,    // function to further transform the svg element for a single day
 };
 
+const currentDate = new Date();
+let date200daysAgo = new Date();
+date200daysAgo.setDate(currentDate.getDate() - 200);
+
 CalendarHeatmap.defaultProps = {
-  numDays: 200,
+  startDate: date200daysAgo,
   endDate: new Date(),
   gutterSize: 1,
   horizontal: true,

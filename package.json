@@ -55,6 +55,7 @@
   },
   "dependencies": {
     "lodash.range": "^3.1.4",
-    "lodash.reduce": "^4.3.0"
+    "lodash.reduce": "^4.3.0",
+    "moment": "^2.18.1"
   }
 }
