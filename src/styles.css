@@ -10,6 +10,10 @@
   fill: #aaa;
 }
 
+.react-calendar-heatmap .small-text {
+  font-size: 5px;
+}
+
 .react-calendar-heatmap rect:hover {
   stroke: #555;
   stroke-width: 1px;

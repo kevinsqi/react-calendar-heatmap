@@ -39,8 +39,10 @@ class CalendarHeatmap extends React.Component {
   getWeekdayLabelSize() {
     if (!this.props.showWeekdayLabels) {
       return 0;
+    } else if (this.props.horizontal) {
+      return 30;
     }
-    return 30;
+    return SQUARE_SIZE * 1.5;
   }
 
   getStartDate() {
@@ -77,7 +79,7 @@ class CalendarHeatmap extends React.Component {
   }
 
   getHeight() {
-    return this.getWeekWidth() + (this.getMonthLabelSize() - this.props.gutterSize);
+    return this.getWeekWidth() + (this.getMonthLabelSize() - this.props.gutterSize) + this.getWeekdayLabelSize();
   }
 
   getValueCache(values) {
@@ -142,21 +144,21 @@ class CalendarHeatmap extends React.Component {
     if (this.props.horizontal) {
       return `translate(${SQUARE_SIZE}, ${this.getMonthLabelSize()})`;
     }
-    return `translate(${this.getWeekWidth() + MONTH_LABEL_GUTTER_SIZE}, ${this.getMonthLabelSize()})`;
+    return null;
   }
 
   getTransformForMonthLabels() {
     if (this.props.horizontal) {
       return `translate(${this.getWeekdayLabelSize()}, 0)`;
     }
-    return `translate(${this.getWeekWidth() + MONTH_LABEL_GUTTER_SIZE}, 0)`;
+    return `translate(${this.getWeekWidth() + MONTH_LABEL_GUTTER_SIZE}, ${this.getWeekdayLabelSize()})`;
   }
 
   getTransformForAllWeeks() {
     if (this.props.horizontal) {
       return `translate(${this.getWeekdayLabelSize()}, ${this.getMonthLabelSize()})`;
     }
-    return null;
+    return `translate(0, ${this.getWeekdayLabelSize()})`;
   }
 
   getViewBox() {
@@ -181,8 +183,8 @@ class CalendarHeatmap extends React.Component {
       ];
     }
     return [
-      0,
-      (dayIndex + 1) * SQUARE_SIZE + dayIndex * this.props.gutterSize
+      dayIndex * SQUARE_SIZE + dayIndex * this.props.gutterSize,
+      SQUARE_SIZE
     ];
   }
 
@@ -273,6 +275,7 @@ class CalendarHeatmap extends React.Component {
           key={dayIndex}
           x={x}
           y={y}
+          className={this.props.horizontal ? '' : 'small-text'}
         >
           {weekdayLabel}
         </text>
