@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import range from 'lodash.range';
 import reduce from 'lodash.reduce';
-import {DAYS_IN_WEEK, MILLISECONDS_IN_ONE_DAY, DAY_LABELS, MONTH_LABELS} from './constants';
-import {shiftDate, getBeginningTimeForDate, convertToDate} from './dateHelpers';
+import { DAYS_IN_WEEK, MILLISECONDS_IN_ONE_DAY, DAY_LABELS, MONTH_LABELS } from './constants';
+import { shiftDate, getBeginningTimeForDate, convertToDate } from './dateHelpers';
 
 const SQUARE_SIZE = 10;
 const MONTH_LABEL_GUTTER_SIZE = 4;
@@ -75,7 +75,7 @@ class CalendarHeatmap extends React.Component {
   }
 
   getWidth() {
-    return (this.getWeekCount() * this.getSquareSizeWithGutter()) - this.props.gutterSize + this.getWeekdayLabelSize();
+    return (this.getWeekCount() * this.getSquareSizeWithGutter()) - (this.props.gutterSize - this.getWeekdayLabelSize());
   }
 
   getHeight() {
@@ -121,11 +121,11 @@ class CalendarHeatmap extends React.Component {
     if (this.state.valueCache[index]) {
       return this.state.valueCache[index].tooltipDataAttrs;
     }
-    return this.getTooltipDataAttrsForValue({date: null, count: null});
+    return this.getTooltipDataAttrsForValue({ date: null, count: null });
   }
 
   getTooltipDataAttrsForValue(value) {
-    const {tooltipDataAttrs} = this.props;
+    const { tooltipDataAttrs } = this.props;
 
     if (typeof tooltipDataAttrs === 'function') {
       return tooltipDataAttrs(value);
@@ -179,12 +179,12 @@ class CalendarHeatmap extends React.Component {
     if (this.props.horizontal) {
       return [
         0,
-        (dayIndex + 1) * SQUARE_SIZE + dayIndex * this.props.gutterSize
+        ((dayIndex + 1) * SQUARE_SIZE) + (dayIndex * this.props.gutterSize),
       ];
     }
     return [
-      dayIndex * SQUARE_SIZE + dayIndex * this.props.gutterSize,
-      SQUARE_SIZE
+      (dayIndex * SQUARE_SIZE) + (dayIndex * this.props.gutterSize),
+      SQUARE_SIZE,
     ];
   }
 
@@ -270,7 +270,7 @@ class CalendarHeatmap extends React.Component {
     }
     return this.props.weekdayLabels.map((weekdayLabel, dayIndex) => {
       const [x, y] = this.getWeekdayLabelCoordinates(dayIndex);
-      return dayIndex & 1 ? (
+      return dayIndex & 1 ? ( // eslint-disable-line no-bitwise
         <text
           key={dayIndex}
           x={x}

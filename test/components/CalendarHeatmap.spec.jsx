@@ -116,7 +116,7 @@ describe('CalendarHeatmap props', () => {
         showMonthLabels
       />
     );
-    assert(visible.find('text').length > 0);
+    assert(visible.find('text').length > 3);
 
     const hidden = shallow(
       <CalendarHeatmap
@@ -124,7 +124,36 @@ describe('CalendarHeatmap props', () => {
         showMonthLabels={false}
       />
     );
-    assert.equal(0, hidden.find('text').length);
+    assert.equal(3, hidden.find('text').length);
+  });
+
+  it('showWeekdayLabels', () => {
+    const visible = shallow(
+      <CalendarHeatmap
+        numDays={7}
+        values={[]}
+        showWeekdayLabels
+      />
+    );
+    assert(visible.find('text').length > 2);
+
+    const hidden = shallow(
+      <CalendarHeatmap
+        values={[]}
+        showWeekdayLabels={false}
+      />
+    );
+    assert.equal(7, hidden.find('text').length);
+
+    // should display text with .small-text class
+    // in case if horizontal prop value is false
+    const vertical = shallow(
+      <CalendarHeatmap
+        values={[]}
+        horizontal={false}
+      />
+    );
+    assert.equal(3, vertical.find('text.small-text').length);
   });
 
   it('transformDayElement', () => {
