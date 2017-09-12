@@ -2,7 +2,7 @@ import React from 'react';
 import { assert } from 'chai';
 import { shallow } from 'enzyme';
 import CalendarHeatmap from '../../src';
-import {dateNDaysAgo, shiftDate} from '../../src/dateHelpers';
+import { dateNDaysAgo, shiftDate } from '../../src/dateHelpers';
 
 
 describe('CalendarHeatmap', () => {
