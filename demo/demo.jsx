@@ -2,13 +2,11 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import range from 'lodash.range';
 import CalendarHeatmap from '../src';
-import { shiftDate } from '../src/dateHelpers';
+import {dateNDaysAgo, shiftDate} from '../src/dateHelpers';
 
 const today = new Date();
-let date100DaysBefore = new Date();
-let date31DaysBefore = new Date();
-date100DaysBefore.setDate(today.getDate() - 100);
-date31DaysBefore.setDate(today.getDate() - 31);
+const date100DaysBefore = dateNDaysAgo(100);
+const date31DaysBefore = dateNDaysAgo(31);
 
 function getRandomInt(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;

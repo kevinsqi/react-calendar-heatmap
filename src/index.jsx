@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import range from 'lodash.range';
 import reduce from 'lodash.reduce';
 import { DAYS_IN_WEEK, MILLISECONDS_IN_ONE_DAY, MONTH_LABELS } from './constants';
-import { shiftDate, getBeginningTimeForDate, convertToDate } from './dateHelpers';
+import {shiftDate, getBeginningTimeForDate, convertToDate, dateNDaysAgo} from './dateHelpers';
 import moment from 'moment';
 
 const SQUARE_SIZE = 10;
@@ -283,12 +283,8 @@ CalendarHeatmap.propTypes = {
   transformDayElement: PropTypes.func,    // function to further transform the svg element for a single day
 };
 
-const currentDate = new Date();
-let date200daysAgo = new Date();
-date200daysAgo.setDate(currentDate.getDate() - 200);
-
 CalendarHeatmap.defaultProps = {
-  startDate: date200daysAgo,
+  startDate: dateNDaysAgo(200),
   endDate: new Date(),
   gutterSize: 1,
   horizontal: true,
