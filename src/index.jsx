@@ -193,11 +193,12 @@ class CalendarHeatmap extends React.Component {
         height={SQUARE_SIZE}
         x={x}
         y={y}
-        title={this.getTitleForIndex(index)}
         className={this.getClassNameForIndex(index)}
         onClick={this.handleClick.bind(this, value)}
         {...this.getTooltipDataAttrsForIndex(index)}
-      />
+      >
+        <title>{this.getTitleForIndex(index)}</title>
+      </rect>
     );
     const transformDayElement = this.props.transformDayElement;
     return transformDayElement ? transformDayElement(rect, value, index) : rect;
@@ -241,6 +242,7 @@ class CalendarHeatmap extends React.Component {
         className="react-calendar-heatmap"
         viewBox={this.getViewBox()}
       >
+        <title></title>
         <g transform={this.getTransformForMonthLabels()}>
           {this.renderMonthLabels()}
         </g>
