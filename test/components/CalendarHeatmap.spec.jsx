@@ -116,7 +116,7 @@ describe('CalendarHeatmap props', () => {
         showMonthLabels
       />
     );
-    assert(visible.find('text').length > 3);
+    assert(visible.find('text').length > 0);
 
     const hidden = shallow(
       <CalendarHeatmap
@@ -124,7 +124,7 @@ describe('CalendarHeatmap props', () => {
         showMonthLabels={false}
       />
     );
-    assert.equal(3, hidden.find('text').length);
+    assert.equal(0, hidden.find('text').length);
   });
 
   it('showWeekdayLabels', () => {
@@ -151,6 +151,7 @@ describe('CalendarHeatmap props', () => {
       <CalendarHeatmap
         values={[]}
         horizontal={false}
+        showWeekdayLabels
       />
     );
     assert.equal(3, vertical.find('text.small-text').length);

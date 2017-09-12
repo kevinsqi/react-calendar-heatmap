@@ -331,7 +331,7 @@ CalendarHeatmap.defaultProps = {
   gutterSize: 1,
   horizontal: true,
   showMonthLabels: true,
-  showWeekdayLabels: true,
+  showWeekdayLabels: false,
   showOutOfRangeDays: false,
   monthLabels: MONTH_LABELS,
   weekdayLabels: DAY_LABELS,
