@@ -4,7 +4,6 @@ import range from 'lodash.range';
 import reduce from 'lodash.reduce';
 import { DAYS_IN_WEEK, MILLISECONDS_IN_ONE_DAY, MONTH_LABELS } from './constants';
 import {shiftDate, getBeginningTimeForDate, convertToDate, dateNDaysAgo} from './dateHelpers';
-import moment from 'moment';
 
 const SQUARE_SIZE = 10;
 const MONTH_LABEL_GUTTER_SIZE = 4;
@@ -30,7 +29,8 @@ class CalendarHeatmap extends React.Component {
       console.warn('numDays is the deprecated prop, so it will be removed in the next release. Consider using of startDate prop instead.');
       return numDays;
     }
-    return moment(endDate).diff(startDate, 'days')
+    const timeDiff = endDate - startDate;
+    return Math.ceil(timeDiff / (1000 * 3600 * 24));
   }
 
   getSquareSizeWithGutter() {
