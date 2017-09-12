@@ -242,7 +242,6 @@ class CalendarHeatmap extends React.Component {
         className="react-calendar-heatmap"
         viewBox={this.getViewBox()}
       >
-        <title></title>
         <g transform={this.getTransformForMonthLabels()}>
           {this.renderMonthLabels()}
         </g>
