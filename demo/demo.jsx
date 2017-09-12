@@ -198,6 +198,20 @@ class Demo extends React.Component {
         </DemoItem>
 
         <DemoItem
+          name="onMouseOver"
+          example="(event, value) => { console.log(event, value) }"
+          description="Callback to invoke when mouse pointer is over a square."
+        >
+        </DemoItem>
+
+        <DemoItem
+          name="onMouseLeave"
+          example="(event, value) => { console.log(event, value) }"
+          description="Callback to invoke when mouse pointer is left a square."
+        >
+        </DemoItem>
+
+        <DemoItem
           name="titleForValue"
           example="(value) => `Date is ${value.date}`"
           description="Function to determine each square's title attribute, for generating 3rd party hover tooltips (may also need to configure tooltipDataAttrs)."

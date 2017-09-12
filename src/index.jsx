@@ -179,6 +179,18 @@ class CalendarHeatmap extends React.Component {
     }
   }
 
+  handleMouseOver(e, value) {
+    if (this.props.onMouseOver) {
+      this.props.onMouseOver(e, value);
+    }
+  }
+
+  handleMouseLeave(e, value) {
+    if (this.props.onMouseLeave) {
+      this.props.onMouseLeave(e, value);
+    }
+  }
+
   renderSquare(dayIndex, index) {
     const indexOutOfRange = index < this.getNumEmptyDaysAtStart() || index >= this.getNumEmptyDaysAtStart() + this.props.numDays;
     if (indexOutOfRange && !this.props.showOutOfRangeDays) {
@@ -196,6 +208,8 @@ class CalendarHeatmap extends React.Component {
         title={this.getTitleForIndex(index)}
         className={this.getClassNameForIndex(index)}
         onClick={this.handleClick.bind(this, value)}
+        onMouseOver={(e) => this.handleMouseOver(e, value)}
+        onMouseLeave={(e) => this.handleMouseLeave(e, value)}
         {...this.getTooltipDataAttrsForIndex(index)}
       />
     );
@@ -269,6 +283,8 @@ CalendarHeatmap.propTypes = {
   classForValue: PropTypes.func,         // function which returns html class for value
   monthLabels: PropTypes.arrayOf(PropTypes.string), // An array with 12 strings representing the text from janurary to december
   onClick: PropTypes.func,               // callback function when a square is clicked
+  onMouseOver: PropTypes.func,           // callback function when mouse pointer is over a square
+  onMouseLeave: PropTypes.func,          // callback function when mouse pointer is left a square
   transformDayElement: PropTypes.func,    // function to further transform the svg element for a single day
 };
 
