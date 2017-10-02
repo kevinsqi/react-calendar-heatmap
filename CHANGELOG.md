@@ -1,3 +1,9 @@
+## 1.4.0
+
+* Add weekday label display (thanks @andreysaleba!)
+* Add title element to tooltip (thanks @andreysaleba!)
+* Add onMouseLeave, onMouseOver props (thanks @andreysaleba!)
+
 ## 1.3.0
 
 * Allow customizeable month strings (thanks @otakustay!)
