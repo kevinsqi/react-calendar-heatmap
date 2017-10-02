@@ -127,6 +127,36 @@ describe('CalendarHeatmap props', () => {
     assert.equal(0, hidden.find('text').length);
   });
 
+  it('showWeekdayLabels', () => {
+    const visible = shallow(
+      <CalendarHeatmap
+        numDays={7}
+        values={[]}
+        showWeekdayLabels
+      />
+    );
+    assert(visible.find('text').length > 2);
+
+    const hidden = shallow(
+      <CalendarHeatmap
+        values={[]}
+        showWeekdayLabels={false}
+      />
+    );
+    assert.equal(7, hidden.find('text').length);
+
+    // should display text with .small-text class
+    // in case if horizontal prop value is false
+    const vertical = shallow(
+      <CalendarHeatmap
+        values={[]}
+        horizontal={false}
+        showWeekdayLabels
+      />
+    );
+    assert.equal(3, vertical.find('text.small-text').length);
+  });
+
   it('transformDayElement', () => {
     const transform = rect => React.cloneElement(rect, { 'data-test': 'ok' });
     const today = new Date();

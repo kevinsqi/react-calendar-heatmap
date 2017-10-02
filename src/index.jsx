@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import range from 'lodash.range';
 import reduce from 'lodash.reduce';
-import { DAYS_IN_WEEK, MILLISECONDS_IN_ONE_DAY, MONTH_LABELS } from './constants';
+import { DAYS_IN_WEEK, MILLISECONDS_IN_ONE_DAY, DAY_LABELS, MONTH_LABELS } from './constants';
 import { shiftDate, getBeginningTimeForDate, convertToDate } from './dateHelpers';
 
 const SQUARE_SIZE = 10;
@@ -36,6 +36,15 @@ class CalendarHeatmap extends React.Component {
     return 2 * (SQUARE_SIZE + MONTH_LABEL_GUTTER_SIZE);
   }
 
+  getWeekdayLabelSize() {
+    if (!this.props.showWeekdayLabels) {
+      return 0;
+    } else if (this.props.horizontal) {
+      return 30;
+    }
+    return SQUARE_SIZE * 1.5;
+  }
+
   getStartDate() {
     return shiftDate(this.getEndDate(), -this.props.numDays + 1); // +1 because endDate is inclusive
   }
@@ -66,11 +75,11 @@ class CalendarHeatmap extends React.Component {
   }
 
   getWidth() {
-    return (this.getWeekCount() * this.getSquareSizeWithGutter()) - this.props.gutterSize;
+    return (this.getWeekCount() * this.getSquareSizeWithGutter()) - (this.props.gutterSize - this.getWeekdayLabelSize());
   }
 
   getHeight() {
-    return this.getWeekWidth() + (this.getMonthLabelSize() - this.props.gutterSize);
+    return this.getWeekWidth() + (this.getMonthLabelSize() - this.props.gutterSize) + this.getWeekdayLabelSize();
   }
 
   getValueCache(values) {
@@ -131,18 +140,25 @@ class CalendarHeatmap extends React.Component {
     return `translate(0, ${weekIndex * this.getSquareSizeWithGutter()})`;
   }
 
+  getTransformForWeekdayLabels() {
+    if (this.props.horizontal) {
+      return `translate(${SQUARE_SIZE}, ${this.getMonthLabelSize()})`;
+    }
+    return null;
+  }
+
   getTransformForMonthLabels() {
     if (this.props.horizontal) {
-      return null;
+      return `translate(${this.getWeekdayLabelSize()}, 0)`;
     }
-    return `translate(${this.getWeekWidth() + MONTH_LABEL_GUTTER_SIZE}, 0)`;
+    return `translate(${this.getWeekWidth() + MONTH_LABEL_GUTTER_SIZE}, ${this.getWeekdayLabelSize()})`;
   }
 
   getTransformForAllWeeks() {
     if (this.props.horizontal) {
-      return `translate(0, ${this.getMonthLabelSize()})`;
+      return `translate(${this.getWeekdayLabelSize()}, ${this.getMonthLabelSize()})`;
     }
-    return null;
+    return `translate(0, ${this.getWeekdayLabelSize()})`;
   }
 
   getViewBox() {
@@ -157,6 +173,19 @@ class CalendarHeatmap extends React.Component {
       return [0, dayIndex * this.getSquareSizeWithGutter()];
     }
     return [dayIndex * this.getSquareSizeWithGutter(), 0];
+  }
+
+  getWeekdayLabelCoordinates(dayIndex) {
+    if (this.props.horizontal) {
+      return [
+        0,
+        ((dayIndex + 1) * SQUARE_SIZE) + (dayIndex * this.props.gutterSize),
+      ];
+    }
+    return [
+      (dayIndex * SQUARE_SIZE) + (dayIndex * this.props.gutterSize),
+      SQUARE_SIZE,
+    ];
   }
 
   getMonthLabelCoordinates(weekIndex) {
@@ -235,6 +264,25 @@ class CalendarHeatmap extends React.Component {
     });
   }
 
+  renderWeekdayLabels() {
+    if (!this.props.showWeekdayLabels) {
+      return null;
+    }
+    return this.props.weekdayLabels.map((weekdayLabel, dayIndex) => {
+      const [x, y] = this.getWeekdayLabelCoordinates(dayIndex);
+      return dayIndex & 1 ? ( // eslint-disable-line no-bitwise
+        <text
+          key={dayIndex}
+          x={x}
+          y={y}
+          className={this.props.horizontal ? '' : 'small-text'}
+        >
+          {weekdayLabel}
+        </text>
+      ) : null;
+    });
+  }
+
   render() {
     return (
       <svg
@@ -246,6 +294,9 @@ class CalendarHeatmap extends React.Component {
         </g>
         <g transform={this.getTransformForAllWeeks()}>
           {this.renderAllWeeks()}
+        </g>
+        <g transform={this.getTransformForWeekdayLabels()}>
+          {this.renderWeekdayLabels()}
         </g>
       </svg>
     );
@@ -263,11 +314,13 @@ CalendarHeatmap.propTypes = {
   gutterSize: PropTypes.number,          // size of space between squares
   horizontal: PropTypes.bool,            // whether to orient horizontally or vertically
   showMonthLabels: PropTypes.bool,       // whether to show month labels
+  showWeekdayLabels: PropTypes.bool,       // whether to show weekday labels
   showOutOfRangeDays: PropTypes.bool,    // whether to render squares for extra days in week after endDate, and before start date
   tooltipDataAttrs: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),    // data attributes to add to square for setting 3rd party tooltips, e.g. { 'data-toggle': 'tooltip' } for bootstrap tooltips
   titleForValue: PropTypes.func,         // function which returns title text for value
   classForValue: PropTypes.func,         // function which returns html class for value
   monthLabels: PropTypes.arrayOf(PropTypes.string), // An array with 12 strings representing the text from janurary to december
+  weekdayLabels: PropTypes.arrayOf(PropTypes.string), // An array with 7 strings representing the text from Sun to Sat
   onClick: PropTypes.func,               // callback function when a square is clicked
   transformDayElement: PropTypes.func,    // function to further transform the svg element for a single day
 };
@@ -278,8 +331,10 @@ CalendarHeatmap.defaultProps = {
   gutterSize: 1,
   horizontal: true,
   showMonthLabels: true,
+  showWeekdayLabels: false,
   showOutOfRangeDays: false,
   monthLabels: MONTH_LABELS,
+  weekdayLabels: DAY_LABELS,
   classForValue: value => (value ? 'color-filled' : 'color-empty'),
 };
 
