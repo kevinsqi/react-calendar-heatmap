@@ -2,7 +2,7 @@
   "name": "react-calendar-heatmap",
   "version": "1.4.0",
   "description": "A calendar heatmap component built on SVG, inspired by github's commit calendar graph.",
-  "author": "Kevin Qi <iqnivek@gmail.com>",
+  "author": "PatientsLikeMe Engineering",
   "main": "./build/index.js",
   "repository": {
     "type": "git",
@@ -25,6 +25,13 @@
     "test": "mocha --compilers js:babel-register --recursive --require ./test/setup.js ./test/components/**/*.js* || true",
     "test:watch": "npm test -- --watch",
     "start": "webpack-dev-server --progress --inline"
+  },
+  "peerDependencies": {
+    "react": "^0.14.0 || ^15.0.0 || ^16.0.0"
+  },
+  "dependencies": {
+    "lodash.range": "^3.1.4",
+    "lodash.reduce": "^4.3.0"
   },
   "devDependencies": {
     "babel-core": "^6.3.15",
@@ -49,12 +56,5 @@
     "rimraf": "^2.3.4",
     "webpack": "^1.12.9",
     "webpack-dev-server": "^1.14.1"
-  },
-  "peerDependencies": {
-    "react": "^0.14.0 || ^15.5.0"
-  },
-  "dependencies": {
-    "lodash.range": "^3.1.4",
-    "lodash.reduce": "^4.3.0"
   }
 }
