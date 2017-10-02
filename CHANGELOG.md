@@ -1,3 +1,7 @@
+## 1.4.1
+
+* Allow React 16 as a peerDependency
+
 ## 1.4.0
 
 * Add weekday label display (thanks @andreysaleba!)
