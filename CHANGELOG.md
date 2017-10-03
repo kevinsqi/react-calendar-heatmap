@@ -1,3 +1,7 @@
+## 1.5.0
+
+* Add startDate prop & deprecate numDays prop (thanks @andreysaleba!)
+
 ## 1.4.1
 
 * Allow React 16 as a peerDependency
