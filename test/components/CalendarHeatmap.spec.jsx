@@ -1,34 +1,34 @@
 import React from 'react';
-import { assert } from 'chai';
-import { shallow } from 'enzyme';
+import {assert} from 'chai';
+import {shallow} from 'enzyme';
 import CalendarHeatmap from '../../src';
-import { shiftDate } from '../../src/dateHelpers';
+import {dateNDaysAgo, shiftDate} from '../../src/dateHelpers';
 
 
 describe('CalendarHeatmap', () => {
   it('should render as an svg', () => {
     const wrapper = shallow(
-      <CalendarHeatmap values={[]} />
+      <CalendarHeatmap values={[]}/>
     );
     assert.equal(1, wrapper.find('svg').length);
   });
 
   it('should not throw exceptions in base case', () => {
-    assert.doesNotThrow(() => <CalendarHeatmap values={[]} />);
+    assert.doesNotThrow(() => <CalendarHeatmap values={[]}/>);
   });
 });
 
 describe('CalendarHeatmap props', () => {
   it('values', () => {
     const values = [
-      { date: '2016-01-01' },
-      { date: (new Date('2016-01-02')).getTime() },
-      { date: new Date('2016-01-03') },
+      {date: '2016-01-01'},
+      {date: (new Date('2016-01-02')).getTime()},
+      {date: new Date('2016-01-03')},
     ];
     const wrapper = shallow(
       <CalendarHeatmap
         endDate={new Date('2016-02-01')}
-        numDays={40}
+        startDate={new Date('2015-12-20')}
         values={values}
       />
     );
@@ -38,22 +38,22 @@ describe('CalendarHeatmap props', () => {
 
   it('horizontal', () => {
     const horizontal = shallow(
-      <CalendarHeatmap numDays={100} values={[]} horizontal />
+      <CalendarHeatmap startDate={dateNDaysAgo(100)} values={[]} horizontal/>
     );
     const [, , horWidth, horHeight] = horizontal.prop('viewBox').split(' ');
     assert(Number(horWidth) > Number(horHeight), 'horizontal orientation width should be greater than height');
 
     const vertical = shallow(
-      <CalendarHeatmap numDays={100} values={[]} horizontal={false} />
+      <CalendarHeatmap startDate={dateNDaysAgo(100)} values={[]} horizontal={false}/>
     );
     const [, , vertWidth, vertHeight] = vertical.prop('viewBox').split(' ');
     assert(Number(vertWidth) < Number(vertHeight), 'vertical orientation width should be less than height');
   });
 
-  it('endDate', () => {
+  it('startDate', () => {
     const today = new Date();
     const wrapper = shallow(
-      <CalendarHeatmap values={[]} endDate={today} numDays={10} />
+      <CalendarHeatmap values={[]} endDate={today} startDate={today}/>
     );
 
     assert(
@@ -62,20 +62,16 @@ describe('CalendarHeatmap props', () => {
     );
   });
 
-  it('numDays', () => {
+  it('endDate', () => {
     const today = new Date();
-    const numDays = 10;
-    const expectedStartDate = shiftDate(today, -numDays + 1);
     const wrapper = shallow(
-      <CalendarHeatmap values={[]} endDate={today} numDays={numDays} />
+      <CalendarHeatmap values={[]} endDate={today} startDate={dateNDaysAgo(10)}/>
     );
 
     assert(
-      expectedStartDate.getDate() === wrapper.instance().getStartDate().getDate() &&
-      expectedStartDate.getMonth() === wrapper.instance().getStartDate().getMonth()
+      today.getDate() === wrapper.instance().getEndDate().getDate() &&
+      today.getMonth() === wrapper.instance().getEndDate().getMonth()
     );
-
-    assert.equal(numDays, wrapper.find('rect').length);
   });
 
   it('classForValue', () => {
@@ -85,11 +81,11 @@ describe('CalendarHeatmap props', () => {
     const wrapper = shallow(
       <CalendarHeatmap
         values={[
-          { date: expectedStartDate, count: 0 },
-          { date: today, count: 1 },
+          {date: expectedStartDate, count: 0},
+          {date: today, count: 1},
         ]}
         endDate={today}
-        numDays={numDays}
+        startDate={dateNDaysAgo(numDays)}
         titleForValue={value => (value ? value.count : null)}
         classForValue={(value) => {
           if (!value) {
@@ -111,7 +107,7 @@ describe('CalendarHeatmap props', () => {
   it('showMonthLabels', () => {
     const visible = shallow(
       <CalendarHeatmap
-        numDays={100}
+        startDate={dateNDaysAgo(100)}
         values={[]}
         showMonthLabels
       />
@@ -130,7 +126,7 @@ describe('CalendarHeatmap props', () => {
   it('showWeekdayLabels', () => {
     const visible = shallow(
       <CalendarHeatmap
-        numDays={7}
+        startDate={dateNDaysAgo(7)}
         values={[]}
         showWeekdayLabels
       />
@@ -158,17 +154,17 @@ describe('CalendarHeatmap props', () => {
   });
 
   it('transformDayElement', () => {
-    const transform = rect => React.cloneElement(rect, { 'data-test': 'ok' });
+    const transform = rect => React.cloneElement(rect, {'data-test': 'ok'});
     const today = new Date();
     const expectedStartDate = shiftDate(today, -1);
     const wrapper = shallow(
       <CalendarHeatmap
         values={[
-          { date: today },
-          { date: expectedStartDate },
+          {date: today},
+          {date: expectedStartDate},
         ]}
         endDate={today}
-        numDays={1}
+        startDate={expectedStartDate}
         transformDayElement={transform}
       />
     );
@@ -184,12 +180,12 @@ describe('CalendarHeatmap props', () => {
       const wrapper = shallow(
         <CalendarHeatmap
           values={[
-            { date: today, count: 1 },
-            { date: expectedStartDate, count: 0 },
+            {date: today, count: 1},
+            {date: expectedStartDate, count: 0},
           ]}
           endDate={today}
-          numDays={numDays}
-          tooltipDataAttrs={({ count }) => ({
+          startDate={expectedStartDate}
+          tooltipDataAttrs={({count}) => ({
             'data-tooltip': `Count: ${count}`,
           })}
         />
