@@ -259,7 +259,7 @@ class CalendarHeatmap extends React.Component {
 
   renderWeek(weekIndex) {
     return (
-      <g key={weekIndex} transform={this.getTransformForWeek(weekIndex)}>
+      <g key={weekIndex} transform={this.getTransformForWeek(weekIndex)} className='week'>
         {range(DAYS_IN_WEEK).map(dayIndex => this.renderSquare(dayIndex, (weekIndex * DAYS_IN_WEEK) + dayIndex))}
       </g>
     );
@@ -282,6 +282,7 @@ class CalendarHeatmap extends React.Component {
           key={weekIndex}
           x={x}
           y={y}
+          className='month-label'
         >
           {this.props.monthLabels[endOfWeek.getMonth()]}
         </text>
@@ -300,7 +301,7 @@ class CalendarHeatmap extends React.Component {
           key={dayIndex}
           x={x}
           y={y}
-          className={this.props.horizontal ? '' : 'small-text'}
+          className={`${this.props.horizontal ? '' : 'small-text'} weekday-label`}
         >
           {weekdayLabel}
         </text>
@@ -314,13 +315,13 @@ class CalendarHeatmap extends React.Component {
         className="react-calendar-heatmap"
         viewBox={this.getViewBox()}
       >
-        <g transform={this.getTransformForMonthLabels()}>
+        <g transform={this.getTransformForMonthLabels()} className='month-labels'>
           {this.renderMonthLabels()}
         </g>
-        <g transform={this.getTransformForAllWeeks()}>
+        <g transform={this.getTransformForAllWeeks()} className='all-weeks'>
           {this.renderAllWeeks()}
         </g>
-        <g transform={this.getTransformForWeekdayLabels()}>
+        <g transform={this.getTransformForWeekdayLabels()} className='weekday-labels'>
           {this.renderWeekdayLabels()}
         </g>
       </svg>
