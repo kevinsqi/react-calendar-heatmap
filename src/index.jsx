@@ -7,6 +7,7 @@ import { dateNDaysAgo, shiftDate, getBeginningTimeForDate, convertToDate } from 
 
 const SQUARE_SIZE = 10;
 const MONTH_LABEL_GUTTER_SIZE = 4;
+const CSS_PSEDUO_NAMESPACE = 'react-calendar-heatmap-';
 
 class CalendarHeatmap extends React.Component {
   constructor(props) {
@@ -259,7 +260,7 @@ class CalendarHeatmap extends React.Component {
 
   renderWeek(weekIndex) {
     return (
-      <g key={weekIndex} transform={this.getTransformForWeek(weekIndex)}>
+      <g key={weekIndex} transform={this.getTransformForWeek(weekIndex)} className={`${CSS_PSEDUO_NAMESPACE}week`}>
         {range(DAYS_IN_WEEK).map(dayIndex => this.renderSquare(dayIndex, (weekIndex * DAYS_IN_WEEK) + dayIndex))}
       </g>
     );
@@ -282,6 +283,7 @@ class CalendarHeatmap extends React.Component {
           key={weekIndex}
           x={x}
           y={y}
+          className={`${CSS_PSEDUO_NAMESPACE}month-label`}
         >
           {this.props.monthLabels[endOfWeek.getMonth()]}
         </text>
@@ -300,7 +302,7 @@ class CalendarHeatmap extends React.Component {
           key={dayIndex}
           x={x}
           y={y}
-          className={this.props.horizontal ? '' : 'small-text'}
+          className={`${this.props.horizontal ? '' : `${CSS_PSEDUO_NAMESPACE}small-text`} ${CSS_PSEDUO_NAMESPACE}weekday-label`}
         >
           {weekdayLabel}
         </text>
@@ -314,13 +316,13 @@ class CalendarHeatmap extends React.Component {
         className="react-calendar-heatmap"
         viewBox={this.getViewBox()}
       >
-        <g transform={this.getTransformForMonthLabels()}>
+        <g transform={this.getTransformForMonthLabels()} className={`${CSS_PSEDUO_NAMESPACE}month-labels`}>
           {this.renderMonthLabels()}
         </g>
-        <g transform={this.getTransformForAllWeeks()}>
+        <g transform={this.getTransformForAllWeeks()} className={`${CSS_PSEDUO_NAMESPACE}all-weeks`}>
           {this.renderAllWeeks()}
         </g>
-        <g transform={this.getTransformForWeekdayLabels()}>
+        <g transform={this.getTransformForWeekdayLabels()} className={`${CSS_PSEDUO_NAMESPACE}weekday-labels`}>
           {this.renderWeekdayLabels()}
         </g>
       </svg>
