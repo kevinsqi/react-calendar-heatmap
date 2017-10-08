@@ -6,6 +6,7 @@ env:
   matrix:
   - CMD=lint
   - CMD=test
+  - CMD=types
 matrix:
   fast_finish: true
 script:
