@@ -27,6 +27,7 @@ class CalendarHeatmap extends React.Component {
   getDateDifferenceInDays() {
     const { startDate, endDate, numDays } = this.props;
     if (numDays) {
+      // eslint-disable-next-line no-console
       console.warn('numDays is the deprecated prop, so it will be removed in the next release. Consider using of startDate prop instead.');
       return numDays;
     }
