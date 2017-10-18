@@ -33,7 +33,7 @@ describe('CalendarHeatmap props', () => {
   });
 
   it('horizontal', () => {
-    const horizontal = shallow(<CalendarHeatmap startDate={dateNDaysAgo(100)} values={[]} horizontal />);
+    const horizontal = shallow(<CalendarHeatmap startDate={dateNDaysAgo(100)} values={[]} horizontal={true} />);
     const [, , horWidth, horHeight] = horizontal.prop('viewBox').split(' ');
     assert(Number(horWidth) > Number(horHeight), 'horizontal orientation width should be greater than height');
 
@@ -90,7 +90,7 @@ describe('CalendarHeatmap props', () => {
     const visible = shallow(<CalendarHeatmap
       startDate={dateNDaysAgo(100)}
       values={[]}
-      showMonthLabels
+      showMonthLabels={true}
     />);
     assert(visible.find('text').length > 0);
 
@@ -105,22 +105,23 @@ describe('CalendarHeatmap props', () => {
     const visible = shallow(<CalendarHeatmap
       startDate={dateNDaysAgo(7)}
       values={[]}
-      showWeekdayLabels
+      showWeekdayLabels={true}
     />);
     assert(visible.find('text').length > 2);
 
     const hidden = shallow(<CalendarHeatmap
       values={[]}
+      showMonthLabels={false}
       showWeekdayLabels={false}
     />);
-    assert.equal(7, hidden.find('text').length);
+    assert.equal(0, hidden.find('text').length);
 
     // should display text with .small-text class
     // in case if horizontal prop value is false
     const vertical = shallow(<CalendarHeatmap
       values={[]}
       horizontal={false}
-      showWeekdayLabels
+      showWeekdayLabels={true}
     />);
     assert.equal(3, vertical.find('text.react-calendar-heatmap-small-text').length);
   });
