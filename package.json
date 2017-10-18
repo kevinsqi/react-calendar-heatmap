@@ -54,7 +54,7 @@
     "react-dom": "^15.6.1",
     "react-test-renderer": "^15.6.1",
     "rimraf": "^2.3.4",
-    "webpack": "^1.12.9",
-    "webpack-dev-server": "^1.14.1"
+    "webpack": "^3.0.0",
+    "webpack-dev-server": "^2.0.0"
   }
 }
