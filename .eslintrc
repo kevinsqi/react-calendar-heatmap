@@ -13,6 +13,6 @@
   },
   "env": {
     "browser": true,
-    "mocha": true
+    "jest": true
   }
 }
