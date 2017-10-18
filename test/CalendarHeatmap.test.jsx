@@ -1,8 +1,11 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import Enzyme, { shallow } from 'enzyme';
+import Adapter from 'enzyme-adapter-react-15';
+
 import CalendarHeatmap from '../src';
 import { dateNDaysAgo, shiftDate } from '../src/dateHelpers';
 
+Enzyme.configure({ adapter: new Adapter() });
 
 describe('CalendarHeatmap', () => {
   it('should render as an svg', () => {
