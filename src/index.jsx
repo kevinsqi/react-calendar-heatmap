@@ -255,7 +255,7 @@ class CalendarHeatmap extends React.Component {
         <title>{this.getTitleForIndex(index)}</title>
       </rect>
     );
-    const transformDayElement = this.props.transformDayElement;
+    const { transformDayElement } = this.props;
     return transformDayElement ? transformDayElement(rect, value, index) : rect;
   }
 
@@ -275,7 +275,7 @@ class CalendarHeatmap extends React.Component {
     if (!this.props.showMonthLabels) {
       return null;
     }
-    const weekRange = range(this.getWeekCount() - 1);  // don't render for last week, because label will be cut off
+    const weekRange = range(this.getWeekCount() - 1); // don't render for last week, because label will be cut off
     return weekRange.map((weekIndex) => {
       const endOfWeek = shiftDate(this.getStartDateWithEmptyDays(), (weekIndex + 1) * DAYS_IN_WEEK);
       const [x, y] = this.getMonthLabelCoordinates(weekIndex);
@@ -298,9 +298,10 @@ class CalendarHeatmap extends React.Component {
     }
     return this.props.weekdayLabels.map((weekdayLabel, dayIndex) => {
       const [x, y] = this.getWeekdayLabelCoordinates(dayIndex);
-      return dayIndex & 1 ? ( // eslint-disable-line no-bitwise
+      // eslint-disable-next-line no-bitwise
+      return dayIndex & 1 ? (
         <text
-          key={dayIndex}
+          key={`${x}${y}`}
           x={x}
           y={y}
           className={`${this.props.horizontal ? '' : `${CSS_PSEDUO_NAMESPACE}small-text`} ${CSS_PSEDUO_NAMESPACE}weekday-label`}
@@ -313,10 +314,7 @@ class CalendarHeatmap extends React.Component {
 
   render() {
     return (
-      <svg
-        className="react-calendar-heatmap"
-        viewBox={this.getViewBox()}
-      >
+      <svg className="react-calendar-heatmap" viewBox={this.getViewBox()}>
         <g transform={this.getTransformForMonthLabels()} className={`${CSS_PSEDUO_NAMESPACE}month-labels`}>
           {this.renderMonthLabels()}
         </g>
@@ -332,28 +330,26 @@ class CalendarHeatmap extends React.Component {
 }
 
 CalendarHeatmap.propTypes = {
-  values: PropTypes.arrayOf(             // array of objects with date and arbitrary metadata
-    PropTypes.shape({
-      date: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.instanceOf(Date)]).isRequired,
-    }).isRequired
-  ).isRequired,
-  numDays: PropTypes.number,             // number of days back from endDate to show
-  startDate: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.instanceOf(Date)]),  // start of date range
-  endDate: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.instanceOf(Date)]),  // end of date range
-  gutterSize: PropTypes.number,          // size of space between squares
-  horizontal: PropTypes.bool,            // whether to orient horizontally or vertically
-  showMonthLabels: PropTypes.bool,       // whether to show month labels
-  showWeekdayLabels: PropTypes.bool,       // whether to show weekday labels
-  showOutOfRangeDays: PropTypes.bool,    // whether to render squares for extra days in week after endDate, and before start date
-  tooltipDataAttrs: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),    // data attributes to add to square for setting 3rd party tooltips, e.g. { 'data-toggle': 'tooltip' } for bootstrap tooltips
-  titleForValue: PropTypes.func,         // function which returns title text for value
-  classForValue: PropTypes.func,         // function which returns html class for value
+  values: PropTypes.arrayOf(PropTypes.shape({
+    date: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.instanceOf(Date)]).isRequired,
+  }).isRequired).isRequired, // array of objects with date and arbitrary metadata
+  numDays: PropTypes.number, // number of days back from endDate to show
+  startDate: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.instanceOf(Date)]), // start of date range
+  endDate: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.instanceOf(Date)]), // end of date range
+  gutterSize: PropTypes.number, // size of space between squares
+  horizontal: PropTypes.bool, // whether to orient horizontally or vertically
+  showMonthLabels: PropTypes.bool, // whether to show month labels
+  showWeekdayLabels: PropTypes.bool, // whether to show weekday labels
+  showOutOfRangeDays: PropTypes.bool, // whether to render squares for extra days in week after endDate, and before start date
+  tooltipDataAttrs: PropTypes.oneOfType([PropTypes.object, PropTypes.func]), // data attributes to add to square for setting 3rd party tooltips, e.g. { 'data-toggle': 'tooltip' } for bootstrap tooltips
+  titleForValue: PropTypes.func, // function which returns title text for value
+  classForValue: PropTypes.func, // function which returns html class for value
   monthLabels: PropTypes.arrayOf(PropTypes.string), // An array with 12 strings representing the text from janurary to december
   weekdayLabels: PropTypes.arrayOf(PropTypes.string), // An array with 7 strings representing the text from Sun to Sat
-  onClick: PropTypes.func,               // callback function when a square is clicked
-  onMouseOver: PropTypes.func,           // callback function when mouse pointer is over a square
-  onMouseLeave: PropTypes.func,          // callback function when mouse pointer is left a square
-  transformDayElement: PropTypes.func,    // function to further transform the svg element for a single day
+  onClick: PropTypes.func, // callback function when a square is clicked
+  onMouseOver: PropTypes.func, // callback function when mouse pointer is over a square
+  onMouseLeave: PropTypes.func, // callback function when mouse pointer is left a square
+  transformDayElement: PropTypes.func, // function to further transform the svg element for a single day
 };
 
 CalendarHeatmap.defaultProps = {
