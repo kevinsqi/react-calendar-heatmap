@@ -17,3 +17,7 @@ export function convertToDate(obj) {
 export function dateNDaysAgo(numDaysAgo) {
   return shiftDate(new Date(), -numDaysAgo);
 }
+
+export function getRange(count) {
+  return Array.from({ length: count }, (_, i) => i);
+}

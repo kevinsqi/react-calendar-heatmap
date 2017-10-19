@@ -30,7 +30,6 @@
     "react": "^0.14.0 || ^15.0.0 || ^16.0.0"
   },
   "dependencies": {
-    "lodash.range": "^3.1.4",
     "prop-types": "^15.5.10"
   },
   "devDependencies": {

@@ -1,8 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import range from 'lodash.range';
 import { DAYS_IN_WEEK, MILLISECONDS_IN_ONE_DAY, DAY_LABELS, MONTH_LABELS } from './constants';
-import { dateNDaysAgo, shiftDate, getBeginningTimeForDate, convertToDate } from './dateHelpers';
+import { dateNDaysAgo, shiftDate, getBeginningTimeForDate, convertToDate, getRange } from './dateHelpers';
 
 const SQUARE_SIZE = 10;
 const MONTH_LABEL_GUTTER_SIZE = 4;
@@ -261,30 +260,25 @@ class CalendarHeatmap extends React.Component {
   renderWeek(weekIndex) {
     return (
       <g key={weekIndex} transform={this.getTransformForWeek(weekIndex)} className={`${CSS_PSEDUO_NAMESPACE}week`}>
-        {range(DAYS_IN_WEEK).map(dayIndex => this.renderSquare(dayIndex, (weekIndex * DAYS_IN_WEEK) + dayIndex))}
+        {getRange(DAYS_IN_WEEK).map(dayIndex => this.renderSquare(dayIndex, (weekIndex * DAYS_IN_WEEK) + dayIndex))}
       </g>
     );
   }
 
   renderAllWeeks() {
-    return range(this.getWeekCount()).map(weekIndex => this.renderWeek(weekIndex));
+    return getRange(this.getWeekCount()).map(weekIndex => this.renderWeek(weekIndex));
   }
 
   renderMonthLabels() {
     if (!this.props.showMonthLabels) {
       return null;
     }
-    const weekRange = range(this.getWeekCount() - 1); // don't render for last week, because label will be cut off
+    const weekRange = getRange(this.getWeekCount() - 1); // don't render for last week, because label will be cut off
     return weekRange.map((weekIndex) => {
       const endOfWeek = shiftDate(this.getStartDateWithEmptyDays(), (weekIndex + 1) * DAYS_IN_WEEK);
       const [x, y] = this.getMonthLabelCoordinates(weekIndex);
       return (endOfWeek.getDate() >= 1 && endOfWeek.getDate() <= DAYS_IN_WEEK) ? (
-        <text
-          key={weekIndex}
-          x={x}
-          y={y}
-          className={`${CSS_PSEDUO_NAMESPACE}month-label`}
-        >
+        <text key={weekIndex} x={x} y={y} className={`${CSS_PSEDUO_NAMESPACE}month-label`}>
           {this.props.monthLabels[endOfWeek.getMonth()]}
         </text>
       ) : null;
@@ -297,14 +291,10 @@ class CalendarHeatmap extends React.Component {
     }
     return this.props.weekdayLabels.map((weekdayLabel, dayIndex) => {
       const [x, y] = this.getWeekdayLabelCoordinates(dayIndex);
+      const cssClasses = `${this.props.horizontal ? '' : `${CSS_PSEDUO_NAMESPACE}small-text`} ${CSS_PSEDUO_NAMESPACE}weekday-label`;
       // eslint-disable-next-line no-bitwise
       return dayIndex & 1 ? (
-        <text
-          key={`${x}${y}`}
-          x={x}
-          y={y}
-          className={`${this.props.horizontal ? '' : `${CSS_PSEDUO_NAMESPACE}small-text`} ${CSS_PSEDUO_NAMESPACE}weekday-label`}
-        >
+        <text key={`${x}${y}`} x={x} y={y} className={cssClasses}>
           {weekdayLabel}
         </text>
       ) : null;
