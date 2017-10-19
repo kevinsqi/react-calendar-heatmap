@@ -1,3 +1,7 @@
+## v1.6.1
+
+* Make prop-types a dependency, not a devDependency
+
 ## v1.6.0
 
 * Add css class name hooks to most inner html elements (thanks @andreysaleba!)
