@@ -30,8 +30,7 @@
     "react": "^0.14.0 || ^15.0.0 || ^16.0.0"
   },
   "dependencies": {
-    "lodash.range": "^3.1.4",
-    "lodash.reduce": "^4.3.0"
+    "lodash.range": "^3.1.4"
   },
   "devDependencies": {
     "babel-core": "^6.3.15",

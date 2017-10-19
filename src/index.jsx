@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import range from 'lodash.range';
-import reduce from 'lodash.reduce';
 import { DAYS_IN_WEEK, MILLISECONDS_IN_ONE_DAY, DAY_LABELS, MONTH_LABELS } from './constants';
 import { dateNDaysAgo, shiftDate, getBeginningTimeForDate, convertToDate } from './dateHelpers';
 
@@ -95,7 +94,7 @@ class CalendarHeatmap extends React.Component {
   }
 
   getValueCache(values) {
-    return reduce(values, (memo, value) => {
+    return values.reduce((memo, value) => {
       const date = convertToDate(value.date);
       const index = Math.floor((date - this.getStartDateWithEmptyDays()) / MILLISECONDS_IN_ONE_DAY);
       memo[index] = {
