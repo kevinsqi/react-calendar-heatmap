@@ -3,9 +3,11 @@
   "rules": {
     "max-len": "off",
     "import/no-extraneous-dependencies": ["error", {"devDependencies": true}],
+    "jsx-a11y/mouse-events-have-key-events": "off",
     "no-param-reassign": "off",
     "react/forbid-prop-types": "off",
     "react/jsx-no-bind": "off",
+    "react/require-default-props": "off",
     "react/no-unused-prop-types": "off", // re-enable, there's a bug in eslint that leads to false-positives
   },
   "env": {
