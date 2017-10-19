@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import range from 'lodash.range';
 import CalendarHeatmap from '../src';
-import {dateNDaysAgo, shiftDate} from '../src/dateHelpers';
+import { dateNDaysAgo, shiftDate } from '../src/helpers';
 
 const today = new Date();
 const date100DaysBefore = dateNDaysAgo(100);

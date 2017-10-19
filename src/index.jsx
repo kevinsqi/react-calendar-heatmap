@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { DAYS_IN_WEEK, MILLISECONDS_IN_ONE_DAY, DAY_LABELS, MONTH_LABELS } from './constants';
-import { dateNDaysAgo, shiftDate, getBeginningTimeForDate, convertToDate, getRange } from './dateHelpers';
+import { dateNDaysAgo, shiftDate, getBeginningTimeForDate, convertToDate, getRange } from './helpers';
 
 const SQUARE_SIZE = 10;
 const MONTH_LABEL_GUTTER_SIZE = 4;
