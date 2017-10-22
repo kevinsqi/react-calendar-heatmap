@@ -1,5 +1,4 @@
 import React from 'react';
-import { assert } from 'chai';
 import { shallow } from 'enzyme';
 import CalendarHeatmap from '../src';
 import { dateNDaysAgo, shiftDate } from '../src/dateHelpers';
@@ -8,11 +7,12 @@ import { dateNDaysAgo, shiftDate } from '../src/dateHelpers';
 describe('CalendarHeatmap', () => {
   it('should render as an svg', () => {
     const wrapper = shallow(<CalendarHeatmap values={[]} />);
-    assert.equal(1, wrapper.find('svg').length);
+
+    expect(wrapper.find('svg')).toHaveLength(1);
   });
 
   it('should not throw exceptions in base case', () => {
-    assert.doesNotThrow(() => <CalendarHeatmap values={[]} />);
+    expect(() => <CalendarHeatmap values={[]} />).not.toThrow();
   });
 });
 
@@ -29,33 +29,36 @@ describe('CalendarHeatmap props', () => {
       values={values}
     />);
 
-    assert.equal(values.length, wrapper.find('.color-filled').length, 'values should handle Date/string/number formats');
+    // 'values should handle Date/string/number formats'
+    expect(wrapper.find('.color-filled')).toHaveLength(values.length);
   });
 
   it('horizontal', () => {
-    const horizontal = shallow(<CalendarHeatmap startDate={dateNDaysAgo(100)} values={[]} horizontal />);
+    const horizontal = shallow(<CalendarHeatmap startDate={dateNDaysAgo(100)} values={[]} horizontal={true} />);
     const [, , horWidth, horHeight] = horizontal.prop('viewBox').split(' ');
-    assert(Number(horWidth) > Number(horHeight), 'horizontal orientation width should be greater than height');
+    // 'horizontal orientation width should be greater than height'
+    expect(Number(horWidth)).toBeGreaterThan(Number(horHeight));
 
     const vertical = shallow(<CalendarHeatmap startDate={dateNDaysAgo(100)} values={[]} horizontal={false} />);
     const [, , vertWidth, vertHeight] = vertical.prop('viewBox').split(' ');
-    assert(Number(vertWidth) < Number(vertHeight), 'vertical orientation width should be less than height');
+    // 'vertical orientation width should be less than height'
+    expect(Number(vertWidth)).toBeLessThan(Number(vertHeight));
   });
 
   it('startDate', () => {
     const today = new Date();
     const wrapper = shallow(<CalendarHeatmap values={[]} endDate={today} startDate={today} />);
 
-    assert(today.getDate() === wrapper.instance().getEndDate().getDate() &&
-      today.getMonth() === wrapper.instance().getEndDate().getMonth());
+    expect(today.getDate() === wrapper.instance().getEndDate().getDate() &&
+      today.getMonth() === wrapper.instance().getEndDate().getMonth()).toBe(true);
   });
 
   it('endDate', () => {
     const today = new Date();
     const wrapper = shallow(<CalendarHeatmap values={[]} endDate={today} startDate={dateNDaysAgo(10)} />);
 
-    assert(today.getDate() === wrapper.instance().getEndDate().getDate() &&
-      today.getMonth() === wrapper.instance().getEndDate().getMonth());
+    expect(today.getDate() === wrapper.instance().getEndDate().getDate() &&
+      today.getMonth() === wrapper.instance().getEndDate().getMonth()).toBe(true);
   });
 
   it('classForValue', () => {
@@ -63,23 +66,20 @@ describe('CalendarHeatmap props', () => {
     const numDays = 10;
     const expectedStartDate = shiftDate(today, -numDays + 1);
     const wrapper = shallow(<CalendarHeatmap
-      values={[
-          { date: expectedStartDate, count: 0 },
-          { date: today, count: 1 },
-        ]}
+      values={[{ date: expectedStartDate, count: 0 }, { date: today, count: 1 }]}
       endDate={today}
       startDate={dateNDaysAgo(numDays)}
       titleForValue={value => (value ? value.count : null)}
       classForValue={(value) => {
-          if (!value) {
-            return null;
-          }
-          return value.count > 0 ? 'red' : 'white';
-        }}
+        if (!value) {
+          return null;
+        }
+        return value.count > 0 ? 'red' : 'white';
+      }}
     />);
 
-    assert.equal(1, wrapper.find('.white').length);
-    assert.equal(1, wrapper.find('.red').length);
+    expect(wrapper.find('.white')).toHaveLength(1);
+    expect(wrapper.find('.red')).toHaveLength(1);
 
     // TODO these attr selectors might be broken with react 15
     // assert(wrapper.first('rect[title=0]').hasClass('white'));
@@ -90,39 +90,45 @@ describe('CalendarHeatmap props', () => {
     const visible = shallow(<CalendarHeatmap
       startDate={dateNDaysAgo(100)}
       values={[]}
-      showMonthLabels
+      showMonthLabels={true}
     />);
-    assert(visible.find('text').length > 0);
+
+    expect(visible.find('text').length).toBeGreaterThan(0);
 
     const hidden = shallow(<CalendarHeatmap
       values={[]}
       showMonthLabels={false}
     />);
-    assert.equal(0, hidden.find('text').length);
+
+    expect(hidden.find('text')).toHaveLength(0);
   });
 
   it('showWeekdayLabels', () => {
     const visible = shallow(<CalendarHeatmap
       startDate={dateNDaysAgo(7)}
       values={[]}
-      showWeekdayLabels
+      showWeekdayLabels={true}
     />);
-    assert(visible.find('text').length > 2);
+
+    expect(visible.find('text').length).toBeGreaterThan(2);
 
     const hidden = shallow(<CalendarHeatmap
       values={[]}
+      showMonthLabels={false}
       showWeekdayLabels={false}
     />);
-    assert.equal(7, hidden.find('text').length);
+
+    expect(hidden.find('text')).toHaveLength(0);
 
     // should display text with .small-text class
     // in case if horizontal prop value is false
     const vertical = shallow(<CalendarHeatmap
       values={[]}
       horizontal={false}
-      showWeekdayLabels
+      showWeekdayLabels={true}
     />);
-    assert.equal(3, vertical.find('text.react-calendar-heatmap-small-text').length);
+
+    expect(vertical.find('text.react-calendar-heatmap-small-text')).toHaveLength(3);
   });
 
   it('transformDayElement', () => {
@@ -139,7 +145,7 @@ describe('CalendarHeatmap props', () => {
       transformDayElement={transform}
     />);
 
-    assert(wrapper.find('[data-test="ok"]').length === 1);
+    expect(wrapper.find('[data-test="ok"]')).toHaveLength(1);
   });
 
   describe('tooltipDataAttrs', () => {
@@ -159,7 +165,7 @@ describe('CalendarHeatmap props', () => {
           })}
       />);
 
-      assert(wrapper.find('[data-tooltip="Count: 1"]').length === 1);
+      expect(wrapper.find('[data-tooltip="Count: 1"]')).toHaveLength(1);
     });
   });
 });
