@@ -1,8 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import range from 'lodash.range';
 import CalendarHeatmap from '../src';
-import { dateNDaysAgo, shiftDate } from '../src/helpers';
+import { dateNDaysAgo, shiftDate, getRange } from '../src/helpers';
 
 const today = new Date();
 const date100DaysBefore = dateNDaysAgo(100);
@@ -13,7 +12,7 @@ function getRandomInt(min, max) {
 }
 
 function generateRandomValues(count, date = today) {
-  return range(count).map((index) => {
+  return getRange(count).map((index) => {
     return {
       date: shiftDate(date, -index),
       count: getRandomInt(1, 3),
