@@ -112,161 +112,103 @@ class Demo extends React.Component {
           name="values"
           example="[{ date: '2016-01-01', count: 6 }]"
           description="Required array of objects which each have a date property, which can be a Date object, parseable string, or millisecond timestamp."
-        >
-        </DemoItem>
+        />
 
         <DemoItem
           name="startDate"
           example="new Date()"
           description="Start of date range - a Date object, parseable string, or millisecond timestamp."
-        >
-        </DemoItem>
+        />
 
         <DemoItem
           name="endDate"
           example="new Date()"
           description="End of date range - a Date object, parseable string, or millisecond timestamp."
-        >
-        </DemoItem>
+        />
 
         <DemoItem
           name="showMonthLabels"
           example="true"
           description="Toggle for removing month labels."
-        >
-          <div className="row">
-            <CalendarHeatmap
-              values={randomValues}
-              showMonthLabels={false}
-            />
-          </div>
-        </DemoItem>
+        />
 
         <DemoItem
           name="showWeekdayLabels"
           example="true"
           description="Toggle for removing weekday labels."
-        >
-          <div className="row">
-            <CalendarHeatmap
-              values={randomValues}
-              showWeekdayLabels={false}
-            />
-          </div>
-        </DemoItem>
+        />
 
         <DemoItem
           name="showOutOfRangeDays"
           example="false"
           description="Toggle display of extra days in week that are past endDate and before beginning of range."
-        >
-          <div className="row">
-            <CalendarHeatmap
-              values={randomValues}
-              showOutOfRangeDays={true}
-            />
-          </div>
-        </DemoItem>
+        />
 
         <DemoItem
           name="horizontal"
           example="true"
           description="Whether to orient horizontally or vertically. Can be used in combination with startDate/endDate to show just the current month."
-        >
-          <div className="row">
-            <div className="col-xs-6">
-              <CalendarHeatmap
-                values={randomValues}
-                startDate={date100DaysBefore}
-                horizontal={false}
-              />
-            </div>
-            <div className="col-xs-6">
-              <CalendarHeatmap
-                values={randomValues}
-                startDate={date31DaysBefore}
-                horizontal={false}
-                showMonthLabels={false}
-              />
-            </div>
-          </div>
-        </DemoItem>
+        />
 
         <DemoItem
           name="gutterSize"
           example="1"
           description="Size of gutters relative to squares."
-        >
-          <div className="row">
-            <CalendarHeatmap
-              values={randomValues}
-              gutterSize={2}
-            />
-          </div>
-        </DemoItem>
+        />
 
         <DemoItem
           name="onClick"
           example="(value) => { alert(value) }"
           description="Callback to invoke when a square is clicked."
-        >
-        </DemoItem>
+        />
 
         <DemoItem
           name="onMouseOver"
           example="(event, value) => { console.log(event, value) }"
           description="Callback to invoke when mouse pointer is over a square."
-        >
-        </DemoItem>
+        />
 
         <DemoItem
           name="onMouseLeave"
           example="(event, value) => { console.log(event, value) }"
           description="Callback to invoke when mouse pointer is left a square."
-        >
-        </DemoItem>
+        />
 
         <DemoItem
           name="titleForValue"
           example="(value) => `Date is ${value.date}`"
           description="Function to determine each square's title attribute, for generating 3rd party hover tooltips (may also need to configure tooltipDataAttrs)."
-        >
-        </DemoItem>
+        />
 
         <DemoItem
           name="tooltipDataAttrs"
           example="{ 'data-toggle': 'tooltip' } or (value) => ({ 'data-tooltip': `Tooltip: ${value}` })"
           description="Sets data attributes for all squares, for generating 3rd party hover tooltips (this demo uses bootstrap tooltips)."
-        >
-        </DemoItem>
+        />
 
         <DemoItem
           name="classForValue"
           example="(value) => (value.count > 0 ? 'blue' : 'white')"
           description="Callback for determining CSS class to apply to each value."
-        >
-        </DemoItem>
+        />
 
         <DemoItem
           name="monthLabels"
           example="['01', '02', ..., '12']"
           description="An array with 12 strings representing the text from janurary to december"
-        >
-        </DemoItem>
+        />
 
         <DemoItem
           name="weekdayLabels"
           example="['Sun', 'Mon', ..., 'Sat']"
           description="An array with 7 strings representing the text from Sunday to Saturday"
-        >
-        </DemoItem>
+        />
 
         <DemoItem
           name="transformDayElement"
           example="(element, value, index) => React.cloneElement(element, {title: `${value.date}, ${index}`)"
           description="A function to further transform generated svg element for a single day, can be used to attach event handlers, add tooltips and more"
-        >
-        </DemoItem>
+        />
 
         <hr />
         <div className="text-xs-center my-3">
