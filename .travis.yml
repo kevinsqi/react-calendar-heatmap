@@ -1,7 +1,13 @@
 language: node_js
 node_js:
+  - stable
   - "6"
-  - "8"
+env:
+  matrix:
+  - CMD=lint
+  - CMD=test
+  - CMD=types
+matrix:
+  fast_finish: true
 script:
-  - npm run lint
-  - npm test
+  - npm run $CMD

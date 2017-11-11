@@ -3,6 +3,7 @@ npm-debug.log
 .DS_Store
 build
 demo/index.js
+types/test/index.jsx
 .cache
 .eslintcache
 .idea
