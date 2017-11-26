@@ -3,7 +3,7 @@ import {
   dateNDaysAgo,
   getBeginningTimeForDate,
   getRange,
-  shiftDate
+  shiftDate,
 } from '../src/helpers';
 
 describe('shiftDate', () => {
