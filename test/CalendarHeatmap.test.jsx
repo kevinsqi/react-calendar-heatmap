@@ -9,11 +9,11 @@ Enzyme.configure({ adapter: new Adapter() });
 
 describe('CalendarHeatmap', () => {
   const values = [
-    {date: new Date('2017-06-01')},
-    {date: new Date('2017-06-02')},
-    {date: new Date('2018-06-01')},
-    {date: new Date('2018-06-02')},
-    {date: new Date('2018-06-03')},
+    { date: new Date('2017-06-01') },
+    { date: new Date('2017-06-02') },
+    { date: new Date('2018-06-01') },
+    { date: new Date('2018-06-02') },
+    { date: new Date('2018-06-03') },
   ];
 
   it('should render as an svg', () => {
@@ -45,7 +45,7 @@ describe('CalendarHeatmap', () => {
 
     wrapper.setProps({
       endDate: new Date('2018-12-31'),
-      startDate: new Date('2018-01-01')
+      startDate: new Date('2018-01-01'),
     });
 
     expect(wrapper.find('.color-filled').length).toBe(3);
