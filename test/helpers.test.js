@@ -104,7 +104,13 @@ describe('dateNDaysAgo', () => {
     const expectedDate = new Date(startingDate.getTime());
     expectedDate.setDate(startingDate.getDate() - numDays);
 
-    expect(dateNDaysAgo(numDays).getTime()).toBe(expectedDate.getTime());
+    const expectedYear = expectedDate.getFullYear();
+    const expectedMonth = expectedDate.getMonth();
+    const expectedDay = expectedDate.getDate();
+
+    expect(dateNDaysAgo(numDays).getFullYear()).toBe(expectedYear);
+    expect(dateNDaysAgo(numDays).getMonth()).toBe(expectedMonth);
+    expect(dateNDaysAgo(numDays).getDate()).toBe(expectedDay);
   });
 
   it('crosses month boundaries in the positive direction', () => {
@@ -113,7 +119,13 @@ describe('dateNDaysAgo', () => {
     const expectedDate = new Date(startingDate.getTime());
     expectedDate.setDate(startingDate.getDate() - numDays);
 
-    expect(dateNDaysAgo(numDays).getTime()).toBe(expectedDate.getTime());
+    const expectedYear = expectedDate.getFullYear();
+    const expectedMonth = expectedDate.getMonth();
+    const expectedDay = expectedDate.getDate();
+
+    expect(dateNDaysAgo(numDays).getFullYear()).toBe(expectedYear);
+    expect(dateNDaysAgo(numDays).getMonth()).toBe(expectedMonth);
+    expect(dateNDaysAgo(numDays).getDate()).toBe(expectedDay);
   });
 
   it('crosses year boundaries in the negative direction', () => {
@@ -122,7 +134,13 @@ describe('dateNDaysAgo', () => {
     const expectedDate = new Date(startingDate.getTime());
     expectedDate.setDate(startingDate.getDate() - numDays);
 
-    expect(dateNDaysAgo(numDays).getTime()).toBe(expectedDate.getTime());
+    const expectedYear = expectedDate.getFullYear();
+    const expectedMonth = expectedDate.getMonth();
+    const expectedDay = expectedDate.getDate();
+
+    expect(dateNDaysAgo(numDays).getFullYear()).toBe(expectedYear);
+    expect(dateNDaysAgo(numDays).getMonth()).toBe(expectedMonth);
+    expect(dateNDaysAgo(numDays).getDate()).toBe(expectedDay);
   });
 
   it('crosses year boundaries in the positive direction', () => {
@@ -131,7 +149,13 @@ describe('dateNDaysAgo', () => {
     const expectedDate = new Date(startingDate.getTime());
     expectedDate.setDate(startingDate.getDate() - numDays);
 
-    expect(dateNDaysAgo(numDays).getTime()).toBe(expectedDate.getTime());
+    const expectedYear = expectedDate.getFullYear();
+    const expectedMonth = expectedDate.getMonth();
+    const expectedDay = expectedDate.getDate();
+
+    expect(dateNDaysAgo(numDays).getFullYear()).toBe(expectedYear);
+    expect(dateNDaysAgo(numDays).getMonth()).toBe(expectedMonth);
+    expect(dateNDaysAgo(numDays).getDate()).toBe(expectedDay);
   });
 });
 
