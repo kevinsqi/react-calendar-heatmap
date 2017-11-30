@@ -2,6 +2,7 @@ node_modules
 npm-debug.log
 .DS_Store
 build
+coverage
 demo/index.js
 .cache
 .eslintcache
