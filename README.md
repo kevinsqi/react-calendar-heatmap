@@ -25,12 +25,12 @@ Import the component:
 import CalendarHeatmap from 'react-calendar-heatmap';
 ```
 
-To show a basic heatmap of 100 days ending on April 1st:
+To show a basic heatmap from January 1st to April 1st:
 
 ```javascript
 <CalendarHeatmap
+  startDate={new Date('2016-01-01')}
   endDate={new Date('2016-04-01')}
-  numDays={100}
   values={[
     { date: '2016-01-01' },
     { date: '2016-01-22' },
