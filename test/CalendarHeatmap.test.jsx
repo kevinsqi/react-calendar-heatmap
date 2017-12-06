@@ -8,6 +8,14 @@ import { dateNDaysAgo, shiftDate } from '../src/helpers';
 Enzyme.configure({ adapter: new Adapter() });
 
 describe('CalendarHeatmap', () => {
+  const values = [
+    { date: new Date('2017-06-01') },
+    { date: new Date('2017-06-02') },
+    { date: new Date('2018-06-01') },
+    { date: new Date('2018-06-02') },
+    { date: new Date('2018-06-03') },
+  ];
+
   it('should render as an svg', () => {
     const wrapper = shallow(<CalendarHeatmap values={[]} />);
 
@@ -16,6 +24,31 @@ describe('CalendarHeatmap', () => {
 
   it('should not throw exceptions in base case', () => {
     expect(() => <CalendarHeatmap values={[]} />).not.toThrow();
+  });
+
+  it('shows values within its original date range', () => {
+    const wrapper = shallow(<CalendarHeatmap
+      endDate={new Date('2017-12-31')}
+      startDate={new Date('2017-01-01')}
+      values={values}
+    />);
+
+    expect(wrapper.find('.color-filled').length).toBe(2);
+  });
+
+  it('shows values within an updated date range', () => {
+    const wrapper = shallow(<CalendarHeatmap
+      endDate={new Date('2017-12-31')}
+      startDate={new Date('2017-01-01')}
+      values={values}
+    />);
+
+    wrapper.setProps({
+      endDate: new Date('2018-12-31'),
+      startDate: new Date('2018-01-01'),
+    });
+
+    expect(wrapper.find('.color-filled').length).toBe(3);
   });
 });
 
