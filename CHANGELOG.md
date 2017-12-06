@@ -1,3 +1,9 @@
+## v1.6.2
+
+* Use latest props when updating value cache (thanks @gitname!)
+* Add cross-env so builds work on Windows (thanks @gitname!)
+* Expand test coverage (thanks @gitname!)
+
 ## v1.6.1
 
 * Make prop-types a dependency, not a devDependency
