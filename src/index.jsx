@@ -33,7 +33,7 @@ class CalendarHeatmap extends React.Component {
       console.warn('numDays is a deprecated prop. It will be removed in the next release. Consider using the startDate prop instead.');
       return numDays;
     }
-    const timeDiff = endDate - startDate;
+    const timeDiff = this.getEndDate() - convertToDate(startDate);
     return Math.ceil(timeDiff / MILLISECONDS_IN_ONE_DAY);
   }
 
