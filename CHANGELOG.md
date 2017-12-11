@@ -1,3 +1,7 @@
+## v1.6.3
+
+* Fix occurences where startDate & endDate were not properly converted (thanks @kenkoooo!)
+
 ## v1.6.2
 
 * Use latest props when updating value cache (thanks @gitname!)
