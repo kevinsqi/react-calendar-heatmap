@@ -38,8 +38,8 @@ describe('CalendarHeatmap', () => {
 
   it('should handle string formatted date range', () => {
     const wrapper = shallow(<CalendarHeatmap
-      endDate='2017-12-31'
-      startDate='2017-01-01'
+      endDate="2017-12-31"
+      startDate="2017-01-01"
       values={values}
     />);
 
