@@ -36,6 +36,16 @@ describe('CalendarHeatmap', () => {
     expect(wrapper.find('.color-filled').length).toBe(2);
   });
 
+  it('should handle string formatted date range', () => {
+    const wrapper = shallow(<CalendarHeatmap
+      endDate='2017-12-31'
+      startDate='2017-01-01'
+      values={values}
+    />);
+
+    expect(wrapper.find('.color-filled').length).toBe(2);
+  });
+
   it('shows values within an updated date range', () => {
     const wrapper = shallow(<CalendarHeatmap
       endDate={new Date('2017-12-31')}
