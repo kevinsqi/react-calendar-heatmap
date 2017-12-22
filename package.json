@@ -30,6 +30,7 @@
     "react": "^0.14.0 || ^15.0.0 || ^16.0.0"
   },
   "dependencies": {
+    "babel-polyfill": "^6.26.0",
     "prop-types": "^15.5.10"
   },
   "devDependencies": {

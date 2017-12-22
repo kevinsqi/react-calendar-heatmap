@@ -7,3 +7,4 @@ demo/index.js
 .cache
 .eslintcache
 .idea
+*.iml

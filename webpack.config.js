@@ -7,6 +7,7 @@ const webpackConfig = {
   context: __dirname,
   entry: {
     'react-calendar-heatmap': [
+      "babel-polyfill",
       path.resolve(__dirname, 'src', 'index.jsx')
     ]
   },
