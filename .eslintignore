@@ -1,5 +1,5 @@
 node_modules
-webpack*
+coverage
 assets
 scripts
 demo

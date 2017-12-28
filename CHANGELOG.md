@@ -1,3 +1,5 @@
+* Fix tooltips in demo page (thanks @kaacun!)
+
 ## v1.6.3
 
 * Fix occurences where startDate & endDate were not properly converted (thanks @kenkoooo!)
