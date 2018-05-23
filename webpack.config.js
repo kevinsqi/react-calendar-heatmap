@@ -40,6 +40,7 @@ const webpackConfig = {
 };
 
 if (nodeEnv === 'development') {
+  webpackConfig.mode = 'development';
   webpackConfig.devtool = 'source-map';
   webpackConfig.devServer = { contentBase: './demo' };
   webpackConfig.entry['react-calendar-heatmap'].unshift('webpack-dev-server/client?http://0.0.0.0:8080/');
@@ -48,6 +49,7 @@ if (nodeEnv === 'development') {
 }
 
 if (nodeEnv === 'demo') {
+  webpackConfig.mode = 'production';
   webpackConfig.entry['react-calendar-heatmap'].push(path.resolve(__dirname, 'demo', 'demo.jsx'));
   webpackConfig.output.path = path.resolve(__dirname, 'demo');
 }
@@ -61,6 +63,7 @@ if (nodeEnv === 'development' || nodeEnv === 'demo') {
 }
 
 if (nodeEnv === 'production') {
+  webpackConfig.mode = 'production';
   webpackConfig.externals = {
     react: {
       root: 'React',
@@ -70,10 +73,6 @@ if (nodeEnv === 'production') {
     },
   };
   webpackConfig.output.path = path.resolve(__dirname, 'build');
-  webpackConfig.plugins.push(new webpack.optimize.UglifyJsPlugin({
-    compress: { warnings: false },
-    sourceMap: false,
-  }));
 }
 
 module.exports = webpackConfig;
