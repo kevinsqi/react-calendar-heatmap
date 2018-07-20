@@ -23,9 +23,25 @@ function generateRandomValues(count, date = today) {
 function githubClassForValue(value) {
   if (!value) {
     return 'color-empty';
+  } else if (value.count == 3) {
+    return "";
   }
   return `color-github-${value.count}`;
 }
+
+function gradientFillForValue(value){
+  if (value.count == 3) {
+    return "url(#redYellow)";
+  }
+  return "";
+}
+
+var myDef = (
+        <linearGradient id="redYellow">
+          <stop offset="5%" stop-color="#F60" />
+          <stop offset="95%" stop-color="#FF6" />
+        </linearGradient>
+      )
 
 function gitlabClassForValue(value) {
   if (!value) {
@@ -48,6 +64,7 @@ const customTooltipDataAttrs = { 'data-toggle': 'tooltip' };
 const randomValues = generateRandomValues(200);
 
 const githubURL = "https://github.com/patientslikeme/react-calendar-heatmap";
+
 
 const DemoItem = (props) => (
   <div className="row mb-3">
@@ -76,14 +93,16 @@ class Demo extends React.Component {
           </div>
         </div>
 
-        <div className="row mb-3">
+        <div className="row mb-12">
           <div className="col-xs-12 col-md-6">
             <CalendarHeatmap
+              defs={myDef}
               values={randomValues}
               classForValue={githubClassForValue}
               titleForValue={customTitleForValue}
               tooltipDataAttrs={customTooltipDataAttrs}
               onClick={customOnClick}
+              fillForValue={gradientFillForValue}
             />
           </div>
           <div className="col-xs-12 col-md-6">

@@ -2,5 +2,10 @@
   "presets": [
     "env",
     "react"
+  ],
+  "plugins": [
+    "react-html-attrs"
   ]
+
+
 }

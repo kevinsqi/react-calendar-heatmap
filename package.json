@@ -36,6 +36,7 @@
     "babel-core": "^6.0.0",
     "babel-eslint": "^8.0.0",
     "babel-loader": "^7.0.0",
+    "babel-plugin-react-html-attrs": "^2.1.0",
     "babel-preset-env": "^1.0.0",
     "babel-preset-react": "^6.0.0",
     "babel-register": "^6.0.0",
