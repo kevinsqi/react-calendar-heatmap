@@ -103,7 +103,7 @@ class CalendarHeatmap extends React.Component {
       memo[index] = {
         value,
         className: this.latestProps.classForValue(value),
-        fillValue: "url(#redYellow)",
+        fillValue: this.latestProps.fillForValue(value),
         title: this.latestProps.titleForValue ? this.latestProps.titleForValue(value) : null,
         tooltipDataAttrs: this.getTooltipDataAttrsForValue(value),
 
@@ -356,6 +356,7 @@ CalendarHeatmap.propTypes = {
   onMouseOver: PropTypes.func, // callback function when mouse pointer is over a square
   onMouseLeave: PropTypes.func, // callback function when mouse pointer is left a square
   transformDayElement: PropTypes.func, // function to further transform the svg element for a single day
+  defs: PropTypes.element // jsx element for user defined svg tags
 };
 
 CalendarHeatmap.defaultProps = {

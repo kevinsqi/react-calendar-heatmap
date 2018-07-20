@@ -102,6 +102,7 @@ class Demo extends React.Component {
               titleForValue={customTitleForValue}
               tooltipDataAttrs={customTooltipDataAttrs}
               onClick={customOnClick}
+              fillForValue={gradientFillForValue}
             />
           </div>
           <div className="col-xs-12 col-md-6">
