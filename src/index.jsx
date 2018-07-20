@@ -103,8 +103,10 @@ class CalendarHeatmap extends React.Component {
       memo[index] = {
         value,
         className: this.latestProps.classForValue(value),
+        fillValue: "url(#redYellow)",
         title: this.latestProps.titleForValue ? this.latestProps.titleForValue(value) : null,
         tooltipDataAttrs: this.getTooltipDataAttrsForValue(value),
+
       };
       return memo;
     }, {});
@@ -122,6 +124,12 @@ class CalendarHeatmap extends React.Component {
       return this.state.valueCache[index].className;
     }
     return this.latestProps.classForValue(null);
+  }
+
+  getFillForIndex(index) {
+    if (this.state.valueCache[index]) {
+      return this.state.valueCache[index].fillValue;
+    }
   }
 
   getTitleForIndex(index) {
@@ -252,6 +260,7 @@ class CalendarHeatmap extends React.Component {
         onClick={this.handleClick.bind(this, value)}
         onMouseOver={e => this.handleMouseOver(e, value)}
         onMouseLeave={e => this.handleMouseLeave(e, value)}
+        fill={this.getFillForIndex(index)}
         {...this.getTooltipDataAttrsForIndex(index)}
       >
         <title>{this.getTitleForIndex(index)}</title>
@@ -308,6 +317,9 @@ class CalendarHeatmap extends React.Component {
   render() {
     return (
       <svg className="react-calendar-heatmap" viewBox={this.getViewBox()}>
+        <defs>
+          {this.latestProps.defs}
+        </defs>
         <g transform={this.getTransformForMonthLabels()} className={`${CSS_PSEDUO_NAMESPACE}month-labels`}>
           {this.renderMonthLabels()}
         </g>
@@ -337,6 +349,7 @@ CalendarHeatmap.propTypes = {
   tooltipDataAttrs: PropTypes.oneOfType([PropTypes.object, PropTypes.func]), // data attributes to add to square for setting 3rd party tooltips, e.g. { 'data-toggle': 'tooltip' } for bootstrap tooltips
   titleForValue: PropTypes.func, // function which returns title text for value
   classForValue: PropTypes.func, // function which returns html class for value
+  fillForValue: PropTypes.func, // function which returns the name of fill type ** Relys on defs prop being filled out **
   monthLabels: PropTypes.arrayOf(PropTypes.string), // An array with 12 strings representing the text from janurary to december
   weekdayLabels: PropTypes.arrayOf(PropTypes.string), // An array with 7 strings representing the text from Sun to Sat
   onClick: PropTypes.func, // callback function when a square is clicked
@@ -356,6 +369,7 @@ CalendarHeatmap.defaultProps = {
   monthLabels: MONTH_LABELS,
   weekdayLabels: DAY_LABELS,
   classForValue: value => (value ? 'color-filled' : 'color-empty'),
+  fillForValue: value => (null)
 };
 
 export default CalendarHeatmap;
