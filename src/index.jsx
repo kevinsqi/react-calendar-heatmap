@@ -105,6 +105,7 @@ class CalendarHeatmap extends React.Component {
         className: this.latestProps.classForValue(value),
         title: this.latestProps.titleForValue ? this.latestProps.titleForValue(value) : null,
         tooltipDataAttrs: this.getTooltipDataAttrsForValue(value),
+        dateLabel: this.latestProps.dateLabelForValue(value)
       };
       return memo;
     }, {});
@@ -145,6 +146,13 @@ class CalendarHeatmap extends React.Component {
       return tooltipDataAttrs(value);
     }
     return tooltipDataAttrs;
+  }
+
+  getDateLabelForIndex(index) {
+    if (this.state.valueCache[index]) {
+      return this.state.valueCache[index].dateLabel;
+    }
+    return this.latestProps.dateLabelForValue(null);
   }
 
   getTransformForWeek(weekIndex) {
@@ -234,6 +242,24 @@ class CalendarHeatmap extends React.Component {
     }
   }
 
+  renderSquareLabel(index, x, y) {
+    if (!this.latestProps.showDateLabels) {
+      return null;
+    }
+
+    return (
+      <text
+        x={x + SQUARE_SIZE/2}
+        y={y + SQUARE_SIZE/2}
+        textAnchor="middle"
+        dominantBaseline="middle"
+        style={{fill: "black", fontSize: "4px"}}
+      >
+        {this.getDateLabelForIndex(index)}
+      </text>
+    );
+  }
+
   renderSquare(dayIndex, index) {
     const indexOutOfRange = index < this.getNumEmptyDaysAtStart() || index >= this.getNumEmptyDaysAtStart() + this.getDateDifferenceInDays();
     if (indexOutOfRange && !this.latestProps.showOutOfRangeDays) {
@@ -242,20 +268,23 @@ class CalendarHeatmap extends React.Component {
     const [x, y] = this.getSquareCoordinates(dayIndex);
     const value = this.getValueForIndex(index);
     const rect = (
-      <rect
-        key={index}
-        width={SQUARE_SIZE}
-        height={SQUARE_SIZE}
-        x={x}
-        y={y}
-        className={this.getClassNameForIndex(index)}
-        onClick={this.handleClick.bind(this, value)}
-        onMouseOver={e => this.handleMouseOver(e, value)}
-        onMouseLeave={e => this.handleMouseLeave(e, value)}
-        {...this.getTooltipDataAttrsForIndex(index)}
-      >
-        <title>{this.getTitleForIndex(index)}</title>
-      </rect>
+      <g key={index}>
+        <rect
+          key={index}
+          width={SQUARE_SIZE}
+          height={SQUARE_SIZE}
+          x={x}
+          y={y}
+          className={this.getClassNameForIndex(index)}
+          onClick={this.handleClick.bind(this, value)}
+          onMouseOver={e => this.handleMouseOver(e, value)}
+          onMouseLeave={e => this.handleMouseLeave(e, value)}
+          {...this.getTooltipDataAttrsForIndex(index)}
+        >
+          <title>{this.getTitleForIndex(index)}</title>
+        </rect>
+        {this.renderSquareLabel(index, x, y)}
+      </g>
     );
     const { transformDayElement } = this.latestProps;
     return transformDayElement ? transformDayElement(rect, value, index) : rect;
@@ -333,10 +362,12 @@ CalendarHeatmap.propTypes = {
   horizontal: PropTypes.bool, // whether to orient horizontally or vertically
   showMonthLabels: PropTypes.bool, // whether to show month labels
   showWeekdayLabels: PropTypes.bool, // whether to show weekday labels
+  showDateLabels: PropTypes.bool, // whether to show date labels
   showOutOfRangeDays: PropTypes.bool, // whether to render squares for extra days in week after endDate, and before start date
   tooltipDataAttrs: PropTypes.oneOfType([PropTypes.object, PropTypes.func]), // data attributes to add to square for setting 3rd party tooltips, e.g. { 'data-toggle': 'tooltip' } for bootstrap tooltips
   titleForValue: PropTypes.func, // function which returns title text for value
   classForValue: PropTypes.func, // function which returns html class for value
+  dateLabelForValue: PropTypes.func, // function which returns label text for value
   monthLabels: PropTypes.arrayOf(PropTypes.string), // An array with 12 strings representing the text from janurary to december
   weekdayLabels: PropTypes.arrayOf(PropTypes.string), // An array with 7 strings representing the text from Sun to Sat
   onClick: PropTypes.func, // callback function when a square is clicked
@@ -352,10 +383,12 @@ CalendarHeatmap.defaultProps = {
   horizontal: true,
   showMonthLabels: true,
   showWeekdayLabels: false,
+  showDateLabels: false,
   showOutOfRangeDays: false,
   monthLabels: MONTH_LABELS,
   weekdayLabels: DAY_LABELS,
   classForValue: value => (value ? 'color-filled' : 'color-empty'),
+  dateLabelForValue: value => (value ? (new Date(value.date)).getDate() : '')
 };
 
 export default CalendarHeatmap;
