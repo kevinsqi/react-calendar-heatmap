@@ -138,6 +138,12 @@ class Demo extends React.Component {
         />
 
         <DemoItem
+          name="showDateLabels"
+          example="true"
+          description="Toggle for removing date labels."
+        />
+
+        <DemoItem
           name="showOutOfRangeDays"
           example="false"
           description="Toggle display of extra days in week that are past endDate and before beginning of range."
@@ -189,6 +195,12 @@ class Demo extends React.Component {
           name="classForValue"
           example="(value) => (value.count > 0 ? 'blue' : 'white')"
           description="Callback for determining CSS class to apply to each value."
+        />
+
+        <DemoItem
+          name="dateLabelForValue"
+          example="(value) => (value ? (new Date(value.date)).getDate() : '')"
+          description="Callback for determining date label to apply to each value."
         />
 
         <DemoItem
