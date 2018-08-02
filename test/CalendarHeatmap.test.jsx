@@ -174,7 +174,7 @@ describe('CalendarHeatmap props', () => {
       showWeekdayLabels={true}
     />);
 
-    expect(vertical.find('text.react-calendar-heatmap-small-text')).toHaveLength(3);
+    expect(vertical.find('text.react-calendar-heatmap-small-text')).toHaveLength(7);
   });
 
   it('transformDayElement', () => {

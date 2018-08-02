@@ -296,12 +296,11 @@ class CalendarHeatmap extends React.Component {
     return this.latestProps.weekdayLabels.map((weekdayLabel, dayIndex) => {
       const [x, y] = this.getWeekdayLabelCoordinates(dayIndex);
       const cssClasses = `${this.latestProps.horizontal ? '' : `${CSS_PSEDUO_NAMESPACE}small-text`} ${CSS_PSEDUO_NAMESPACE}weekday-label`;
-      // eslint-disable-next-line no-bitwise
-      return dayIndex & 1 ? (
+      return (
         <text key={`${x}${y}`} x={x} y={y} className={cssClasses}>
           {weekdayLabel}
         </text>
-      ) : null;
+      );
     });
   }
 
