@@ -72,11 +72,11 @@ class CalendarHeatmap extends React.Component {
   }
 
   getNumEmptyDaysAtStart() {
-    return this.getStartDate().getDay();
+    return this.latestProps.firstWeekdayMonday ? (this.getStartDate().getDay() || 7) - 1 : this.getStartDate().getDay();
   }
 
   getNumEmptyDaysAtEnd() {
-    return (DAYS_IN_WEEK - 1) - this.getEndDate().getDay();
+    return (DAYS_IN_WEEK - 1) - (this.latestProps.firstWeekdayMonday ? (this.getEndDate().getDay() || 7) - 1 : this.getEndDate().getDay());
   }
 
   getWeekCount() {
@@ -293,7 +293,10 @@ class CalendarHeatmap extends React.Component {
     if (!this.latestProps.showWeekdayLabels) {
       return null;
     }
-    return this.latestProps.weekdayLabels.map((weekdayLabel, dayIndex) => {
+
+    const weekdayLabels = this.latestProps.firstWeekdayMonday ? [...this.latestProps.weekdayLabels.slice(1), this.latestProps.weekdayLabels[0]] : this.latestProps.weekdayLabels;
+
+    return weekdayLabels.map((weekdayLabel, dayIndex) => {
       const [x, y] = this.getWeekdayLabelCoordinates(dayIndex);
       const cssClasses = `${this.latestProps.horizontal ? '' : `${CSS_PSEDUO_NAMESPACE}small-text`} ${CSS_PSEDUO_NAMESPACE}weekday-label`;
       // eslint-disable-next-line no-bitwise
@@ -339,6 +342,7 @@ CalendarHeatmap.propTypes = {
   classForValue: PropTypes.func, // function which returns html class for value
   monthLabels: PropTypes.arrayOf(PropTypes.string), // An array with 12 strings representing the text from janurary to december
   weekdayLabels: PropTypes.arrayOf(PropTypes.string), // An array with 7 strings representing the text from Sun to Sat
+  firstWeekdayMonday: PropTypes.bool, // whether to start the week from Monday instead of Sunday
   onClick: PropTypes.func, // callback function when a square is clicked
   onMouseOver: PropTypes.func, // callback function when mouse pointer is over a square
   onMouseLeave: PropTypes.func, // callback function when mouse pointer is left a square
@@ -355,6 +359,7 @@ CalendarHeatmap.defaultProps = {
   showOutOfRangeDays: false,
   monthLabels: MONTH_LABELS,
   weekdayLabels: DAY_LABELS,
+  firstWeekdayMonday: false,
   classForValue: value => (value ? 'color-filled' : 'color-empty'),
 };
 
