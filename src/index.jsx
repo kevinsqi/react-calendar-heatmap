@@ -297,7 +297,7 @@ class CalendarHeatmap extends React.Component {
       const [x, y] = this.getWeekdayLabelCoordinates(dayIndex);
       const cssClasses = `${this.latestProps.horizontal ? '' : `${CSS_PSEDUO_NAMESPACE}small-text`} ${CSS_PSEDUO_NAMESPACE}weekday-label`;
       // eslint-disable-next-line no-bitwise
-      return dayIndex & 1 ? (
+      return this.latestProps.showAllWeekdayLabels || dayIndex & 1 ? (
         <text key={`${x}${y}`} x={x} y={y} className={cssClasses}>
           {weekdayLabel}
         </text>
@@ -333,6 +333,7 @@ CalendarHeatmap.propTypes = {
   horizontal: PropTypes.bool, // whether to orient horizontally or vertically
   showMonthLabels: PropTypes.bool, // whether to show month labels
   showWeekdayLabels: PropTypes.bool, // whether to show weekday labels
+  showAllWeekdayLabels: PropTypes.bool, // whether to show all weekday labels
   showOutOfRangeDays: PropTypes.bool, // whether to render squares for extra days in week after endDate, and before start date
   tooltipDataAttrs: PropTypes.oneOfType([PropTypes.object, PropTypes.func]), // data attributes to add to square for setting 3rd party tooltips, e.g. { 'data-toggle': 'tooltip' } for bootstrap tooltips
   titleForValue: PropTypes.func, // function which returns title text for value
@@ -352,6 +353,7 @@ CalendarHeatmap.defaultProps = {
   horizontal: true,
   showMonthLabels: true,
   showWeekdayLabels: false,
+  showAllWeekdayLabels: false,
   showOutOfRangeDays: false,
   monthLabels: MONTH_LABELS,
   weekdayLabels: DAY_LABELS,

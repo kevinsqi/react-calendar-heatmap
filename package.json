@@ -54,5 +54,8 @@
     "rimraf": "^2.0.0",
     "webpack": "^3.0.0",
     "webpack-dev-server": "^2.0.0"
+  },
+  "jest": {
+    "testURL": "http://localhost"
   }
 }

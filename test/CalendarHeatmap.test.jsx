@@ -177,6 +177,28 @@ describe('CalendarHeatmap props', () => {
     expect(vertical.find('text.react-calendar-heatmap-small-text')).toHaveLength(3);
   });
 
+  it('showAllWeekdayLabels true', () => {
+    const calendar = shallow(<CalendarHeatmap
+      startDate={dateNDaysAgo(7)}
+      values={[]}
+      showWeekdayLabels={true}
+      showAllWeekdayLabels={true}
+    />);
+
+    expect(calendar.find('text').length).toEqual(7);
+  });
+
+  it('showAllWeekdayLabels false', () => {
+    const calendar = shallow(<CalendarHeatmap
+      startDate={dateNDaysAgo(7)}
+      values={[]}
+      showWeekdayLabels={true}
+      showAllWeekdayLabels={false}
+    />);
+
+    expect(calendar.find('text').length).toEqual(3);
+  });
+
   it('transformDayElement', () => {
     const transform = rect => React.cloneElement(rect, { 'data-test': 'ok' });
     const today = new Date();
