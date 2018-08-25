@@ -4,6 +4,7 @@
   "description": "A calendar heatmap component built on SVG, inspired by github's commit calendar graph.",
   "author": "PatientsLikeMe Engineering",
   "main": "./build/index.js",
+  "style": "./build/styles.css",
   "repository": {
     "type": "git",
     "url": "https://github.com/patientslikeme/react-calendar-heatmap.git"
@@ -16,15 +17,19 @@
     "svg"
   ],
   "scripts": {
-    "build": "cross-env NODE_ENV=production webpack",
+    "build": "npm-run-all clean build:css build:js build:demo",
+    "build:js": "cross-env NODE_ENV=production webpack",
+    "build:css": "postcss src/styles.css -d build/ --no-map",
     "build:demo": "cross-env NODE_ENV=demo webpack",
-    "deploy:demo": "npm run build:demo && ./scripts/build_ghpages.sh",
     "clean": "rimraf build",
+    "deploy:demo": "npm run build:demo && ./scripts/build_ghpages.sh",
     "lint": "eslint --ext .js,.jsx --cache . && echo \"eslint: no lint errors found\" || true",
     "prepublish": "npm run clean && npm run build",
     "test": "jest --coverage",
     "test:watch": "npm test -- --watch",
-    "start": "webpack-dev-server --progress --inline"
+    "start": "npm-run-all --parallel start:js start:css",
+    "start:js": "webpack-dev-server --progress --inline",
+    "start:css": "postcss src/styles.css -d build/ --no-map --watch"
   },
   "peerDependencies": {
     "react": "^0.14.0 || ^15.0.0 || ^16.0.0"
