@@ -1,6 +1,6 @@
 # React Calendar Heatmap
 
-A calendar heatmap component built on SVG, inspired by github's commit calendar graph. The component expands to size of container and is super configurable. [See a live demo](http://patientslikeme.github.io/react-calendar-heatmap/).
+A calendar heatmap component built on SVG, inspired by github's commit calendar graph. The component expands to size of container and is super configurable. [**Try it out on CodeSandbox**](https://codesandbox.io/s/73mk9wlyx).
 
 [![npm version](https://badge.fury.io/js/react-calendar-heatmap.svg)](https://badge.fury.io/js/react-calendar-heatmap)
 [![Build Status](https://travis-ci.org/patientslikeme/react-calendar-heatmap.svg?branch=master)](https://travis-ci.org/patientslikeme/react-calendar-heatmap)
@@ -9,13 +9,13 @@ A calendar heatmap component built on SVG, inspired by github's commit calendar 
 
 ## Installation
 
-Install the npm module:
+Install the npm module with yarn or npm:
 
 ```bash
-npm install react-calendar-heatmap
+yarn add react-calendar-heatmap
 ```
 
-Include the default styles into your CSS by copying [src/styles.css](src/styles.css) into your repo, and customize away!
+Include the default styles into your CSS by copying [src/styles.css](src/styles.css) into your repo.
 
 ## Usage
 
