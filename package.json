@@ -18,7 +18,7 @@
   ],
   "scripts": {
     "build": "npm-run-all clean build:css build:development build:production",
-    "build:css": "postcss src/styles.css -d build/ --no-map",
+    "build:css": "postcss src/styles.css --use autoprefixer -d build/ --no-map",
     "build:development": "cross-env NODE_ENV=development webpack -d",
     "build:production": "cross-env NODE_ENV=production webpack -p",
     "clean": "rimraf build",
@@ -28,7 +28,7 @@
     "test:watch": "npm test -- --watch",
     "start": "npm-run-all --parallel start:js start:css",
     "start:js": "cross-env NODE_ENV=development webpack --mode development --watch",
-    "start:css": "postcss src/styles.css -d build/ --no-map --watch"
+    "start:css": "postcss src/styles.css --use autoprefixer -d build/ --no-map --watch"
   },
   "peerDependencies": {
     "react": "^0.14.0 || ^15.0.0 || ^16.0.0"
@@ -37,6 +37,7 @@
     "prop-types": "^15.5.10"
   },
   "devDependencies": {
+    "autoprefixer": "^9.1.3",
     "babel-core": "^6.0.0",
     "babel-eslint": "^8.0.0",
     "babel-loader": "^7.0.0",
