@@ -2,7 +2,7 @@
 
 ## Developing
 
-In the parent react-piano directory, run:
+In the parent react-calendar-heatmap directory, run:
 
 ```
 yarn link
@@ -12,7 +12,7 @@ yarn start
 In this repo, run:
 
 ```
-yarn link react-piano
+yarn link react-calendar-heatmap
 yarn start
 ```
 
