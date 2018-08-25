@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "react": "^16.4.2",
+    "react-calendar-heatmap": "../",
     "react-dom": "^16.4.2",
     "react-scripts": "1.1.5"
   },
@@ -12,5 +13,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
+  },
+  "devDependencies": {
+    "gh-pages": "^1.2.0"
   }
 }
