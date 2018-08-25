@@ -20,7 +20,7 @@ module.exports = {
   },
   output: {
     path: path.resolve(__dirname, 'build'),
-    filename: isProduction ? 'index.min.js' : 'index.js',
+    filename: 'index.js',
     library: 'CalendarHeatmap',
     libraryTarget: 'umd',
   },
