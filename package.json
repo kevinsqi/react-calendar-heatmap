@@ -17,18 +17,17 @@
     "svg"
   ],
   "scripts": {
-    "build": "npm-run-all clean build:css build:js build:demo",
-    "build:js": "cross-env NODE_ENV=production webpack",
+    "build": "npm-run-all clean build:css build:development build:production",
     "build:css": "postcss src/styles.css -d build/ --no-map",
-    "build:demo": "cross-env NODE_ENV=demo webpack",
+    "build:development": "cross-env NODE_ENV=development webpack -d",
+    "build:production": "cross-env NODE_ENV=production webpack -p",
     "clean": "rimraf build",
-    "deploy:demo": "npm run build:demo && ./scripts/build_ghpages.sh",
     "lint": "eslint --ext .js,.jsx --cache . && echo \"eslint: no lint errors found\" || true",
     "prepublish": "npm run clean && npm run build",
     "test": "jest --coverage",
     "test:watch": "npm test -- --watch",
     "start": "npm-run-all --parallel start:js start:css",
-    "start:js": "webpack-dev-server --progress --inline",
+    "start:js": "cross-env NODE_ENV=development webpack --mode development --watch",
     "start:css": "postcss src/styles.css -d build/ --no-map --watch"
   },
   "peerDependencies": {
