@@ -80,18 +80,9 @@ Then you use CSS to set colors for each class:
 
 See full configuration options on the [live demo page](http://patientslikeme.github.io/react-calendar-heatmap/).
 
-## Development
+## Contributing
 
-To run demo locally on localhost:8080:
-
-```bash
-npm install
-npm start
-```
-
-Keep [CI tests](https://travis-ci.org/patientslikeme/react-calendar-heatmap) passing by running `npm test` and `npm run lint` often.
-
-Deploy updates to the demo page with `npm run deploy:demo`.
+Take a look at [CONTRIBUTING.md](/CONTRIBUTING.md) to see how to develop on react-calendar-heatmap.
 
 ## License
 
