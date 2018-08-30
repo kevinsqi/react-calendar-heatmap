@@ -3,8 +3,10 @@
   "version": "1.6.3",
   "description": "A calendar heatmap component built on SVG, inspired by github's commit calendar graph.",
   "author": "PatientsLikeMe Engineering",
-  "main": "./dist/index.js",
-  "style": "./dist/styles.css",
+  "main": "dist/react-calendar-heatmap.cjs.js",
+  "module": "dist/react-calendar-heatmap.esm.js",
+  "browser": "dist/react-calendar-heatmap.umd.js",
+  "style": "dist/styles.css",
   "files": [
     "dist"
   ],
@@ -20,18 +22,16 @@
     "svg"
   ],
   "scripts": {
-    "build": "npm-run-all clean build:css build:development build:production",
+    "build": "npm-run-all clean build:css build:js",
     "build:css": "postcss src/styles.css --use autoprefixer -d dist/ --no-map",
-    "build:development": "cross-env NODE_ENV=development webpack -d",
-    "build:production": "cross-env NODE_ENV=production webpack -p",
+    "build:js": "cross-env NODE_ENV=production rollup -c",
     "clean": "rimraf dist",
     "lint": "eslint --ext .js,.jsx --cache . && echo \"eslint: no lint errors found\" || true",
     "prepublish": "npm run clean && npm run build",
     "test": "jest --coverage",
-    "test:watch": "npm test -- --watch",
     "start": "npm-run-all --parallel start:js start:css",
-    "start:js": "cross-env NODE_ENV=development webpack --mode development --watch",
-    "start:css": "postcss src/styles.css --use autoprefixer -d dist/ --no-map --watch"
+    "start:css": "postcss src/styles.css --use autoprefixer -d dist/ --no-map --watch",
+    "start:js": "cross-env NODE_ENV=development rollup -c -w"
   },
   "peerDependencies": {
     "react": "^0.14.0 || ^15.0.0 || ^16.0.0"
@@ -63,7 +63,11 @@
     "react-dom": "^16.0.0",
     "react-test-renderer": "^16.0.0",
     "rimraf": "^2.0.0",
-    "webpack": "^3.0.0",
-    "webpack-dev-server": "^2.0.0"
+    "rollup": "^0.65.0",
+    "rollup-plugin-babel": "^4.0.2",
+    "rollup-plugin-commonjs": "^9.1.6",
+    "rollup-plugin-node-resolve": "^3.3.0",
+    "rollup-plugin-replace": "^2.0.0",
+    "rollup-plugin-uglify": "^4.0.0"
   }
 }
