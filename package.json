@@ -3,8 +3,11 @@
   "version": "1.6.3",
   "description": "A calendar heatmap component built on SVG, inspired by github's commit calendar graph.",
   "author": "PatientsLikeMe Engineering",
-  "main": "./build/index.js",
-  "style": "./build/styles.css",
+  "main": "./dist/index.js",
+  "style": "./dist/styles.css",
+  "files": [
+    "dist"
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/patientslikeme/react-calendar-heatmap.git"
@@ -18,17 +21,17 @@
   ],
   "scripts": {
     "build": "npm-run-all clean build:css build:development build:production",
-    "build:css": "postcss src/styles.css --use autoprefixer -d build/ --no-map",
+    "build:css": "postcss src/styles.css --use autoprefixer -d dist/ --no-map",
     "build:development": "cross-env NODE_ENV=development webpack -d",
     "build:production": "cross-env NODE_ENV=production webpack -p",
-    "clean": "rimraf build",
+    "clean": "rimraf dist",
     "lint": "eslint --ext .js,.jsx --cache . && echo \"eslint: no lint errors found\" || true",
     "prepublish": "npm run clean && npm run build",
     "test": "jest --coverage",
     "test:watch": "npm test -- --watch",
     "start": "npm-run-all --parallel start:js start:css",
     "start:js": "cross-env NODE_ENV=development webpack --mode development --watch",
-    "start:css": "postcss src/styles.css --use autoprefixer -d build/ --no-map --watch"
+    "start:css": "postcss src/styles.css --use autoprefixer -d dist/ --no-map --watch"
   },
   "peerDependencies": {
     "react": "^0.14.0 || ^15.0.0 || ^16.0.0"
