@@ -21,6 +21,15 @@ export default [
         format: 'es',
         sourcemap: true,
       },
+      // UMD
+      {
+        file: pkg.browser,
+        format: 'umd',
+        name: 'CalendarHeatmap',
+        globals: {
+          react: 'React',
+        },
+      },
     ],
     plugins: [
       nodeResolve(),
