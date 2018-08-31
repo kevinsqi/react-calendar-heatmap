@@ -33,12 +33,14 @@ class App extends Component {
               }}
             />
           </div>
-
-          <hr />
-
-          <div classname="text-sm-center mt-5">
-            <h2>Installation</h2>
-            <div>Install with yarn or npm:</div>
+        </div>
+        <div className="text-sm-center mt-5">
+          <h2>Installation</h2>
+          <div className="mt-4">Install with yarn or npm:</div>
+          <div className="mt-3">
+            <code className="p-2 text-dark bg-yellow">yarn add react-calendar-heatmap</code>
+          </div>
+          <div className="mt-5">
             <a
               className="btn btn-info btn-lg"
               href="https://github.com/patientslikeme/react-calendar-heatmap"

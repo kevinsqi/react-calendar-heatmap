@@ -5,7 +5,7 @@ A calendar heatmap component built on SVG, inspired by github's commit calendar 
 [![npm version](https://badge.fury.io/js/react-calendar-heatmap.svg)](https://badge.fury.io/js/react-calendar-heatmap)
 [![Build Status](https://travis-ci.org/patientslikeme/react-calendar-heatmap.svg?branch=master)](https://travis-ci.org/patientslikeme/react-calendar-heatmap)
 
-[![react-calendar-heatmap screenshot](/assets/react-calendar-heatmap.png?raw=true)](http://patientslikeme.github.io/react-calendar-heatmap/)
+[![react-calendar-heatmap screenshot](/demo/public/react-calendar-heatmap.png?raw=true)](http://patientslikeme.github.io/react-calendar-heatmap/)
 
 ## Setup
 
@@ -23,13 +23,13 @@ Import the component:
 import CalendarHeatmap from 'react-calendar-heatmap';
 ```
 
-Import styles. You can directly import from the module, which requires a CSS loader (set up by default in create-react-app):
+Import styles. You can directly import from the module, which requires a CSS loader:
 
 ```javascript
 import 'react-calendar-heatmap/dist/styles.css';
 ```
 
-If you don't have a CSS loader, you can simply [copy the stylesheet](src/styles.css) into a file in your project and import it instead.
+A CSS loader is included by default in create-react-app. If you don't have a CSS loader, you can simply [copy the stylesheet](src/styles.css) into a file in your project and import it instead.
 
 To show a basic heatmap from January 1st to April 1st:
 
