@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import CalendarHeatmap from 'react-calendar-heatmap';
-import 'react-calendar-heatmap/build/styles.css';
+import 'react-calendar-heatmap/dist/styles.css';
 import './App.css';
 
 class App extends Component {

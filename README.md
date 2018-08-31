@@ -26,7 +26,7 @@ import CalendarHeatmap from 'react-calendar-heatmap';
 Import styles. You can directly import from the module, which requires a CSS loader (set up by default in create-react-app):
 
 ```javascript
-import 'react-calendar-heatmap/build/styles.css';
+import 'react-calendar-heatmap/dist/styles.css';
 ```
 
 If you don't have a CSS loader, you can simply [copy the stylesheet](src/styles.css) into a file in your project and import it instead.
