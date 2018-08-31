@@ -19,5 +19,6 @@
   "devDependencies": {
     "eslint-config-react-app": "^2.1.0",
     "gh-pages": "^1.2.0"
-  }
+  },
+  "homepage": "http://patientslikeme.github.io/react-calendar-heatmap"
 }
