@@ -46,6 +46,24 @@ To show a basic heatmap from January 1st to April 1st:
 />
 ```
 
+## Props
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| `values` | **Required**, Array of Object | Required array of objects which each have a date property, which can be a Date object, parseable string, or millisecond timestamp. |
+| `numDays` | Number | Time span in days. |
+| `startDate` | String, Number, or Date | Start of date range. |
+| `endDate` | String, Number, or Date | End of date range - a Date object, parseable string, or millisecond timestamp. |
+| `showMonthLabels` | Boolean | Toggle for removing month labels. |
+| `showOutOfRangeDays` | Boolean | Toggle display of extra days in week that are past endDate and before beginning of range. |
+| `horizontal` | Boolean | Whether to orient horizontally or vertically. Can be used in combination with numDays/endDate to show just the current month. |
+| `gutterSize` | Number | Size of gutters relative to squares. |
+| `onClick` | Function | Callback to invoke when a square is clicked, e.g. `(value) => alert(value)` |
+| `titleForValue` | Function | Function to determine each square's title attribute, for generating 3rd party hover tooltips (may also need to configure tooltipDataAttrs). Example: `(value) => `Date is ${value.date}` |
+| `tooltipDataAttrs` | Object | Set data attributes for all squares, for generating 3rd party hover tooltips. |
+| `classForValue` | Function | Callback for determining CSS class to apply to each value, e.g. `(value) => (value.count > 0 ? 'blue' : 'white')`. |
+
+
 ## Configuring colors
 
 To use the color scale shown in the [live demo](http://patientslikeme.github.io/react-calendar-heatmap/) based on the github contribution graph, you can set the `classForValue` prop, a function that determines which CSS class to apply to each value:
@@ -75,10 +93,6 @@ Then you use CSS to set colors for each class:
 .react-calendar-heatmap .color-scale-3 { fill: #44a340; }
 .react-calendar-heatmap .color-scale-4 { fill: #1e6823; }
 ```
-
-## Other configuration
-
-See full configuration options on the [live demo page](http://patientslikeme.github.io/react-calendar-heatmap/).
 
 ## Contributing
 
