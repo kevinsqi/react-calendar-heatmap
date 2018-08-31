@@ -8,6 +8,7 @@
     "no-param-reassign": "off",
     "react/forbid-prop-types": "off",
     "react/jsx-boolean-value": ["error", "always"],
+    "react/jsx-filename-extension": "off",
     "react/jsx-no-bind": "off",
     "react/no-unused-prop-types": "off", // re-enable, there's a bug in eslint that leads to false-positives
     "react/require-default-props": "off",

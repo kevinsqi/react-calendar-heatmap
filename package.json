@@ -26,7 +26,7 @@
     "build:css": "postcss src/styles.css --use autoprefixer -d dist/ --no-map",
     "build:js": "cross-env NODE_ENV=production rollup -c",
     "clean": "rimraf dist",
-    "lint": "eslint --ext .js,.jsx --cache . && echo \"eslint: no lint errors found\" || true",
+    "lint": "eslint src",
     "prepublish": "npm run clean && npm run build",
     "test": "jest --config jest.config.js --coverage",
     "start": "npm-run-all --parallel start:js start:css",
