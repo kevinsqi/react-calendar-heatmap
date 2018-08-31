@@ -1,26 +1,25 @@
 import babel from 'rollup-plugin-babel';
 import commonjs from 'rollup-plugin-commonjs';
 import nodeResolve from 'rollup-plugin-node-resolve';
-import uglify from 'rollup-plugin-uglify';
+import replace from 'rollup-plugin-replace';
 import pkg from './package.json';
-
-const input = 'src/index.js';
-const external = ['react'];
 
 export default [
   {
-    input,
-    external,
+    input: 'src/index.js',
+    external: ['react'],
     output: [
       // CommonJS
       {
         file: pkg.main,
         format: 'cjs',
+        sourcemap: true,
       },
       // ES module
       {
         file: pkg.module,
         format: 'es',
+        sourcemap: true,
       },
     ],
     plugins: [
@@ -28,18 +27,12 @@ export default [
       babel({
         exclude: ['node_modules/**'],
       }),
-      // noreintegrate replace?
-    ],
-  },
-  // UMD
-  {
-    input,
-    external,
-    plugins: [
-      nodeResolve(),
+      // Setting correct NODE_ENV for react
+      replace({
+        'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
+      }),
+      // Needs to happen after babel plugin
       commonjs(),
-      // noreintegrate replace
-      // noreintegrate uglify
     ],
   },
 ];

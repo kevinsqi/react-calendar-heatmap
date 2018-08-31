@@ -1,6 +1,9 @@
 {
   "presets": [
-    "env",
+    [
+      "env",
+      { "modules": false }
+    ],
     "react"
   ]
 }
