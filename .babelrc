@@ -5,5 +5,12 @@
       { "modules": false }
     ],
     "react"
-  ]
+  ],
+  "env": {
+    "test": {
+      "presets": [
+        ["env", { "modules": "commonjs" }]
+      ]
+    }
+  }
 }
