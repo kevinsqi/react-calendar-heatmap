@@ -6,8 +6,8 @@ import Demo from './Demo';
 class App extends Component {
   render() {
     return (
-      <div className="container">
-        <div className="text-sm-center mt-5">
+      <div className="container py-5">
+        <div className="text-sm-center">
           <h1>react-calendar-heatmap</h1>
           <p>
             A calendar heatmap component built on SVG, inspired by github’s commit calendar graph.

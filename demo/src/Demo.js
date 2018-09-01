@@ -24,33 +24,48 @@ function generateRandomValues(count, date = new Date()) {
   });
 }
 
-const randomValues = generateRandomValues(200);
-
 class Demo extends React.Component {
+  state = {
+    values: generateRandomValues(200),
+  };
+
+  generateValues = () => {
+    this.setState({
+      values: generateRandomValues(200),
+    });
+  };
+
   render() {
     return (
-      <div className="row">
-        <div className="col-12 col-sm-6">
-          <CalendarHeatmap
-            values={randomValues}
-            classForValue={(value) => {
-              if (!value) {
-                return 'color-empty';
-              }
-              return `color-github-${value.count}`;
-            }}
-          />
-        </div>
-        <div className="col-12 col-sm-6">
-          <CalendarHeatmap
-            values={randomValues}
-            classForValue={(value) => {
-              if (!value) {
-                return 'color-empty';
-              }
-              return `color-gitlab-${value.count}`;
-            }}
-          />
+      <div>
+        <div className="row">
+          <div className="col-12 col-sm-6">
+            <CalendarHeatmap
+              values={this.state.values}
+              classForValue={(value) => {
+                if (!value) {
+                  return 'color-empty';
+                }
+                return `color-github-${value.count}`;
+              }}
+            />
+          </div>
+          <div className="col-12 col-sm-6">
+            <CalendarHeatmap
+              values={this.state.values}
+              classForValue={(value) => {
+                if (!value) {
+                  return 'color-empty';
+                }
+                return `color-gitlab-${value.count}`;
+              }}
+            />
+          </div>
+        </div>{' '}
+        <div className="text-sm-center mt-4">
+          <button className="btn btn-link btn-sm text-secondary" onClick={this.generateValues}>
+            Regenerate values
+          </button>
         </div>
       </div>
     );
