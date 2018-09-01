@@ -1,6 +1,16 @@
 {
   "presets": [
-    "env",
+    [
+      "env",
+      { "modules": false }
+    ],
     "react"
-  ]
+  ],
+  "env": {
+    "test": {
+      "presets": [
+        ["env", { "modules": "commonjs" }]
+      ]
+    }
+  }
 }
