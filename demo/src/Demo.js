@@ -1,5 +1,6 @@
 import React from 'react';
 import CalendarHeatmap from 'react-calendar-heatmap';
+import ReactTooltip from 'react-tooltip';
 
 export function shiftDate(date, numDays) {
   const newDate = new Date(date);
@@ -35,6 +36,17 @@ class Demo extends React.Component {
     });
   };
 
+  getTooltipDataAttrs = (value) => {
+    // Configuration for react-tooltip
+    return {
+      'data-tip': `${value.date.toISOString().slice(0, 10)} has count: ${value.count}`,
+    };
+  };
+
+  handleClick = (value) => {
+    alert(`You clicked on ${value.date.toISOString().slice(0, 10)} with count: ${value.count}`);
+  };
+
   render() {
     return (
       <div>
@@ -48,6 +60,8 @@ class Demo extends React.Component {
                 }
                 return `color-github-${value.count}`;
               }}
+              tooltipDataAttrs={this.getTooltipDataAttrs}
+              onClick={this.handleClick}
             />
           </div>
           <div className="col-12 col-sm-6">
@@ -59,6 +73,8 @@ class Demo extends React.Component {
                 }
                 return `color-gitlab-${value.count}`;
               }}
+              tooltipDataAttrs={this.getTooltipDataAttrs}
+              onClick={this.handleClick}
             />
           </div>
         </div>{' '}
@@ -67,6 +83,7 @@ class Demo extends React.Component {
             Regenerate values
           </button>
         </div>
+        <ReactTooltip />
       </div>
     );
   }
