@@ -5,3 +5,5 @@ PRs and contributions are welcome! However, before creating a pull request, plea
 To develop on react-calendar-heatmap, a good way to start is to run the demo site. [See the demo README](demo/README.md) for instructions on how to run the demo.
 
 Keep [CI tests](https://travis-ci.org/patientslikeme/react-calendar-heatmap) passing by running `yarn test` and `yarn run lint` often.
+
+When creating a PR, you should run `yarn run format` and commit any formatting changes, to ensure that source files are consistently formatted with Prettier.
