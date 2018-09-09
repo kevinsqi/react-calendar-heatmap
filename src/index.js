@@ -116,6 +116,7 @@ class CalendarHeatmap extends React.Component {
     return values.reduce((memo, value) => {
       const date = convertToDate(value.date);
       const index = Math.floor((date - this.getStartDateWithEmptyDays()) / MILLISECONDS_IN_ONE_DAY);
+      // eslint-disable-next-line no-param-reassign
       memo[index] = {
         value,
         className: this.latestProps.classForValue(value),
@@ -252,6 +253,7 @@ class CalendarHeatmap extends React.Component {
     const [x, y] = this.getSquareCoordinates(dayIndex);
     const value = this.getValueForIndex(index);
     const rect = (
+      // eslint-disable-next-line jsx-a11y/mouse-events-have-key-events
       <rect
         key={index}
         width={SQUARE_SIZE}
@@ -259,7 +261,7 @@ class CalendarHeatmap extends React.Component {
         x={x}
         y={y}
         className={this.getClassNameForIndex(index)}
-        onClick={this.handleClick.bind(this, value)}
+        onClick={() => this.handleClick(value)}
         onMouseOver={(e) => this.handleMouseOver(e, value)}
         onMouseLeave={(e) => this.handleMouseLeave(e, value)}
         {...this.getTooltipDataAttrsForIndex(index)}
@@ -376,6 +378,7 @@ CalendarHeatmap.propTypes = {
 };
 
 CalendarHeatmap.defaultProps = {
+  numDays: null,
   startDate: dateNDaysAgo(200),
   endDate: new Date(),
   gutterSize: 1,
@@ -383,9 +386,15 @@ CalendarHeatmap.defaultProps = {
   showMonthLabels: true,
   showWeekdayLabels: false,
   showOutOfRangeDays: false,
+  tooltipDataAttrs: null,
+  titleForValue: null,
+  classForValue: (value) => (value ? 'color-filled' : 'color-empty'),
   monthLabels: MONTH_LABELS,
   weekdayLabels: DAY_LABELS,
-  classForValue: (value) => (value ? 'color-filled' : 'color-empty'),
+  onClick: null,
+  onMouseOver: null,
+  onMouseLeave: null,
+  transformDayElement: null,
 };
 
 export default CalendarHeatmap;
