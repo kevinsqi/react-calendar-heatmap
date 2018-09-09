@@ -1,20 +1,15 @@
 {
-  "extends": "airbnb",
-  "rules": {
-    "function-paren-newline": "off",
-    "import/no-extraneous-dependencies": ["error", {"devDependencies": true}],
-    "jsx-a11y/mouse-events-have-key-events": "off",
-    "max-len": "off",
-    "no-param-reassign": "off",
-    "react/forbid-prop-types": "off",
-    "react/jsx-boolean-value": ["error", "always"],
-    "react/jsx-filename-extension": "off",
-    "react/jsx-no-bind": "off",
-    "react/no-unused-prop-types": "off", // re-enable, there's a bug in eslint that leads to false-positives
-    "react/require-default-props": "off",
-  },
+  "extends": [
+    "plugin:react/recommended",
+    "airbnb",
+    "prettier",
+    "prettier/react",
+  ],
   "env": {
     "browser": true,
     "jest": true
+  },
+  "rules": {
+    "react/jsx-filename-extension": "off",
   }
 }
