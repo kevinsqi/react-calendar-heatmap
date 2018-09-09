@@ -11,7 +11,7 @@ export function getBeginningTimeForDate(date) {
 
 // obj can be a parseable string, a millisecond timestamp, or a Date object
 export function convertToDate(obj) {
-  return (obj instanceof Date) ? obj : (new Date(obj));
+  return obj instanceof Date ? obj : new Date(obj);
 }
 
 export function dateNDaysAgo(numDaysAgo) {
