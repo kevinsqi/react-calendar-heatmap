@@ -26,6 +26,7 @@
     "build:css": "postcss src/styles.css --use autoprefixer -d dist/ --no-map",
     "build:js": "cross-env NODE_ENV=production rollup -c",
     "clean": "rimraf dist",
+    "format": "prettier --write 'src/**/*' 'demo/src/**/*'",
     "lint": "eslint src",
     "prepublish": "npm run clean && npm run build",
     "test": "jest --config jest.config.js --coverage",
