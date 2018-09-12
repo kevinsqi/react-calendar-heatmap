@@ -1,3 +1,8 @@
+## v1.7.0 (September 9, 2018)
+
+* Add script to run prettier on src files, and run it [#90]
+* Update build process and demo, and allow importing styles from dist [#89]
+* Upgrade dependencies [#68]
 * Fix tooltips in demo page (thanks @kaacun!)
 
 ## v1.6.3
