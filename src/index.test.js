@@ -7,6 +7,15 @@ import { dateNDaysAgo, shiftDate } from '../src/helpers';
 
 Enzyme.configure({ adapter: new Adapter() });
 
+const getWrapper = (overrideProps, renderMethod = 'shallow') => {
+  const defaultProps = {
+    values: [],
+  };
+  return Enzyme[renderMethod](
+    <CalendarHeatmap {...defaultProps} {...overrideProps} />
+  );
+};
+
 describe('CalendarHeatmap', () => {
   const values = [
     { date: new Date('2017-06-01') },
@@ -229,6 +238,23 @@ describe('CalendarHeatmap props', () => {
       );
 
       expect(wrapper.find('[data-tooltip="Count: 1"]')).toHaveLength(1);
+    });
+  });
+
+  describe('event handlers', () => {
+    it('calls props.onClick', () => {
+      const count = 999;
+      const startDate = '2018-06-01';
+      const endDate = '2018-06-03';
+      const values = [ { date: '2018-06-02', count } ];
+      const onClick = jest.fn();
+      const wrapper = getWrapper({ onClick, values, startDate, endDate });
+      const expectedValue = wrapper.state().valueCache['5'].value;
+
+      const rect = wrapper.find('rect').at(0);
+      rect.simulate('click');
+
+      expect(onClick).toHaveBeenCalledWith(expectedValue);
     });
   });
 });
