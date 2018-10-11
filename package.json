@@ -30,6 +30,7 @@
     "lint": "eslint src",
     "prepublish": "npm run clean && npm run build",
     "test": "jest --config jest.config.js --coverage",
+    "test:watch": "jest --config jest.config.js --watch",
     "start": "npm-run-all --parallel start:js start:css",
     "start:css": "postcss src/styles.css --use autoprefixer -d dist/ --no-map --watch",
     "start:js": "cross-env NODE_ENV=development rollup -c -w"
