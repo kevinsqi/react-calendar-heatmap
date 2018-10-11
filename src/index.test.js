@@ -242,19 +242,47 @@ describe('CalendarHeatmap props', () => {
   });
 
   describe('event handlers', () => {
-    it('calls props.onClick', () => {
-      const count = 999;
-      const startDate = '2018-06-01';
-      const endDate = '2018-06-03';
-      const values = [ { date: '2018-06-02', count } ];
+    const count = 999;
+    const startDate = '2018-06-01';
+    const endDate = '2018-06-03';
+    const values = [ { date: '2018-06-02', count } ];
+    const props = {
+      values,
+      startDate,
+      endDate,
+    };
+    const expectedValue = values[0];
+
+    it('calls props.onClick with the correct value', () => {
       const onClick = jest.fn();
-      const wrapper = getWrapper({ onClick, values, startDate, endDate });
-      const expectedValue = wrapper.state().valueCache['5'].value;
+      const wrapper = getWrapper({ ...props, onClick });
 
       const rect = wrapper.find('rect').at(0);
       rect.simulate('click');
 
       expect(onClick).toHaveBeenCalledWith(expectedValue);
+    });
+
+    it('calls props.onMouseOver with the correct value', () => {
+      const onMouseOver = jest.fn();
+      const wrapper = getWrapper({ ...props, onMouseOver });
+      const fakeEvent = { preventDefault: jest.fn() };
+
+      const rect = wrapper.find('rect').at(0);
+      rect.simulate('mouseOver', fakeEvent);
+
+      expect(onMouseOver).toHaveBeenCalledWith(fakeEvent, expectedValue);
+    });
+
+    it('calls props.onMouseLeave with the correct value', () => {
+      const onMouseLeave = jest.fn();
+      const wrapper = getWrapper({ ...props, onMouseLeave });
+      const fakeEvent = { preventDefault: jest.fn() };
+
+      const rect = wrapper.find('rect').at(0);
+      rect.simulate('mouseLeave', fakeEvent);
+
+      expect(onMouseLeave).toHaveBeenCalledWith(fakeEvent, expectedValue);
     });
   });
 });
