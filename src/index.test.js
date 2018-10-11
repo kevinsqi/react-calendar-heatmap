@@ -7,6 +7,15 @@ import { dateNDaysAgo, shiftDate } from '../src/helpers';
 
 Enzyme.configure({ adapter: new Adapter() });
 
+const getWrapper = (overrideProps, renderMethod = 'shallow') => {
+  const defaultProps = {
+    values: [],
+  };
+  return Enzyme[renderMethod](
+    <CalendarHeatmap {...defaultProps} {...overrideProps} />
+  );
+};
+
 describe('CalendarHeatmap', () => {
   const values = [
     { date: new Date('2017-06-01') },
@@ -229,6 +238,51 @@ describe('CalendarHeatmap props', () => {
       );
 
       expect(wrapper.find('[data-tooltip="Count: 1"]')).toHaveLength(1);
+    });
+  });
+
+  describe('event handlers', () => {
+    const count = 999;
+    const startDate = '2018-06-01';
+    const endDate = '2018-06-03';
+    const values = [ { date: '2018-06-02', count } ];
+    const props = {
+      values,
+      startDate,
+      endDate,
+    };
+    const expectedValue = values[0];
+
+    it('calls props.onClick with the correct value', () => {
+      const onClick = jest.fn();
+      const wrapper = getWrapper({ ...props, onClick });
+
+      const rect = wrapper.find('rect').at(0);
+      rect.simulate('click');
+
+      expect(onClick).toHaveBeenCalledWith(expectedValue);
+    });
+
+    it('calls props.onMouseOver with the correct value', () => {
+      const onMouseOver = jest.fn();
+      const wrapper = getWrapper({ ...props, onMouseOver });
+      const fakeEvent = { preventDefault: jest.fn() };
+
+      const rect = wrapper.find('rect').at(0);
+      rect.simulate('mouseOver', fakeEvent);
+
+      expect(onMouseOver).toHaveBeenCalledWith(fakeEvent, expectedValue);
+    });
+
+    it('calls props.onMouseLeave with the correct value', () => {
+      const onMouseLeave = jest.fn();
+      const wrapper = getWrapper({ ...props, onMouseLeave });
+      const fakeEvent = { preventDefault: jest.fn() };
+
+      const rect = wrapper.find('rect').at(0);
+      rect.simulate('mouseLeave', fakeEvent);
+
+      expect(onMouseLeave).toHaveBeenCalledWith(fakeEvent, expectedValue);
     });
   });
 });
