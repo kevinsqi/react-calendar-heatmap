@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import memoizeOne from 'memoize-one';
 import { DAYS_IN_WEEK, MILLISECONDS_IN_ONE_DAY, DAY_LABELS, MONTH_LABELS } from './constants';
 import {
   dateNDaysAgo,
@@ -94,8 +95,8 @@ class CalendarHeatmap extends React.Component {
     );
   }
 
-  getValueCache(values) {
-    return values.reduce((memo, value) => {
+  getValueCache = memoizeOne((props) =>
+    props.values.reduce((memo, value) => {
       const date = convertToDate(value.date);
       const index = Math.floor((date - this.getStartDateWithEmptyDays()) / MILLISECONDS_IN_ONE_DAY);
       // eslint-disable-next-line no-param-reassign
@@ -106,8 +107,8 @@ class CalendarHeatmap extends React.Component {
         tooltipDataAttrs: this.getTooltipDataAttrsForValue(value),
       };
       return memo;
-    }, {});
-  }
+    }, {}),
+  );
 
   getValueForIndex(index) {
     if (this.valueCache[index]) {
@@ -308,7 +309,7 @@ class CalendarHeatmap extends React.Component {
   }
 
   render() {
-    this.valueCache = this.getValueCache(this.props.values);
+    this.valueCache = this.getValueCache(this.props);
 
     return (
       <svg className="react-calendar-heatmap" viewBox={this.getViewBox()}>
