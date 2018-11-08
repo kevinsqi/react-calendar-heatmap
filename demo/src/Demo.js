@@ -37,6 +37,10 @@ class Demo extends React.Component {
   };
 
   getTooltipDataAttrs = (value) => {
+    // Temporary hack around null value.date issue
+    if (!value || !value.date) {
+      return null;
+    }
     // Configuration for react-tooltip
     return {
       'data-tip': `${value.date.toISOString().slice(0, 10)} has count: ${value.count}`,
