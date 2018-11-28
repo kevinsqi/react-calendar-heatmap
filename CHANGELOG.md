@@ -1,3 +1,7 @@
+## v1.8.0 (November 28, 2018)
+
+* Remove usage of componentWillReceiveProps (thanks @anajavi!)
+
 ## v1.7.0 (September 9, 2018)
 
 * Add script to run prettier on src files, and run it [#90]
