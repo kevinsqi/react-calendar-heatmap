@@ -22,7 +22,7 @@ function generateRandomValues(count, date = new Date()) {
       date: shiftDate(date, -index),
       count: getRandomInt(1, 3),
     };
-  });
+  }).filter(() => Math.random() < 0.9);
 }
 
 class Demo extends React.Component {
