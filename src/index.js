@@ -35,7 +35,8 @@ class CalendarHeatmap extends React.Component {
   getMonthLabelSize() {
     if (!this.props.showMonthLabels) {
       return 0;
-    } else if (this.props.horizontal) {
+    }
+    if (this.props.horizontal) {
       return SQUARE_SIZE + MONTH_LABEL_GUTTER_SIZE;
     }
     return 2 * (SQUARE_SIZE + MONTH_LABEL_GUTTER_SIZE);
@@ -44,7 +45,8 @@ class CalendarHeatmap extends React.Component {
   getWeekdayLabelSize() {
     if (!this.props.showWeekdayLabels) {
       return 0;
-    } else if (this.props.horizontal) {
+    }
+    if (this.props.horizontal) {
       return 30;
     }
     return SQUARE_SIZE * 1.5;

@@ -4,7 +4,7 @@ import {
   getBeginningTimeForDate,
   getRange,
   shiftDate,
-} from '../src/helpers';
+} from './helpers';
 
 describe('shiftDate', () => {
   it('adds a day to the first day of a month', () => {
