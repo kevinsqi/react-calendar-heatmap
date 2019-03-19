@@ -2,8 +2,8 @@ import React from 'react';
 import Enzyme, { shallow } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 
-import CalendarHeatmap from '../src';
-import { dateNDaysAgo, shiftDate } from '../src/helpers';
+import CalendarHeatmap from './index';
+import { dateNDaysAgo, shiftDate } from './helpers';
 
 Enzyme.configure({ adapter: new Adapter() });
 
@@ -11,9 +11,7 @@ const getWrapper = (overrideProps, renderMethod = 'shallow') => {
   const defaultProps = {
     values: [],
   };
-  return Enzyme[renderMethod](
-    <CalendarHeatmap {...defaultProps} {...overrideProps} />
-  );
+  return Enzyme[renderMethod](<CalendarHeatmap {...defaultProps} {...overrideProps} />);
 };
 
 describe('CalendarHeatmap', () => {
@@ -245,7 +243,7 @@ describe('CalendarHeatmap props', () => {
     const count = 999;
     const startDate = '2018-06-01';
     const endDate = '2018-06-03';
-    const values = [ { date: '2018-06-02', count } ];
+    const values = [{ date: '2018-06-02', count }];
     const props = {
       values,
       startDate,
