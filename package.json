@@ -28,7 +28,7 @@
     "clean": "rimraf dist",
     "format": "prettier --write 'src/**/*' 'demo/src/**/*'",
     "lint": "eslint src",
-    "prepublish": "npm run clean && npm run build",
+    "prepublish": "yarn clean && yarn build",
     "test": "jest --config jest.config.js --coverage",
     "test:watch": "jest --config jest.config.js --watch",
     "start": "npm-run-all --parallel start:js start:css",
