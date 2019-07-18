@@ -2,14 +2,18 @@ import React from 'react';
 import CalendarHeatmap from 'react-calendar-heatmap';
 import ReactTooltip from 'react-tooltip';
 
-export function shiftDate(date, numDays) {
+function shiftDate(date, numDays) {
   const newDate = new Date(date);
   newDate.setDate(newDate.getDate() + numDays);
   return newDate;
 }
 
-export function getRange(count) {
-  return Array.from({ length: count }, (_, i) => i);
+function getRange(count) {
+  const arr = [];
+  for (let idx = 0; idx < count; idx += 1) {
+    arr.push(idx);
+  }
+  return arr;
 }
 
 function getRandomInt(min, max) {
