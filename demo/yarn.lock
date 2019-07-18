@@ -4381,6 +4381,11 @@ mem@^1.1.0:
   dependencies:
     mimic-fn "^1.0.0"
 
+memoize-one@^5.0.0:
+  version "5.0.5"
+  resolved "https://registry.yarnpkg.com/memoize-one/-/memoize-one-5.0.5.tgz#8cd3809555723a07684afafcd6f756072ac75d7e"
+  integrity sha512-ey6EpYv0tEaIbM/nTDOpHciXUvd+ackQrJgEzBwemhZZIWZjcyodqEcrmqDy2BKRTM3a65kKBV4WtLXJDt26SQ==
+
 memory-fs@^0.4.0, memory-fs@~0.4.1:
   version "0.4.1"
   resolved "https://registry.yarnpkg.com/memory-fs/-/memory-fs-0.4.1.tgz#3a9a20b8462523e447cfbc7e8bb80ed667bfc552"
@@ -5567,8 +5572,9 @@ rc@^1.0.1, rc@^1.1.6, rc@^1.2.7:
     strip-json-comments "~2.0.1"
 
 react-calendar-heatmap@../:
-  version "1.6.3"
+  version "1.8.0"
   dependencies:
+    memoize-one "^5.0.0"
     prop-types "^15.6.2"
 
 react-dev-utils@^5.0.2:

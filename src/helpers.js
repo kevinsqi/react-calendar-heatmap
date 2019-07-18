@@ -19,5 +19,9 @@ export function dateNDaysAgo(numDaysAgo) {
 }
 
 export function getRange(count) {
-  return Array.from({ length: count }, (_, i) => i);
+  const arr = [];
+  for (let idx = 0; idx < count; idx += 1) {
+    arr.push(idx);
+  }
+  return arr;
 }
