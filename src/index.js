@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import memoizeOne from 'memoize-one';
+import differenceInCalendarDays from 'date-fns/difference_in_calendar_days';
+
 import { DAYS_IN_WEEK, MILLISECONDS_IN_ONE_DAY, DAY_LABELS, MONTH_LABELS } from './constants';
 import {
   dateNDaysAgo,
@@ -24,8 +26,7 @@ class CalendarHeatmap extends React.Component {
       );
       return numDays;
     }
-    const timeDiff = this.getEndDate() - convertToDate(startDate);
-    return Math.ceil(timeDiff / MILLISECONDS_IN_ONE_DAY);
+    return differenceInCalendarDays(this.getEndDate(), convertToDate(startDate));
   }
 
   getSquareSizeWithGutter() {
@@ -232,6 +233,14 @@ class CalendarHeatmap extends React.Component {
     const indexOutOfRange =
       index < this.getNumEmptyDaysAtStart() ||
       index >= this.getNumEmptyDaysAtStart() + this.getDateDifferenceInDays();
+    console.log(
+      'noreintegrate',
+      dayIndex,
+      index,
+      indexOutOfRange,
+      this.getNumEmptyDaysAtStart(),
+      this.getDateDifferenceInDays(),
+    );
     if (indexOutOfRange && !this.props.showOutOfRangeDays) {
       return null;
     }

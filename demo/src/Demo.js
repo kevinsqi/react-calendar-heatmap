@@ -57,40 +57,32 @@ class Demo extends React.Component {
 
   render() {
     return (
-      <div>
-        <div className="row">
-          <div className="col-12 col-sm-6">
-            <CalendarHeatmap
-              values={this.state.values}
-              classForValue={(value) => {
-                if (!value) {
-                  return 'color-empty';
-                }
-                return `color-github-${value.count}`;
-              }}
-              tooltipDataAttrs={this.getTooltipDataAttrs}
-              onClick={this.handleClick}
-            />
-          </div>
-          <div className="col-12 col-sm-6">
-            <CalendarHeatmap
-              values={this.state.values}
-              classForValue={(value) => {
-                if (!value) {
-                  return 'color-empty';
-                }
-                return `color-gitlab-${value.count}`;
-              }}
-              tooltipDataAttrs={this.getTooltipDataAttrs}
-              onClick={this.handleClick}
-            />
-          </div>
-        </div>{' '}
-        <div className="text-sm-center mt-4">
-          <button className="btn btn-link btn-sm text-secondary" onClick={this.generateValues}>
-            Regenerate values
-          </button>
-        </div>
+      <div style={{ width: 100 }}>
+        <CalendarHeatmap
+          startDate={'2019-03-11'}
+          endDate={'2019-03-14'}
+          values={[
+            // This is not showing up
+            { date: '2019-03-11', count: 4 },
+            { date: '2019-03-12', count: 2 },
+            { date: '2019-03-13', count: 1 },
+            { date: '2019-03-14', count: 3 },
+            { date: '2019-06-21', count: 2 },
+          ]}
+          classForValue={(value) => {
+            if (!value) {
+              return 'color-empty';
+            }
+            return `color-github-${value.count}`;
+          }}
+          tooltipDataAttrs={(value) => {
+            return {
+              'data-tip': `${value.date} has count: ${value.count}`,
+            };
+          }}
+          showWeekdayLabels={true}
+          onClick={(value) => alert(`Clicked on value with count: ${value.count}`)}
+        />
         <ReactTooltip />
       </div>
     );
