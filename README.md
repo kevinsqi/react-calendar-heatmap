@@ -3,10 +3,10 @@
 A calendar heatmap component built on SVG, inspired by github's commit calendar graph. The component expands to size of container and is super configurable. [**Try it out on CodeSandbox**](https://codesandbox.io/s/73mk9wlyx).
 
 [![npm version](https://badge.fury.io/js/react-calendar-heatmap.svg)](https://badge.fury.io/js/react-calendar-heatmap)
-[![Build Status](https://travis-ci.org/okize/react-calendar-heatmap.svg?branch=master)](https://travis-ci.org/okize/react-calendar-heatmap)
+[![Build Status](https://travis-ci.org/kevinsqi/react-calendar-heatmap.svg?branch=master)](https://travis-ci.org/kevinsqi/react-calendar-heatmap)
 [![bundle size](https://img.shields.io/bundlephobia/min/react-calendar-heatmap.svg)](https://bundlephobia.com/result?p=react-calendar-heatmap)
 
-[![react-calendar-heatmap screenshot](/demo/public/react-calendar-heatmap.png?raw=true)](http://okize.github.io/react-calendar-heatmap/)
+[![react-calendar-heatmap screenshot](/demo/public/react-calendar-heatmap.png?raw=true)](https://codesandbox.io/s/73mk9wlyx)
 
 ## Setup
 
@@ -72,7 +72,7 @@ To show a basic heatmap from January 1st to April 1st:
 
 ## Configuring colors
 
-To use the color scale shown in the [live demo](http://okize.github.io/react-calendar-heatmap/) based on the github contribution graph, you can set the `classForValue` prop, a function that determines which CSS class to apply to each value:
+To use the color scale shown in the [live demo](https://www.kevinqi.com/react-calendar-heatmap/) based on the github contribution graph, you can set the `classForValue` prop, a function that determines which CSS class to apply to each value:
 
 ```javascript
 <CalendarHeatmap
