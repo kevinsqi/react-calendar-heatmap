@@ -18,6 +18,14 @@ yarn start
 
 The demo site will be running at localhost:3000. Now you can make changes to react-calendar-heatmap and they'll be reflected on the demo site.
 
+## Upgrading versions
+
+To upgrade the version of react-calendar-heatmap used in the demo, you can do:
+
+```
+yarn upgrade react-calendar-heatmap@../
+```
+
 ## Deploying
 
 This site is hosted on github pages at https://www.kevinqi.com/react-calendar-heatmap/. Deploy new updates by running:
