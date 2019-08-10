@@ -20,5 +20,17 @@
   "devDependencies": {
     "gh-pages": "^1.2.0"
   },
-  "homepage": "https://www.kevinqi.com/react-calendar-heatmap"
+  "homepage": "https://www.kevinqi.com/react-calendar-heatmap",
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
 }
