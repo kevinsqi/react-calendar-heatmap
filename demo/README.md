@@ -20,7 +20,7 @@ The demo site will be running at localhost:3000. Now you can make changes to rea
 
 ## Deploying
 
-This site is hosted on github pages at http://patientslikeme.github.io/react-calendar-heatmap/. Deploy new updates by running:
+This site is hosted on github pages at https://www.kevinqi.com/react-calendar-heatmap/. Deploy new updates by running:
 
 ```
 yarn run deploy

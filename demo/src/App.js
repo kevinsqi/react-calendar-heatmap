@@ -29,7 +29,7 @@ class App extends Component {
           <div className="mt-5">
             <a
               className="btn btn-info btn-lg"
-              href="https://github.com/patientslikeme/react-calendar-heatmap"
+              href="https://github.com/kevinsqi/react-calendar-heatmap"
             >
               View docs on Github
             </a>
