@@ -1,3 +1,5 @@
+import NewCalendarHeatmap from './CalendarHeatmap';
+
 import React from 'react';
 import PropTypes from 'prop-types';
 import memoizeOne from 'memoize-one';
@@ -384,4 +386,4 @@ CalendarHeatmap.defaultProps = {
   transformDayElement: null,
 };
 
-export default CalendarHeatmap;
+export default NewCalendarHeatmap;

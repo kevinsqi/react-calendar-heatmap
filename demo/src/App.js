@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import 'react-calendar-heatmap/dist/styles.css';
 import './App.css';
 import Demo from './Demo';
+import Demo2 from './Demo2';
 
 class App extends Component {
   render() {
@@ -15,7 +16,7 @@ class App extends Component {
         </div>
 
         <div className="mt-5">
-          <Demo />
+          <Demo2 />
         </div>
 
         <hr className="mt-5" />
