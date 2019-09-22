@@ -16,6 +16,7 @@ const CSS_PSEDUO_NAMESPACE = 'react-calendar-heatmap-';
 
 class CalendarHeatmap extends React.Component {
   getDateDifferenceInDays() {
+    // number of squares able to be filled
     const { startDate, numDays } = this.props;
     if (numDays) {
       // eslint-disable-next-line no-console
@@ -25,7 +26,7 @@ class CalendarHeatmap extends React.Component {
       return numDays;
     }
     const timeDiff = this.getEndDate() - convertToDate(startDate);
-    return Math.ceil(timeDiff / MILLISECONDS_IN_ONE_DAY);
+    return Math.ceil(timeDiff / MILLISECONDS_IN_ONE_DAY) + 1;
   }
 
   getSquareSizeWithGutter() {
@@ -366,7 +367,7 @@ CalendarHeatmap.propTypes = {
 
 CalendarHeatmap.defaultProps = {
   numDays: null,
-  startDate: dateNDaysAgo(200),
+  startDate: dateNDaysAgo(199), // gives 200 activity squares
   endDate: new Date(),
   gutterSize: 1,
   horizontal: true,

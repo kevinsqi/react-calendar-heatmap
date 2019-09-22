@@ -69,6 +69,30 @@ describe('CalendarHeatmap', () => {
 
     expect(wrapper.find('.color-filled').length).toBe(3);
   });
+
+  it('shows values that are the start and end dates', () => {
+    const wrapper = shallow(
+      <CalendarHeatmap
+        startDate={new Date('2017-06-01')}
+        endDate={new Date('2017-06-02')}
+        values={values}
+      />,
+    );
+
+    expect(wrapper.find('.color-filled').length).toBe(2);
+  });
+
+  it('doesnt show values outside the date range', () => {
+    const wrapper = shallow(
+      <CalendarHeatmap
+        startDate={new Date('2018-06-02')}
+        endDate={new Date('2018-06-02')}
+        values={values}
+      />,
+    );
+
+    expect(wrapper.find('.color-filled').length).toBe(1);
+  });
 });
 
 describe('CalendarHeatmap props', () => {
@@ -114,13 +138,13 @@ describe('CalendarHeatmap props', () => {
       today.getDate() ===
         wrapper
           .instance()
-          .getEndDate()
+          .getStartDate()
           .getDate() &&
-        today.getMonth() ===
-          wrapper
-            .instance()
-            .getEndDate()
-            .getMonth(),
+      today.getMonth() ===
+        wrapper
+          .instance()
+          .getStartDate()
+          .getMonth(),
     ).toBe(true);
   });
 
@@ -136,11 +160,11 @@ describe('CalendarHeatmap props', () => {
           .instance()
           .getEndDate()
           .getDate() &&
-        today.getMonth() ===
-          wrapper
-            .instance()
-            .getEndDate()
-            .getMonth(),
+      today.getMonth() ===
+        wrapper
+          .instance()
+          .getEndDate()
+          .getMonth(),
     ).toBe(true);
   });
 
@@ -216,7 +240,7 @@ describe('CalendarHeatmap props', () => {
       />,
     );
 
-    expect(wrapper.find('[data-test="ok"]')).toHaveLength(1);
+    expect(wrapper.find('[data-test="ok"]')).toHaveLength(2);
   });
 
   describe('tooltipDataAttrs', () => {
@@ -243,7 +267,7 @@ describe('CalendarHeatmap props', () => {
     const count = 999;
     const startDate = '2018-06-01';
     const endDate = '2018-06-03';
-    const values = [{ date: '2018-06-02', count }];
+    const values = [{ date: '2018-06-01', count }];
     const props = {
       values,
       startDate,
