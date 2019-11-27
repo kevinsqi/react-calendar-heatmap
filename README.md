@@ -39,9 +39,9 @@ To show a basic heatmap from January 1st to April 1st:
   startDate={new Date('2016-01-01')}
   endDate={new Date('2016-04-01')}
   values={[
-    { date: '2016-01-01' },
-    { date: '2016-01-22' },
-    { date: '2016-01-30' },
+    { date: '2016-01-01', count: 12 },
+    { date: '2016-01-22', count: 122 },
+    { date: '2016-01-30', count: 38 },
     // ...and so on
   ]}
 />
@@ -51,7 +51,7 @@ To show a basic heatmap from January 1st to April 1st:
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| `values` | **Required**, Array of Object | Required array of objects which each have a date property, which can be a Date object, parseable string, or millisecond timestamp. Example: `[{ data: '2016-01-01', count: 6 }]` |
+| `values` | **Required**, Array of Object | Required array of objects which each have a date property, which can be a Date object, parseable string, or millisecond timestamp. Example: `[{ date: '2016-01-01', count: 6 }]` |
 | `startDate` | String, Number, or Date | Start of date range. |
 | `endDate` | String, Number, or Date | End of date range - a Date object, parseable string, or millisecond timestamp. |
 | `showMonthLabels` | Boolean | Toggle for removing month labels. |
