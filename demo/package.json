@@ -6,7 +6,7 @@
     "react": "^16.9.0",
     "react-calendar-heatmap": "../",
     "react-dom": "^16.9.0",
-    "react-scripts": "3.0.1",
+    "react-scripts": "3.3.0",
     "react-tooltip": "^3.6.1"
   },
   "scripts": {
