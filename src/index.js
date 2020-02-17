@@ -7,6 +7,7 @@ import {
   shiftDate,
   getBeginningTimeForDate,
   convertToDate,
+  convertToUtc,
   getRange,
 } from './helpers';
 
@@ -99,8 +100,10 @@ class CalendarHeatmap extends React.Component {
 
   getValueCache = memoizeOne((props) =>
     props.values.reduce((memo, value) => {
-      const date = convertToDate(value.date);
-      const index = Math.floor((date - this.getStartDateWithEmptyDays()) / MILLISECONDS_IN_ONE_DAY);
+      const utc1 = convertToUtc(convertToDate(value.date));
+      const utc2 = convertToUtc(this.getStartDateWithEmptyDays());
+      const index = Math.floor((utc1 - utc2) / MILLISECONDS_IN_ONE_DAY);
+
       // eslint-disable-next-line no-param-reassign
       memo[index] = {
         value,

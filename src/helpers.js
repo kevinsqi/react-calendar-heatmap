@@ -14,6 +14,10 @@ export function convertToDate(obj) {
   return obj instanceof Date ? obj : new Date(obj);
 }
 
+export function convertToUtc(date) {
+  return Date.UTC(date.getFullYear(), date.getMonth(), date.getDate());
+}
+
 export function dateNDaysAgo(numDaysAgo) {
   return shiftDate(new Date(), -numDaysAgo);
 }
