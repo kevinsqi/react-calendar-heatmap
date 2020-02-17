@@ -7,6 +7,7 @@ import {
   shiftDate,
   getBeginningTimeForDate,
   convertToDate,
+  convertToUtc,
   getRange,
 } from './helpers';
 
@@ -16,7 +17,7 @@ const CSS_PSEDUO_NAMESPACE = 'react-calendar-heatmap-';
 
 class CalendarHeatmap extends React.Component {
   getDateDifferenceInDays() {
-    const { startDate, numDays } = this.props;
+    const { numDays } = this.props;
     if (numDays) {
       // eslint-disable-next-line no-console
       console.warn(
@@ -24,8 +25,10 @@ class CalendarHeatmap extends React.Component {
       );
       return numDays;
     }
-    const timeDiff = this.getEndDate() - convertToDate(startDate);
-    return Math.ceil(timeDiff / MILLISECONDS_IN_ONE_DAY);
+    const utc1 = convertToUtc(this.getStartDate());
+    const utc2 = convertToUtc(shiftDate(this.getEndDate(), 1)); // shift date 1 because end date is inclusive
+
+    return Math.floor((utc2 - utc1) / MILLISECONDS_IN_ONE_DAY);
   }
 
   getSquareSizeWithGutter() {
@@ -53,7 +56,7 @@ class CalendarHeatmap extends React.Component {
   }
 
   getStartDate() {
-    return shiftDate(this.getEndDate(), -this.getDateDifferenceInDays() + 1); // +1 because endDate is inclusive
+    return getBeginningTimeForDate(convertToDate(this.props.startDate));
   }
 
   getEndDate() {
@@ -99,8 +102,10 @@ class CalendarHeatmap extends React.Component {
 
   getValueCache = memoizeOne((props) =>
     props.values.reduce((memo, value) => {
-      const date = convertToDate(value.date);
-      const index = Math.floor((date - this.getStartDateWithEmptyDays()) / MILLISECONDS_IN_ONE_DAY);
+      const utc1 = convertToUtc(convertToDate(value.date));
+      const utc2 = convertToUtc(this.getStartDateWithEmptyDays());
+      const index = Math.floor((utc1 - utc2) / MILLISECONDS_IN_ONE_DAY);
+
       // eslint-disable-next-line no-param-reassign
       memo[index] = {
         value,
