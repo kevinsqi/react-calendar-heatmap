@@ -1,10 +1,10 @@
 {
-  "parser": "babel-eslint",
+  "parser": "@babel/eslint-parser",
   "extends": [
     "plugin:react/recommended",
     "airbnb",
     "prettier",
-    "prettier/react",
+    "prettier/react"
   ],
   "env": {
     "browser": true,
@@ -13,5 +13,7 @@
   "rules": {
     "react/jsx-filename-extension": "off",
     "react/destructuring-assignment": "off",
+    "react/jsx-props-no-spreading": "off",
+    "react/sort-comp": "off"
   }
 }
