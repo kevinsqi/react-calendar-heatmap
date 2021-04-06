@@ -36,7 +36,7 @@
     "start:js": "cross-env NODE_ENV=development rollup -c -w"
   },
   "peerDependencies": {
-    "react": "^0.14.0 || ^15.0.0 || ^16.0.0"
+    "react": "^0.14.0 || ^15.0.0 || ^16.0.0 || ^17.0.0"
   },
   "dependencies": {
     "memoize-one": "^5.1.1",
