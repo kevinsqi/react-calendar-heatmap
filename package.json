@@ -1,8 +1,8 @@
 {
-  "name": "react-calendar-heatmap",
+  "name": "@shankarmorwal/react-calendar-heatmap",
   "version": "1.8.1",
-  "description": "A calendar heatmap component built on SVG, inspired by Github's commit calendar graph.",
-  "author": "Kevin Qi",
+  "description": "Updated version of react-calendar-heatmap. A calendar heatmap component built on SVG, inspired by Github's commit calendar graph by Kevin Qi. ",
+  "author": "Shankar Morwal / Kevin Qi",
   "main": "dist/react-calendar-heatmap.cjs.js",
   "module": "dist/react-calendar-heatmap.esm.js",
   "browser": "dist/react-calendar-heatmap.umd.js",
@@ -12,7 +12,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/kevinsqi/react-calendar-heatmap.git"
+    "url": "https://github.com/habilelabs/react-calendar-heatmap"
   },
   "license": "MIT",
   "keywords": [
@@ -36,7 +36,7 @@
     "start:js": "cross-env NODE_ENV=development rollup -c -w"
   },
   "peerDependencies": {
-    "react": "^0.14.0 || ^15.0.0 || ^16.0.0"
+    "react": "^0.14.0 || ^15.0.0 || ^16.0.0 || ^16.0.0"
   },
   "dependencies": {
     "memoize-one": "^5.0.0",
