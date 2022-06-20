@@ -1,6 +1,6 @@
 {
   "name": "@shankarmorwal/react-calendar-heatmap",
-  "version": "1.8.1",
+  "version": "1.8.2",
   "description": "Updated version of react-calendar-heatmap. A calendar heatmap component built on SVG, inspired by Github's commit calendar graph by Kevin Qi. ",
   "author": "Shankar Morwal / Kevin Qi",
   "main": "dist/react-calendar-heatmap.cjs.js",
