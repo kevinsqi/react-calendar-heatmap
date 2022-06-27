@@ -1,12 +1,16 @@
-## v1.8.1 (August 1, 2019)
+## v1.9.0 (2022-06-26)
+
+- Add React 17 and 18 to allowed peerDependencies
+
+## v1.8.1 (2019-08-01)
 
 - Implement getRange without using Array.from (not supported by IE)
 
-## v1.8.0 (November 28, 2018)
+## v1.8.0 (2018-11-28)
 
 - Remove usage of componentWillReceiveProps (thanks @anajavi!)
 
-## v1.7.0 (September 9, 2018)
+## v1.7.0 (2018-09-09)
 
 - Add script to run prettier on src files, and run it [#90]
 - Update build process and demo, and allow importing styles from dist [#89]
