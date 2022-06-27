@@ -1,22 +1,13 @@
 {
   "files": {
-    "main.css": "/react-calendar-heatmap/static/css/main.3d37f22a.chunk.css",
-    "main.js": "/react-calendar-heatmap/static/js/main.260e72e4.chunk.js",
-    "main.js.map": "/react-calendar-heatmap/static/js/main.260e72e4.chunk.js.map",
-    "runtime-main.js": "/react-calendar-heatmap/static/js/runtime-main.5e033096.js",
-    "runtime-main.js.map": "/react-calendar-heatmap/static/js/runtime-main.5e033096.js.map",
-    "static/js/2.521ca083.chunk.js": "/react-calendar-heatmap/static/js/2.521ca083.chunk.js",
-    "static/js/2.521ca083.chunk.js.map": "/react-calendar-heatmap/static/js/2.521ca083.chunk.js.map",
+    "main.css": "/react-calendar-heatmap/static/css/main.77047299.css",
+    "main.js": "/react-calendar-heatmap/static/js/main.3bcdffe2.js",
     "index.html": "/react-calendar-heatmap/index.html",
-    "precache-manifest.ff2b736155c09a33b7084c9cc89ab7c0.js": "/react-calendar-heatmap/precache-manifest.ff2b736155c09a33b7084c9cc89ab7c0.js",
-    "service-worker.js": "/react-calendar-heatmap/service-worker.js",
-    "static/css/main.3d37f22a.chunk.css.map": "/react-calendar-heatmap/static/css/main.3d37f22a.chunk.css.map",
-    "static/js/2.521ca083.chunk.js.LICENSE": "/react-calendar-heatmap/static/js/2.521ca083.chunk.js.LICENSE"
+    "main.77047299.css.map": "/react-calendar-heatmap/static/css/main.77047299.css.map",
+    "main.3bcdffe2.js.map": "/react-calendar-heatmap/static/js/main.3bcdffe2.js.map"
   },
   "entrypoints": [
-    "static/js/runtime-main.5e033096.js",
-    "static/js/2.521ca083.chunk.js",
-    "static/css/main.3d37f22a.chunk.css",
-    "static/js/main.260e72e4.chunk.js"
+    "static/css/main.77047299.css",
+    "static/js/main.3bcdffe2.js"
   ]
 }
