@@ -13,6 +13,7 @@ import {
 const SQUARE_SIZE = 10;
 const MONTH_LABEL_GUTTER_SIZE = 4;
 const CSS_PSEDUO_NAMESPACE = 'react-calendar-heatmap-';
+import dayjs from 'dayjs'
 
 class CalendarHeatmap extends React.Component {
   getDateDifferenceInDays() {
@@ -210,9 +211,9 @@ class CalendarHeatmap extends React.Component {
     return [0, (weekIndex + 1) * this.getSquareSizeWithGutter() + verticalOffset];
   }
 
-  handleClick(value) {
+  handleClick(value, currentDate) {
     if (this.props.onClick) {
-      this.props.onClick(value);
+      this.props.onClick(value, currentDate);
     }
   }
 
@@ -235,6 +236,10 @@ class CalendarHeatmap extends React.Component {
     if (indexOutOfRange && !this.props.showOutOfRangeDays) {
       return null;
     }
+    // 获取开始日期的周几
+    const startDay = dayjs(this.getStartDate()).day();
+    // 减去获取的周几，从周几开始计算日期
+    const currentDate = dayjs(this.getStartDate()).add(index - startDay, 'days').format('YYYY-MM-DD');
     const [x, y] = this.getSquareCoordinates(dayIndex);
     const value = this.getValueForIndex(index);
     const rect = (
@@ -246,16 +251,16 @@ class CalendarHeatmap extends React.Component {
         x={x}
         y={y}
         className={this.getClassNameForIndex(index)}
-        onClick={() => this.handleClick(value)}
-        onMouseOver={(e) => this.handleMouseOver(e, value)}
-        onMouseLeave={(e) => this.handleMouseLeave(e, value)}
+        onClick={() => this.handleClick(value, currentDate)}
+        onMouseOver={(e) => this.handleMouseOver(e, value, currentDate)}
+        onMouseLeave={(e) => this.handleMouseLeave(e, value, currentDate)}
         {...this.getTooltipDataAttrsForIndex(index)}
       >
         <title>{this.getTitleForIndex(index)}</title>
       </rect>
     );
-    const { transformDayElement } = this.props;
-    return transformDayElement ? transformDayElement(rect, value, index) : rect;
+    const {transformDayElement} = this.props;
+    return transformDayElement ? transformDayElement(rect, value, currentDate) : rect;
   }
 
   renderWeek(weekIndex) {

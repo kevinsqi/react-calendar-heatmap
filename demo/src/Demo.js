@@ -51,15 +51,16 @@ class Demo extends React.Component {
     };
   };
 
-  handleClick = (value) => {
+  handleClick = (value, date) => {
+    console.log('current date =', date);
     alert(`You clicked on ${value.date.toISOString().slice(0, 10)} with count: ${value.count}`);
   };
 
   render() {
     return (
       <div>
-        <div className="row">
-          <div className="col-12 col-sm-6">
+        <div className='row'>
+          <div className='col-12 col-sm-6'>
             <CalendarHeatmap
               values={this.state.values}
               classForValue={(value) => {
@@ -72,7 +73,7 @@ class Demo extends React.Component {
               onClick={this.handleClick}
             />
           </div>
-          <div className="col-12 col-sm-6">
+          <div className='col-12 col-sm-6'>
             <CalendarHeatmap
               values={this.state.values}
               classForValue={(value) => {
@@ -85,9 +86,10 @@ class Demo extends React.Component {
               onClick={this.handleClick}
             />
           </div>
-        </div>{' '}
-        <div className="text-sm-center mt-4">
-          <button className="btn btn-link btn-sm text-secondary" onClick={this.generateValues}>
+        </div>
+        {' '}
+        <div className='text-sm-center mt-4'>
+          <button className='btn btn-link btn-sm text-secondary' onClick={this.generateValues}>
             Regenerate values
           </button>
         </div>
