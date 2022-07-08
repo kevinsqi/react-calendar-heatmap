@@ -1,10 +1,9 @@
-import React, { Component } from 'react';
+import React from 'react';
 import 'react-calendar-heatmap/dist/styles.css';
 import './App.css';
 import Demo from './Demo';
 
-class App extends Component {
-  render() {
+const App = () => {
     return (
       <div className="container py-5">
         <div className="text-sm-center">
@@ -37,7 +36,6 @@ class App extends Component {
         </div>
       </div>
     );
-  }
 }
 
 export default App;

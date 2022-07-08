@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import memoizeOne from 'memoize-one';
 import { DAYS_IN_WEEK, MILLISECONDS_IN_ONE_DAY, DAY_LABELS, MONTH_LABELS } from './constants';
@@ -14,9 +14,15 @@ const SQUARE_SIZE = 10;
 const MONTH_LABEL_GUTTER_SIZE = 4;
 const CSS_PSEDUO_NAMESPACE = 'react-calendar-heatmap-';
 
-class CalendarHeatmap extends React.Component {
-  getDateDifferenceInDays() {
-    const { startDate, numDays } = this.props;
+const CalendarHeatmap = (props) => {
+  const [valueCache, setValueCache] = useState();
+
+  useEffect(() => {
+    setValueCache(getValueCache(props));
+  }, [props]);
+
+  const getDateDifferenceInDays = () => {
+    const { startDate, numDays } = props;
     if (numDays) {
       // eslint-disable-next-line no-console
       console.warn(
@@ -24,219 +30,208 @@ class CalendarHeatmap extends React.Component {
       );
       return numDays;
     }
-    const timeDiff = this.getEndDate() - convertToDate(startDate);
+    const timeDiff = getEndDate() - convertToDate(startDate);
     return Math.ceil(timeDiff / MILLISECONDS_IN_ONE_DAY);
-  }
+  };
 
-  getSquareSizeWithGutter() {
-    return SQUARE_SIZE + this.props.gutterSize;
-  }
+  const getSquareSizeWithGutter = () => {
+    return SQUARE_SIZE + props.gutterSize;
+  };
 
-  getMonthLabelSize() {
-    if (!this.props.showMonthLabels) {
+  const getMonthLabelSize = () => {
+    if (!props.showMonthLabels) {
       return 0;
     }
-    if (this.props.horizontal) {
+    if (props.horizontal) {
       return SQUARE_SIZE + MONTH_LABEL_GUTTER_SIZE;
     }
     return 2 * (SQUARE_SIZE + MONTH_LABEL_GUTTER_SIZE);
-  }
+  };
 
-  getWeekdayLabelSize() {
-    if (!this.props.showWeekdayLabels) {
+  const getWeekdayLabelSize = () => {
+    if (!props.showWeekdayLabels) {
       return 0;
     }
-    if (this.props.horizontal) {
+    if (props.horizontal) {
       return 30;
     }
     return SQUARE_SIZE * 1.5;
-  }
+  };
 
-  getStartDate() {
-    return shiftDate(this.getEndDate(), -this.getDateDifferenceInDays() + 1); // +1 because endDate is inclusive
-  }
+  const getStartDate = () => {
+    return shiftDate(getEndDate(), -getDateDifferenceInDays() + 1); // +1 because endDate is inclusive
+  };
 
-  getEndDate() {
-    return getBeginningTimeForDate(convertToDate(this.props.endDate));
-  }
+  const getEndDate = () => {
+    return getBeginningTimeForDate(convertToDate(props.endDate));
+  };
 
-  getStartDateWithEmptyDays() {
-    return shiftDate(this.getStartDate(), -this.getNumEmptyDaysAtStart());
-  }
+  const getStartDateWithEmptyDays = () => {
+    return shiftDate(getStartDate(), -getNumEmptyDaysAtStart());
+  };
 
-  getNumEmptyDaysAtStart() {
-    return this.getStartDate().getDay();
-  }
+  const getNumEmptyDaysAtStart = () => {
+    return getStartDate().getDay();
+  };
 
-  getNumEmptyDaysAtEnd() {
-    return DAYS_IN_WEEK - 1 - this.getEndDate().getDay();
-  }
+  const getNumEmptyDaysAtEnd = () => {
+    return DAYS_IN_WEEK - 1 - getEndDate().getDay();
+  };
 
-  getWeekCount() {
+  const getWeekCount = () => {
     const numDaysRoundedToWeek =
-      this.getDateDifferenceInDays() + this.getNumEmptyDaysAtStart() + this.getNumEmptyDaysAtEnd();
+      getDateDifferenceInDays() + getNumEmptyDaysAtStart() + getNumEmptyDaysAtEnd();
     return Math.ceil(numDaysRoundedToWeek / DAYS_IN_WEEK);
-  }
+  };
 
-  getWeekWidth() {
-    return DAYS_IN_WEEK * this.getSquareSizeWithGutter();
-  }
+  const getWeekWidth = () => {
+    return DAYS_IN_WEEK * getSquareSizeWithGutter();
+  };
 
-  getWidth() {
-    return (
-      this.getWeekCount() * this.getSquareSizeWithGutter() -
-      (this.props.gutterSize - this.getWeekdayLabelSize())
-    );
-  }
+  const getWidth = () => {
+    return getWeekCount() * getSquareSizeWithGutter() - (props.gutterSize - getWeekdayLabelSize());
+  };
 
-  getHeight() {
-    return (
-      this.getWeekWidth() +
-      (this.getMonthLabelSize() - this.props.gutterSize) +
-      this.getWeekdayLabelSize()
-    );
-  }
+  const getHeight = () => {
+    return getWeekWidth() + (getMonthLabelSize() - props.gutterSize) + getWeekdayLabelSize();
+  };
 
-  getValueCache = memoizeOne((props) =>
+  const getValueCache = memoizeOne((props) =>
     props.values.reduce((memo, value) => {
       const date = convertToDate(value.date);
-      const index = Math.floor((date - this.getStartDateWithEmptyDays()) / MILLISECONDS_IN_ONE_DAY);
+      const index = Math.floor((date - getStartDateWithEmptyDays()) / MILLISECONDS_IN_ONE_DAY);
       // eslint-disable-next-line no-param-reassign
       memo[index] = {
         value,
-        className: this.props.classForValue(value),
-        title: this.props.titleForValue ? this.props.titleForValue(value) : null,
-        tooltipDataAttrs: this.getTooltipDataAttrsForValue(value),
+        className: props.classForValue(value),
+        title: props.titleForValue ? props.titleForValue(value) : null,
+        tooltipDataAttrs: getTooltipDataAttrsForValue(value),
       };
       return memo;
     }, {}),
   );
 
-  getValueForIndex(index) {
-    if (this.valueCache[index]) {
-      return this.valueCache[index].value;
+  const getValueForIndex = (index) => {
+    if (valueCache[index]) {
+      return valueCache[index].value;
     }
     return null;
-  }
+  };
 
-  getClassNameForIndex(index) {
-    if (this.valueCache[index]) {
-      return this.valueCache[index].className;
+  const getClassNameForIndex = (index) => {
+    if (valueCache[index]) {
+      return valueCache[index].className;
     }
-    return this.props.classForValue(null);
-  }
+    return props.classForValue(null);
+  };
 
-  getTitleForIndex(index) {
-    if (this.valueCache[index]) {
-      return this.valueCache[index].title;
+  const getTitleForIndex = (index) => {
+    if (valueCache[index]) {
+      return valueCache[index].title;
     }
-    return this.props.titleForValue ? this.props.titleForValue(null) : null;
-  }
+    return props.titleForValue ? props.titleForValue(null) : null;
+  };
 
-  getTooltipDataAttrsForIndex(index) {
-    if (this.valueCache[index]) {
-      return this.valueCache[index].tooltipDataAttrs;
+  const getTooltipDataAttrsForIndex = (index) => {
+    if (valueCache[index]) {
+      return valueCache[index].tooltipDataAttrs;
     }
-    return this.getTooltipDataAttrsForValue({ date: null, count: null });
-  }
+    return getTooltipDataAttrsForValue({ date: null, count: null });
+  };
 
-  getTooltipDataAttrsForValue(value) {
-    const { tooltipDataAttrs } = this.props;
+  const getTooltipDataAttrsForValue = (value) => {
+    const { tooltipDataAttrs } = props;
 
     if (typeof tooltipDataAttrs === 'function') {
       return tooltipDataAttrs(value);
     }
     return tooltipDataAttrs;
-  }
+  };
 
-  getTransformForWeek(weekIndex) {
-    if (this.props.horizontal) {
-      return `translate(${weekIndex * this.getSquareSizeWithGutter()}, 0)`;
+  const getTransformForWeek = (weekIndex) => {
+    if (props.horizontal) {
+      return `translate(${weekIndex * getSquareSizeWithGutter()}, 0)`;
     }
-    return `translate(0, ${weekIndex * this.getSquareSizeWithGutter()})`;
-  }
+    return `translate(0, ${weekIndex * getSquareSizeWithGutter()})`;
+  };
 
-  getTransformForWeekdayLabels() {
-    if (this.props.horizontal) {
-      return `translate(${SQUARE_SIZE}, ${this.getMonthLabelSize()})`;
+  const getTransformForWeekdayLabels = () => {
+    if (props.horizontal) {
+      return `translate(${SQUARE_SIZE}, ${getMonthLabelSize()})`;
     }
     return null;
-  }
+  };
 
-  getTransformForMonthLabels() {
-    if (this.props.horizontal) {
-      return `translate(${this.getWeekdayLabelSize()}, 0)`;
+  const getTransformForMonthLabels = () => {
+    if (props.horizontal) {
+      return `translate(${getWeekdayLabelSize()}, 0)`;
     }
-    return `translate(${this.getWeekWidth() +
-      MONTH_LABEL_GUTTER_SIZE}, ${this.getWeekdayLabelSize()})`;
-  }
+    return `translate(${getWeekWidth() + MONTH_LABEL_GUTTER_SIZE}, ${getWeekdayLabelSize()})`;
+  };
 
-  getTransformForAllWeeks() {
-    if (this.props.horizontal) {
-      return `translate(${this.getWeekdayLabelSize()}, ${this.getMonthLabelSize()})`;
+  const getTransformForAllWeeks = () => {
+    if (props.horizontal) {
+      return `translate(${getWeekdayLabelSize()}, ${getMonthLabelSize()})`;
     }
-    return `translate(0, ${this.getWeekdayLabelSize()})`;
-  }
+    return `translate(0, ${getWeekdayLabelSize()})`;
+  };
 
-  getViewBox() {
-    if (this.props.horizontal) {
-      return `0 0 ${this.getWidth()} ${this.getHeight()}`;
+  const getViewBox = () => {
+    if (props.horizontal) {
+      return `0 0 ${getWidth()} ${getHeight()}`;
     }
-    return `0 0 ${this.getHeight()} ${this.getWidth()}`;
-  }
+    return `0 0 ${getHeight()} ${getWidth()}`;
+  };
 
-  getSquareCoordinates(dayIndex) {
-    if (this.props.horizontal) {
-      return [0, dayIndex * this.getSquareSizeWithGutter()];
+  const getSquareCoordinates = (dayIndex) => {
+    if (props.horizontal) {
+      return [0, dayIndex * getSquareSizeWithGutter()];
     }
-    return [dayIndex * this.getSquareSizeWithGutter(), 0];
-  }
+    return [dayIndex * getSquareSizeWithGutter(), 0];
+  };
 
-  getWeekdayLabelCoordinates(dayIndex) {
-    if (this.props.horizontal) {
-      return [0, (dayIndex + 1) * SQUARE_SIZE + dayIndex * this.props.gutterSize];
+  const getWeekdayLabelCoordinates = (dayIndex) => {
+    if (props.horizontal) {
+      return [0, (dayIndex + 1) * SQUARE_SIZE + dayIndex * props.gutterSize];
     }
-    return [dayIndex * SQUARE_SIZE + dayIndex * this.props.gutterSize, SQUARE_SIZE];
-  }
+    return [dayIndex * SQUARE_SIZE + dayIndex * props.gutterSize, SQUARE_SIZE];
+  };
 
-  getMonthLabelCoordinates(weekIndex) {
-    if (this.props.horizontal) {
-      return [
-        weekIndex * this.getSquareSizeWithGutter(),
-        this.getMonthLabelSize() - MONTH_LABEL_GUTTER_SIZE,
-      ];
+  const getMonthLabelCoordinates = (weekIndex) => {
+    if (props.horizontal) {
+      return [weekIndex * getSquareSizeWithGutter(), getMonthLabelSize() - MONTH_LABEL_GUTTER_SIZE];
     }
     const verticalOffset = -2;
-    return [0, (weekIndex + 1) * this.getSquareSizeWithGutter() + verticalOffset];
-  }
+    return [0, (weekIndex + 1) * getSquareSizeWithGutter() + verticalOffset];
+  };
 
-  handleClick(value) {
-    if (this.props.onClick) {
-      this.props.onClick(value);
+  const handleClick = (value) => {
+    if (props.onClick) {
+      props.onClick(value);
     }
-  }
+  };
 
-  handleMouseOver(e, value) {
-    if (this.props.onMouseOver) {
-      this.props.onMouseOver(e, value);
+  const handleMouseOver = (e, value) => {
+    if (props.onMouseOver) {
+      props.onMouseOver(e, value);
     }
-  }
+  };
 
-  handleMouseLeave(e, value) {
-    if (this.props.onMouseLeave) {
-      this.props.onMouseLeave(e, value);
+  const handleMouseLeave = (e, value) => {
+    if (props.onMouseLeave) {
+      props.onMouseLeave(e, value);
     }
-  }
+  };
 
-  renderSquare(dayIndex, index) {
+  const renderSquare = (dayIndex, index) => {
     const indexOutOfRange =
-      index < this.getNumEmptyDaysAtStart() ||
-      index >= this.getNumEmptyDaysAtStart() + this.getDateDifferenceInDays();
-    if (indexOutOfRange && !this.props.showOutOfRangeDays) {
+      index < getNumEmptyDaysAtStart() ||
+      index >= getNumEmptyDaysAtStart() + getDateDifferenceInDays();
+    if (indexOutOfRange && !props.showOutOfRangeDays) {
       return null;
     }
-    const [x, y] = this.getSquareCoordinates(dayIndex);
-    const value = this.getValueForIndex(index);
+    const [x, y] = getSquareCoordinates(dayIndex);
+    const value = getValueForIndex(index);
     const rect = (
       // eslint-disable-next-line jsx-a11y/mouse-events-have-key-events
       <rect
@@ -245,61 +240,61 @@ class CalendarHeatmap extends React.Component {
         height={SQUARE_SIZE}
         x={x}
         y={y}
-        className={this.getClassNameForIndex(index)}
-        onClick={() => this.handleClick(value)}
-        onMouseOver={(e) => this.handleMouseOver(e, value)}
-        onMouseLeave={(e) => this.handleMouseLeave(e, value)}
-        {...this.getTooltipDataAttrsForIndex(index)}
+        className={getClassNameForIndex(index)}
+        onClick={() => handleClick(value)}
+        onMouseOver={(e) => handleMouseOver(e, value)}
+        onMouseLeave={(e) => handleMouseLeave(e, value)}
+        {...getTooltipDataAttrsForIndex(index)}
       >
-        <title>{this.getTitleForIndex(index)}</title>
+        <title>{getTitleForIndex(index)}</title>
       </rect>
     );
-    const { transformDayElement } = this.props;
+    const { transformDayElement } = props;
     return transformDayElement ? transformDayElement(rect, value, index) : rect;
-  }
+  };
 
-  renderWeek(weekIndex) {
+  const renderWeek = (weekIndex) => {
     return (
       <g
         key={weekIndex}
-        transform={this.getTransformForWeek(weekIndex)}
+        transform={getTransformForWeek(weekIndex)}
         className={`${CSS_PSEDUO_NAMESPACE}week`}
       >
         {getRange(DAYS_IN_WEEK).map((dayIndex) =>
-          this.renderSquare(dayIndex, weekIndex * DAYS_IN_WEEK + dayIndex),
+          renderSquare(dayIndex, weekIndex * DAYS_IN_WEEK + dayIndex),
         )}
       </g>
     );
-  }
+  };
 
-  renderAllWeeks() {
-    return getRange(this.getWeekCount()).map((weekIndex) => this.renderWeek(weekIndex));
-  }
+  const renderAllWeeks = () => {
+    return getRange(getWeekCount()).map((weekIndex) => renderWeek(weekIndex));
+  };
 
-  renderMonthLabels() {
-    if (!this.props.showMonthLabels) {
+  const renderMonthLabels = () => {
+    if (!props.showMonthLabels) {
       return null;
     }
-    const weekRange = getRange(this.getWeekCount() - 1); // don't render for last week, because label will be cut off
+    const weekRange = getRange(getWeekCount() - 1); // don't render for last week, because label will be cut off
     return weekRange.map((weekIndex) => {
-      const endOfWeek = shiftDate(this.getStartDateWithEmptyDays(), (weekIndex + 1) * DAYS_IN_WEEK);
-      const [x, y] = this.getMonthLabelCoordinates(weekIndex);
+      const endOfWeek = shiftDate(getStartDateWithEmptyDays(), (weekIndex + 1) * DAYS_IN_WEEK);
+      const [x, y] = getMonthLabelCoordinates(weekIndex);
       return endOfWeek.getDate() >= 1 && endOfWeek.getDate() <= DAYS_IN_WEEK ? (
         <text key={weekIndex} x={x} y={y} className={`${CSS_PSEDUO_NAMESPACE}month-label`}>
-          {this.props.monthLabels[endOfWeek.getMonth()]}
+          {props.monthLabels[endOfWeek.getMonth()]}
         </text>
       ) : null;
     });
-  }
+  };
 
-  renderWeekdayLabels() {
-    if (!this.props.showWeekdayLabels) {
+  const renderWeekdayLabels = () => {
+    if (!props.showWeekdayLabels) {
       return null;
     }
-    return this.props.weekdayLabels.map((weekdayLabel, dayIndex) => {
-      const [x, y] = this.getWeekdayLabelCoordinates(dayIndex);
+    return props.weekdayLabels.map((weekdayLabel, dayIndex) => {
+      const [x, y] = getWeekdayLabelCoordinates(dayIndex);
       const cssClasses = `${
-        this.props.horizontal ? '' : `${CSS_PSEDUO_NAMESPACE}small-text`
+        props.horizontal ? '' : `${CSS_PSEDUO_NAMESPACE}small-text`
       } ${CSS_PSEDUO_NAMESPACE}weekday-label`;
       // eslint-disable-next-line no-bitwise
       return dayIndex & 1 ? (
@@ -308,35 +303,25 @@ class CalendarHeatmap extends React.Component {
         </text>
       ) : null;
     });
-  }
+  };
 
-  render() {
-    this.valueCache = this.getValueCache(this.props);
-
-    return (
-      <svg className="react-calendar-heatmap" viewBox={this.getViewBox()}>
-        <g
-          transform={this.getTransformForMonthLabels()}
-          className={`${CSS_PSEDUO_NAMESPACE}month-labels`}
-        >
-          {this.renderMonthLabels()}
-        </g>
-        <g
-          transform={this.getTransformForAllWeeks()}
-          className={`${CSS_PSEDUO_NAMESPACE}all-weeks`}
-        >
-          {this.renderAllWeeks()}
-        </g>
-        <g
-          transform={this.getTransformForWeekdayLabels()}
-          className={`${CSS_PSEDUO_NAMESPACE}weekday-labels`}
-        >
-          {this.renderWeekdayLabels()}
-        </g>
-      </svg>
-    );
-  }
-}
+  return (
+    <svg className="react-calendar-heatmap" viewBox={getViewBox()}>
+      <g transform={getTransformForMonthLabels()} className={`${CSS_PSEDUO_NAMESPACE}month-labels`}>
+        {renderMonthLabels()}
+      </g>
+      <g transform={getTransformForAllWeeks()} className={`${CSS_PSEDUO_NAMESPACE}all-weeks`}>
+        {renderAllWeeks()}
+      </g>
+      <g
+        transform={getTransformForWeekdayLabels()}
+        className={`${CSS_PSEDUO_NAMESPACE}weekday-labels`}
+      >
+        {renderWeekdayLabels()}
+      </g>
+    </svg>
+  );
+};
 
 CalendarHeatmap.propTypes = {
   values: PropTypes.arrayOf(

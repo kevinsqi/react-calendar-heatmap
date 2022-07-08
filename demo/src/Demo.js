@@ -1,14 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import CalendarHeatmap from 'react-calendar-heatmap';
 import ReactTooltip from 'react-tooltip';
 
-function shiftDate(date, numDays) {
+const shiftDate = (date, numDays) => {
   const newDate = new Date(date);
   newDate.setDate(newDate.getDate() + numDays);
   return newDate;
 }
 
-function getRange(count) {
+const getRange = (count) => {
   const arr = [];
   for (let idx = 0; idx < count; idx += 1) {
     arr.push(idx);
@@ -16,11 +16,11 @@ function getRange(count) {
   return arr;
 }
 
-function getRandomInt(min, max) {
+const getRandomInt = (min, max) => {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-function generateRandomValues(count, date = new Date()) {
+const generateRandomValues = (count, date = new Date()) => {
   return getRange(count).map((index) => {
     return {
       date: shiftDate(date, -index),
@@ -29,18 +29,14 @@ function generateRandomValues(count, date = new Date()) {
   });
 }
 
-class Demo extends React.Component {
-  state = {
-    values: generateRandomValues(200),
+const Demo = () => {
+  const [stateValues, setStateValues] = useState({ values: generateRandomValues(200) });
+
+  const generateValues = () => {
+    setStateValues({ values: generateRandomValues(200) });
   };
 
-  generateValues = () => {
-    this.setState({
-      values: generateRandomValues(200),
-    });
-  };
-
-  getTooltipDataAttrs = (value) => {
+  const getTooltipDataAttrs = (value) => {
     // Temporary hack around null value.date issue
     if (!value || !value.date) {
       return null;
@@ -51,50 +47,48 @@ class Demo extends React.Component {
     };
   };
 
-  handleClick = (value) => {
+  const handleClick = (value) => {
     alert(`You clicked on ${value.date.toISOString().slice(0, 10)} with count: ${value.count}`);
   };
 
-  render() {
-    return (
-      <div>
-        <div className="row">
-          <div className="col-12 col-sm-6">
-            <CalendarHeatmap
-              values={this.state.values}
-              classForValue={(value) => {
-                if (!value) {
-                  return 'color-empty';
-                }
-                return `color-github-${value.count}`;
-              }}
-              tooltipDataAttrs={this.getTooltipDataAttrs}
-              onClick={this.handleClick}
-            />
-          </div>
-          <div className="col-12 col-sm-6">
-            <CalendarHeatmap
-              values={this.state.values}
-              classForValue={(value) => {
-                if (!value) {
-                  return 'color-empty';
-                }
-                return `color-gitlab-${value.count}`;
-              }}
-              tooltipDataAttrs={this.getTooltipDataAttrs}
-              onClick={this.handleClick}
-            />
-          </div>
-        </div>{' '}
-        <div className="text-sm-center mt-4">
-          <button className="btn btn-link btn-sm text-secondary" onClick={this.generateValues}>
-            Regenerate values
-          </button>
+  return (
+    <div>
+      <div className="row">
+        <div className="col-12 col-sm-6">
+          <CalendarHeatmap
+            values={stateValues.values}
+            classForValue={(value) => {
+              if (!value) {
+                return 'color-empty';
+              }
+              return `color-github-${value.count}`;
+            }}
+            tooltipDataAttrs={getTooltipDataAttrs}
+            onClick={handleClick}
+          />
         </div>
-        <ReactTooltip />
+        <div className="col-12 col-sm-6">
+          <CalendarHeatmap
+            values={stateValues.values}
+            classForValue={(value) => {
+              if (!value) {
+                return 'color-empty';
+              }
+              return `color-gitlab-${value.count}`;
+            }}
+            tooltipDataAttrs={getTooltipDataAttrs}
+            onClick={handleClick}
+          />
+        </div>
+      </div>{' '}
+      <div className="text-sm-center mt-4">
+        <button className="btn btn-link btn-sm text-secondary" onClick={generateValues}>
+          Regenerate values
+        </button>
       </div>
-    );
-  }
-}
+      <ReactTooltip />
+    </div>
+  );
+};
 
 export default Demo;

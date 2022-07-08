@@ -50,7 +50,7 @@ export default function register() {
   }
 }
 
-function registerValidSW(swUrl) {
+const registerValidSW = (swUrl) => {
   navigator.serviceWorker
     .register(swUrl)
     .then((registration) => {
@@ -79,7 +79,7 @@ function registerValidSW(swUrl) {
     });
 }
 
-function checkValidServiceWorker(swUrl) {
+const checkValidServiceWorker = (swUrl) => {
   // Check if the service worker can be found. If it can't reload the page.
   fetch(swUrl)
     .then((response) => {
@@ -104,7 +104,7 @@ function checkValidServiceWorker(swUrl) {
     });
 }
 
-export function unregister() {
+export const unregister = () => {
   if ('serviceWorker' in navigator) {
     navigator.serviceWorker.ready.then((registration) => {
       registration.unregister();
