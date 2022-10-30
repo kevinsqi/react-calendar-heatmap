@@ -237,6 +237,7 @@ class CalendarHeatmap extends React.Component {
     }
     const [x, y] = this.getSquareCoordinates(dayIndex);
     const value = this.getValueForIndex(index);
+    const title = this.getTitleForIndex(index);
     const rect = (
       // eslint-disable-next-line jsx-a11y/mouse-events-have-key-events
       <rect
@@ -251,7 +252,7 @@ class CalendarHeatmap extends React.Component {
         onMouseLeave={(e) => this.handleMouseLeave(e, value)}
         {...this.getTooltipDataAttrsForIndex(index)}
       >
-        <title>{this.getTitleForIndex(index)}</title>
+        {!!title && <title>{title}</title>}
       </rect>
     );
     const { transformDayElement } = this.props;
