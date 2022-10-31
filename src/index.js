@@ -1,13 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import memoizeOne from 'memoize-one';
-import { DAYS_IN_WEEK, MILLISECONDS_IN_ONE_DAY, DAY_LABELS, MONTH_LABELS } from './constants';
+import { DAY_LABELS, DAYS_IN_WEEK, MILLISECONDS_IN_ONE_DAY, MONTH_LABELS } from './constants';
 import {
-  dateNDaysAgo,
-  shiftDate,
-  getBeginningTimeForDate,
   convertToDate,
+  dateNDaysAgo,
+  endOfDay,
+  getDateDifferenceInDays,
   getRange,
+  shiftDate,
+  startOfDay,
 } from './helpers';
 
 const SQUARE_SIZE = 10;
@@ -15,19 +17,6 @@ const MONTH_LABEL_GUTTER_SIZE = 4;
 const CSS_PSEDUO_NAMESPACE = 'react-calendar-heatmap-';
 
 class CalendarHeatmap extends React.Component {
-  getDateDifferenceInDays() {
-    const { startDate, numDays } = this.props;
-    if (numDays) {
-      // eslint-disable-next-line no-console
-      console.warn(
-        'numDays is a deprecated prop. It will be removed in the next release. Consider using the startDate prop instead.',
-      );
-      return numDays;
-    }
-    const timeDiff = this.getEndDate() - convertToDate(startDate);
-    return Math.ceil(timeDiff / MILLISECONDS_IN_ONE_DAY);
-  }
-
   getSquareSizeWithGutter() {
     return SQUARE_SIZE + this.props.gutterSize;
   }
@@ -53,11 +42,11 @@ class CalendarHeatmap extends React.Component {
   }
 
   getStartDate() {
-    return shiftDate(this.getEndDate(), -this.getDateDifferenceInDays() + 1); // +1 because endDate is inclusive
+    return startOfDay(convertToDate(this.props.startDate));
   }
 
   getEndDate() {
-    return getBeginningTimeForDate(convertToDate(this.props.endDate));
+    return endOfDay(convertToDate(this.props.endDate));
   }
 
   getStartDateWithEmptyDays() {
@@ -74,7 +63,10 @@ class CalendarHeatmap extends React.Component {
 
   getWeekCount() {
     const numDaysRoundedToWeek =
-      this.getDateDifferenceInDays() + this.getNumEmptyDaysAtStart() + this.getNumEmptyDaysAtEnd();
+      getDateDifferenceInDays(this.props.startDate, this.props.endDate) +
+      this.getNumEmptyDaysAtStart() +
+      this.getNumEmptyDaysAtEnd();
+
     return Math.ceil(numDaysRoundedToWeek / DAYS_IN_WEEK);
   }
 
@@ -231,7 +223,9 @@ class CalendarHeatmap extends React.Component {
   renderSquare(dayIndex, index) {
     const indexOutOfRange =
       index < this.getNumEmptyDaysAtStart() ||
-      index >= this.getNumEmptyDaysAtStart() + this.getDateDifferenceInDays();
+      index >=
+        this.getNumEmptyDaysAtStart() +
+          getDateDifferenceInDays(this.props.startDate, this.props.endDate);
     if (indexOutOfRange && !this.props.showOutOfRangeDays) {
       return null;
     }
@@ -345,7 +339,6 @@ CalendarHeatmap.propTypes = {
         .isRequired,
     }).isRequired,
   ).isRequired, // array of objects with date and arbitrary metadata
-  numDays: PropTypes.number, // number of days back from endDate to show
   startDate: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.instanceOf(Date)]), // start of date range
   endDate: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.instanceOf(Date)]), // end of date range
   gutterSize: PropTypes.number, // size of space between squares
@@ -365,7 +358,6 @@ CalendarHeatmap.propTypes = {
 };
 
 CalendarHeatmap.defaultProps = {
-  numDays: null,
   startDate: dateNDaysAgo(200),
   endDate: new Date(),
   gutterSize: 1,

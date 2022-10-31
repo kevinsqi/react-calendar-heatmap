@@ -1,18 +1,8 @@
 import React from 'react';
-import Enzyme, { shallow } from 'enzyme';
-import Adapter from 'enzyme-adapter-react-16';
-
+import { prettyDOM, render } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import CalendarHeatmap from './index';
-import { dateNDaysAgo, shiftDate } from './helpers';
-
-Enzyme.configure({ adapter: new Adapter() });
-
-const getWrapper = (overrideProps, renderMethod = 'shallow') => {
-  const defaultProps = {
-    values: [],
-  };
-  return Enzyme[renderMethod](<CalendarHeatmap {...defaultProps} {...overrideProps} />);
-};
+import { dateNDaysAgo, startOfDay, getISODate, shiftDate } from './helpers';
 
 describe('CalendarHeatmap', () => {
   const values = [
@@ -24,9 +14,9 @@ describe('CalendarHeatmap', () => {
   ];
 
   it('should render as an svg', () => {
-    const wrapper = shallow(<CalendarHeatmap values={[]} />);
+    const { container } = render(<CalendarHeatmap values={[]} />);
 
-    expect(wrapper.find('svg')).toHaveLength(1);
+    expect(container.querySelectorAll('svg')).toHaveLength(1);
   });
 
   it('should not throw exceptions in base case', () => {
@@ -34,7 +24,7 @@ describe('CalendarHeatmap', () => {
   });
 
   it('shows values within its original date range', () => {
-    const wrapper = shallow(
+    const { container } = render(
       <CalendarHeatmap
         endDate={new Date('2017-12-31')}
         startDate={new Date('2017-01-01')}
@@ -42,19 +32,19 @@ describe('CalendarHeatmap', () => {
       />,
     );
 
-    expect(wrapper.find('.color-filled').length).toBe(2);
+    expect(container.querySelectorAll('.color-filled').length).toBe(2);
   });
 
   it('should handle string formatted date range', () => {
-    const wrapper = shallow(
+    const { container } = render(
       <CalendarHeatmap endDate="2017-12-31" startDate="2017-01-01" values={values} />,
     );
 
-    expect(wrapper.find('.color-filled').length).toBe(2);
+    expect(container.querySelectorAll('.color-filled').length).toBe(2);
   });
 
   it('shows values within an updated date range', () => {
-    const wrapper = shallow(
+    const { container, rerender } = render(
       <CalendarHeatmap
         endDate={new Date('2017-12-31')}
         startDate={new Date('2017-01-01')}
@@ -62,12 +52,15 @@ describe('CalendarHeatmap', () => {
       />,
     );
 
-    wrapper.setProps({
-      endDate: new Date('2018-12-31'),
-      startDate: new Date('2018-01-01'),
-    });
+    rerender(
+      <CalendarHeatmap
+        endDate={new Date('2018-12-31')}
+        startDate={new Date('2018-01-01')}
+        values={values}
+      />,
+    );
 
-    expect(wrapper.find('.color-filled').length).toBe(3);
+    expect(container.querySelectorAll('.color-filled').length).toBe(3);
   });
 });
 
@@ -78,7 +71,7 @@ describe('CalendarHeatmap props', () => {
       { date: new Date('2016-01-02').getTime() },
       { date: new Date('2016-01-03') },
     ];
-    const wrapper = shallow(
+    const { container } = render(
       <CalendarHeatmap
         endDate={new Date('2016-02-01')}
         startDate={new Date('2015-12-20')}
@@ -87,70 +80,59 @@ describe('CalendarHeatmap props', () => {
     );
 
     // 'values should handle Date/string/number formats'
-    expect(wrapper.find('.color-filled')).toHaveLength(values.length);
+    expect(container.querySelectorAll('.color-filled')).toHaveLength(values.length);
   });
 
   it('horizontal', () => {
-    const horizontal = shallow(
+    const { rerender, container } = render(
       <CalendarHeatmap startDate={dateNDaysAgo(100)} values={[]} horizontal />,
     );
-    const [, , horWidth, horHeight] = horizontal.prop('viewBox').split(' ');
+    let viewBox = container.querySelector('svg').getAttribute('viewBox');
+
+    const [, , horWidth, horHeight] = viewBox.split(' ');
     // 'horizontal orientation width should be greater than height'
     expect(Number(horWidth)).toBeGreaterThan(Number(horHeight));
 
-    const vertical = shallow(
-      <CalendarHeatmap startDate={dateNDaysAgo(100)} values={[]} horizontal={false} />,
-    );
-    const [, , vertWidth, vertHeight] = vertical.prop('viewBox').split(' ');
+    rerender(<CalendarHeatmap startDate={dateNDaysAgo(100)} values={[]} horizontal={false} />);
+
+    viewBox = container.querySelector('svg').getAttribute('viewBox');
+    const [, , vertWidth, vertHeight] = viewBox.split(' ');
     // 'vertical orientation width should be less than height'
     expect(Number(vertWidth)).toBeLessThan(Number(vertHeight));
   });
 
-  it('startDate', () => {
-    const today = new Date();
-    const wrapper = shallow(<CalendarHeatmap values={[]} endDate={today} startDate={today} />);
+  it('titleForValue', () => {
+    const startDate = new Date('2022-10-15');
+    const endDate = shiftDate(startDate, 1);
 
-    expect(
-      today.getDate() ===
-        wrapper
-          .instance()
-          .getEndDate()
-          .getDate() &&
-        today.getMonth() ===
-          wrapper
-            .instance()
-            .getEndDate()
-            .getMonth(),
-    ).toBe(true);
-  });
-
-  it('endDate', () => {
-    const today = new Date();
-    const wrapper = shallow(
-      <CalendarHeatmap values={[]} endDate={today} startDate={dateNDaysAgo(10)} />,
+    const { container } = render(
+      <CalendarHeatmap
+        values={[
+          { date: startDate, count: 0 },
+          { date: endDate, count: 99 },
+        ]}
+        startDate={startDate}
+        endDate={endDate}
+        titleForValue={(value) => (value ? `${getISODate(value.date)}` : undefined)}
+      />,
     );
 
-    expect(
-      today.getDate() ===
-        wrapper
-          .instance()
-          .getEndDate()
-          .getDate() &&
-        today.getMonth() ===
-          wrapper
-            .instance()
-            .getEndDate()
-            .getMonth(),
-    ).toBe(true);
+    const rects = container.querySelectorAll('rect');
+    expect(rects).toHaveLength(2);
+    expect(rects[0].textContent).toBe(getISODate(startDate));
+    expect(rects[1].textContent).toBe(getISODate(endDate));
   });
 
   it('classForValue', () => {
     const today = new Date();
     const numDays = 10;
     const expectedStartDate = shiftDate(today, -numDays + 1);
-    const wrapper = shallow(
+    const { container } = render(
       <CalendarHeatmap
-        values={[{ date: expectedStartDate, count: 0 }, { date: today, count: 1 }]}
+        values={[
+          { date: expectedStartDate, count: 0 },
+          { date: today, count: 1 },
+        ]}
         endDate={today}
         startDate={dateNDaysAgo(numDays)}
         titleForValue={(value) => (value ? value.count : null)}
@@ -163,60 +145,92 @@ describe('CalendarHeatmap props', () => {
       />,
     );
 
-    expect(wrapper.find('.white')).toHaveLength(1);
-    expect(wrapper.find('.red')).toHaveLength(1);
-
-    // TODO these attr selectors might be broken with react 15
-    // assert(wrapper.first('rect[title=0]').hasClass('white'));
-    // assert(wrapper.first('rect[title=1]').hasClass('red'));
+    expect(container.querySelectorAll('.white')).toHaveLength(1);
+    expect(container.querySelectorAll('.red')).toHaveLength(1);
   });
 
   it('showMonthLabels', () => {
-    const visible = shallow(
+    const { container, rerender } = render(
       <CalendarHeatmap startDate={dateNDaysAgo(100)} values={[]} showMonthLabels />,
     );
 
-    expect(visible.find('text').length).toBeGreaterThan(0);
+    expect(container.querySelectorAll('text').length).toBeGreaterThan(0);
 
-    const hidden = shallow(<CalendarHeatmap values={[]} showMonthLabels={false} />);
+    rerender(<CalendarHeatmap values={[]} showMonthLabels={false} />);
 
-    expect(hidden.find('text')).toHaveLength(0);
+    expect(container.querySelectorAll('text')).toHaveLength(0);
   });
 
   it('showWeekdayLabels', () => {
-    const visible = shallow(
+    const { container, rerender } = render(
       <CalendarHeatmap startDate={dateNDaysAgo(7)} values={[]} showWeekdayLabels />,
     );
 
-    expect(visible.find('text').length).toBeGreaterThan(2);
+    expect(container.querySelectorAll('text').length).toBeGreaterThan(2);
 
-    const hidden = shallow(
-      <CalendarHeatmap values={[]} showMonthLabels={false} showWeekdayLabels={false} />,
-    );
+    rerender(<CalendarHeatmap values={[]} showMonthLabels={false} showWeekdayLabels={false} />);
 
-    expect(hidden.find('text')).toHaveLength(0);
+    expect(container.querySelectorAll('text')).toHaveLength(0);
 
     // should display text with .small-text class
     // in case if horizontal prop value is false
-    const vertical = shallow(<CalendarHeatmap values={[]} horizontal={false} showWeekdayLabels />);
+    rerender(<CalendarHeatmap values={[]} horizontal={false} showWeekdayLabels />);
 
-    expect(vertical.find('text.react-calendar-heatmap-small-text')).toHaveLength(3);
+    expect(container.querySelectorAll('text.react-calendar-heatmap-small-text')).toHaveLength(3);
   });
 
   it('transformDayElement', () => {
     const transform = (rect) => React.cloneElement(rect, { 'data-test': 'ok' });
-    const today = new Date();
-    const expectedStartDate = shiftDate(today, -1);
-    const wrapper = shallow(
+    const startDate = new Date();
+    const endDate = shiftDate(startDate, 1);
+    const { container } = render(
       <CalendarHeatmap
-        values={[{ date: today }, { date: expectedStartDate }]}
-        endDate={today}
-        startDate={expectedStartDate}
+        values={[]}
+        startDate={startDate}
+        endDate={endDate}
         transformDayElement={transform}
       />,
     );
 
-    expect(wrapper.find('[data-test="ok"]')).toHaveLength(1);
+    expect(container.querySelectorAll('[data-test="ok"]')).toHaveLength(2);
+  });
+
+  it('should start at startDate and end at endDate', () => {
+    const startDate = startOfDay(new Date('2022-11-01'));
+    const endDate = new Date('2022-11-30');
+
+    const { container } = render(
+      <CalendarHeatmap
+        values={[{ date: startDate }, { date: endDate }]}
+        endDate={endDate}
+        startDate={startDate}
+        titleForValue={(value) => (value ? getISODate(value.date) : undefined)}
+      />,
+    );
+    const rects = container.querySelectorAll('rect');
+
+    expect(rects).toHaveLength(30);
+    expect(rects[0].textContent).toBe(getISODate(startDate));
+    expect(rects[rects.length - 1].textContent).toBe(getISODate(endDate));
+  });
+
+  it('should start at startDate and end at endDate', () => {
+    const startDate = startOfDay(new Date('2022-10-01'));
+    const endDate = new Date('2022-10-31');
+
+    const { container } = render(
+      <CalendarHeatmap
+        values={[{ date: startDate }, { date: endDate }]}
+        endDate={endDate}
+        startDate={startDate}
+        titleForValue={(value) => (value ? getISODate(value.date) : undefined)}
+      />,
+    );
+    const rects = container.querySelectorAll('rect');
+
+    expect(rects).toHaveLength(31);
+    expect(rects[0].textContent).toBe(getISODate(startDate));
+    expect(rects[rects.length - 1].textContent).toBe(getISODate(endDate));
   });
 
   describe('tooltipDataAttrs', () => {
@@ -224,9 +238,12 @@ describe('CalendarHeatmap props', () => {
       const today = new Date();
       const numDays = 10;
       const expectedStartDate = shiftDate(today, -numDays + 1);
-      const wrapper = shallow(
+      const { container } = render(
         <CalendarHeatmap
-          values={[{ date: today, count: 1 }, { date: expectedStartDate, count: 0 }]}
+          values={[
+            { date: today, count: 1 },
+            { date: expectedStartDate, count: 0 },
+          ]}
           endDate={today}
           startDate={expectedStartDate}
           tooltipDataAttrs={({ count }) => ({
@@ -235,7 +252,7 @@ describe('CalendarHeatmap props', () => {
         />,
       );
 
-      expect(wrapper.find('[data-tooltip="Count: 1"]')).toHaveLength(1);
+      expect(container.querySelectorAll('[data-tooltip="Count: 1"]')).toHaveLength(1);
     });
   });
 
@@ -243,7 +260,7 @@ describe('CalendarHeatmap props', () => {
     const count = 999;
     const startDate = '2018-06-01';
     const endDate = '2018-06-03';
-    const values = [{ date: '2018-06-02', count }];
+    const values = [{ date: '2018-06-01', count }];
     const props = {
       values,
       startDate,
@@ -251,36 +268,42 @@ describe('CalendarHeatmap props', () => {
     };
     const expectedValue = values[0];
 
-    it('calls props.onClick with the correct value', () => {
-      const onClick = jest.fn();
-      const wrapper = getWrapper({ ...props, onClick });
+    it('calls props.onClick with the correct value', async () => {
+      const user = userEvent.setup();
 
-      const rect = wrapper.find('rect').at(0);
-      rect.simulate('click');
+      const onClick = jest.fn();
+      const { container } = render(<CalendarHeatmap {...props} onClick={onClick} />);
+      const rect = container.querySelector('rect');
+      await user.click(rect);
 
       expect(onClick).toHaveBeenCalledWith(expectedValue);
     });
 
-    it('calls props.onMouseOver with the correct value', () => {
+    it('calls props.onMouseOver with the correct value', async () => {
+      const user = userEvent.setup();
+
       const onMouseOver = jest.fn();
-      const wrapper = getWrapper({ ...props, onMouseOver });
-      const fakeEvent = { preventDefault: jest.fn() };
+      // eslint-disable-next-line jsx-a11y/mouse-events-have-key-events
+      const { container } = render(<CalendarHeatmap {...props} onMouseOver={onMouseOver} />);
 
-      const rect = wrapper.find('rect').at(0);
-      rect.simulate('mouseOver', fakeEvent);
+      const rect = container.querySelector('rect');
+      await user.hover(rect);
 
-      expect(onMouseOver).toHaveBeenCalledWith(fakeEvent, expectedValue);
+      expect(onMouseOver).toHaveBeenCalledWith(expect.any(Object), expectedValue);
     });
 
-    it('calls props.onMouseLeave with the correct value', () => {
+    it('calls props.onMouseLeave with the correct value', async () => {
+      const user = userEvent.setup();
+
       const onMouseLeave = jest.fn();
-      const wrapper = getWrapper({ ...props, onMouseLeave });
-      const fakeEvent = { preventDefault: jest.fn() };
+      // eslint-disable-next-line jsx-a11y/mouse-events-have-key-events
+      const { container } = render(<CalendarHeatmap {...props} onMouseLeave={onMouseLeave} />);
 
-      const rect = wrapper.find('rect').at(0);
-      rect.simulate('mouseLeave', fakeEvent);
+      const rect = container.querySelector('rect');
+      await user.hover(rect);
+      await user.unhover(rect);
 
-      expect(onMouseLeave).toHaveBeenCalledWith(fakeEvent, expectedValue);
+      expect(onMouseLeave).toHaveBeenCalledWith(expect.any(Object), expectedValue);
     });
   });
 });
