@@ -1,8 +1,8 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { prettyDOM, render } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import CalendarHeatmap from './index';
-import { dateNDaysAgo, shiftDate } from './helpers';
+import { dateNDaysAgo, startOfDay, getISODate, shiftDate } from './helpers';
 
 describe('CalendarHeatmap', () => {
   const values = [
@@ -64,13 +64,6 @@ describe('CalendarHeatmap', () => {
   });
 });
 
-function getISODate(date) {
-  return date
-    .toISOString()
-    .split('T')
-    .shift();
-}
-
 describe('CalendarHeatmap props', () => {
   it('values', () => {
     const values = [
@@ -110,8 +103,7 @@ describe('CalendarHeatmap props', () => {
 
   it('titleForValue', () => {
     const startDate = new Date('2022-10-15');
-    const endDate = new Date(startDate);
-    endDate.setDate(startDate.getDate() + 1);
+    const endDate = shiftDate(startDate, 1);
 
     const { container } = render(
       <CalendarHeatmap
@@ -121,14 +113,14 @@ describe('CalendarHeatmap props', () => {
         ]}
         startDate={startDate}
         endDate={endDate}
-        titleForValue={(value) => {
-          return value && `${getISODate(value.date)}`;
-        }}
+        titleForValue={(value) => (value ? `${getISODate(value.date)}` : undefined)}
       />,
     );
 
-    expect(container.querySelectorAll('rect')).toHaveLength(1);
-    expect(container.querySelector('title').textContent).toBe(getISODate(endDate));
+    const rects = container.querySelectorAll('rect');
+    expect(rects).toHaveLength(2);
+    expect(rects[0].textContent).toBe(getISODate(startDate));
+    expect(rects[1].textContent).toBe(getISODate(endDate));
   });
 
   it('classForValue', () => {
@@ -189,18 +181,56 @@ describe('CalendarHeatmap props', () => {
 
   it('transformDayElement', () => {
     const transform = (rect) => React.cloneElement(rect, { 'data-test': 'ok' });
-    const today = new Date();
-    const expectedStartDate = shiftDate(today, -1);
+    const startDate = new Date();
+    const endDate = shiftDate(startDate, 1);
     const { container } = render(
       <CalendarHeatmap
-        values={[{ date: today }, { date: expectedStartDate }]}
-        endDate={today}
-        startDate={expectedStartDate}
+        values={[]}
+        startDate={startDate}
+        endDate={endDate}
         transformDayElement={transform}
       />,
     );
 
-    expect(container.querySelectorAll('[data-test="ok"]')).toHaveLength(1);
+    expect(container.querySelectorAll('[data-test="ok"]')).toHaveLength(2);
+  });
+
+  it('should start at startDate and end at endDate', () => {
+    const startDate = startOfDay(new Date('2022-11-01'));
+    const endDate = new Date('2022-11-30');
+
+    const { container } = render(
+      <CalendarHeatmap
+        values={[{ date: startDate }, { date: endDate }]}
+        endDate={endDate}
+        startDate={startDate}
+        titleForValue={(value) => (value ? getISODate(value.date) : undefined)}
+      />,
+    );
+    const rects = container.querySelectorAll('rect');
+
+    expect(rects).toHaveLength(30);
+    expect(rects[0].textContent).toBe(getISODate(startDate));
+    expect(rects[rects.length - 1].textContent).toBe(getISODate(endDate));
+  });
+
+  it('should start at startDate and end at endDate', () => {
+    const startDate = startOfDay(new Date('2022-10-01'));
+    const endDate = new Date('2022-10-31');
+
+    const { container } = render(
+      <CalendarHeatmap
+        values={[{ date: startDate }, { date: endDate }]}
+        endDate={endDate}
+        startDate={startDate}
+        titleForValue={(value) => (value ? getISODate(value.date) : undefined)}
+      />,
+    );
+    const rects = container.querySelectorAll('rect');
+
+    expect(rects).toHaveLength(31);
+    expect(rects[0].textContent).toBe(getISODate(startDate));
+    expect(rects[rects.length - 1].textContent).toBe(getISODate(endDate));
   });
 
   describe('tooltipDataAttrs', () => {
@@ -230,7 +260,7 @@ describe('CalendarHeatmap props', () => {
     const count = 999;
     const startDate = '2018-06-01';
     const endDate = '2018-06-03';
-    const values = [{ date: '2018-06-02', count }];
+    const values = [{ date: '2018-06-01', count }];
     const props = {
       values,
       startDate,

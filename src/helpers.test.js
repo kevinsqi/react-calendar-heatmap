@@ -1,9 +1,10 @@
 import {
   convertToDate,
   dateNDaysAgo,
-  getBeginningTimeForDate,
+  startOfDay,
   getRange,
   shiftDate,
+  getDateDifferenceInDays,
 } from './helpers';
 
 describe('shiftDate', () => {
@@ -64,12 +65,12 @@ describe('shiftDate', () => {
   });
 });
 
-describe('getBeginningTimeForDate', () => {
+describe('startOfDay', () => {
   it('gets midnight (in the local timezone) on the date passed in', () => {
     const inputDate = new Date(2017, 11, 25, 21, 30, 59, 750);
     const expectedDate = new Date(2017, 11, 25, 0, 0, 0, 0);
 
-    expect(getBeginningTimeForDate(inputDate).getTime()).toBe(expectedDate.getTime());
+    expect(startOfDay(inputDate).getTime()).toBe(expectedDate.getTime());
   });
 });
 
@@ -170,5 +171,27 @@ describe('getRange', () => {
 
   it('generates an array containing multiple integers', () => {
     expect(getRange(5)).toEqual([0, 1, 2, 3, 4]);
+  });
+});
+
+describe('getDateDifferenceInDays', () => {
+  it('returns the number of days between 2 dates of the same month', () => {
+    expect(getDateDifferenceInDays('2022-10-01', '2022-10-31')).toEqual(31);
+  });
+
+  it('returns the number of days between 2 dates with a month with 30 days', () => {
+    expect(getDateDifferenceInDays('2022-11-01', '2022-11-30')).toEqual(30);
+  });
+
+  it('returns the number of days between 2 dates with a month with 29 days', () => {
+    expect(getDateDifferenceInDays('2024-02-01', '2024-02-29')).toEqual(29);
+  });
+
+  it('returns the number of days between 2 dates with a month with 28 days', () => {
+    expect(getDateDifferenceInDays('2022-02-01', '2022-02-28')).toEqual(28);
+  });
+
+  it('returns the number of days between 2 dates with multiple months', () => {
+    expect(getDateDifferenceInDays('2022-12-31', '2023-01-03')).toEqual(4);
   });
 });
