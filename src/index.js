@@ -97,8 +97,8 @@ class CalendarHeatmap extends React.Component {
     );
   }
 
-  getValueCache = memoizeOne((props) =>
-    props.values.reduce((memo, value) => {
+  getValueCache = memoizeOne((props) => {
+    const presentValues = props.values.reduce((memo, value) => {
       const date = convertToDate(value.date);
       const index = Math.floor((date - this.getStartDateWithEmptyDays()) / MILLISECONDS_IN_ONE_DAY);
       // eslint-disable-next-line no-param-reassign
@@ -109,8 +109,18 @@ class CalendarHeatmap extends React.Component {
         tooltipDataAttrs: this.getTooltipDataAttrsForValue(value),
       };
       return memo;
-    }, {}),
-  );
+    }, {});
+
+    if (props.fillZero) {
+      for (let i = 0; i < this.getDateDifferenceInDays(); i += 1) {
+        if (!(i in presentValues)) {
+          presentValues[i] = 0;
+        }
+      }
+    }
+
+    return presentValues;
+  });
 
   getValueForIndex(index) {
     if (this.valueCache[index]) {
@@ -362,6 +372,7 @@ CalendarHeatmap.propTypes = {
   onMouseOver: PropTypes.func, // callback function when mouse pointer is over a square
   onMouseLeave: PropTypes.func, // callback function when mouse pointer is left a square
   transformDayElement: PropTypes.func, // function to further transform the svg element for a single day
+  fillZero: PropTypes.bool, // whether to default dates without values to 0
 };
 
 CalendarHeatmap.defaultProps = {
@@ -382,6 +393,7 @@ CalendarHeatmap.defaultProps = {
   onMouseOver: null,
   onMouseLeave: null,
   transformDayElement: null,
+  fillZero: false,
 };
 
 export default CalendarHeatmap;

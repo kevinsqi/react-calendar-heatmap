@@ -144,6 +144,19 @@ describe('CalendarHeatmap props', () => {
     ).toBe(true);
   });
 
+  it('fillZero', () => {
+    const today = new Date();
+    const wrapper = shallow(
+      <CalendarHeatmap values={[]} endDate={today} startDate={dateNDaysAgo(10)} fillZero={true} />,
+    );
+
+    expect(
+      wrapper
+        .instance()
+        .valueCache[5]
+    ).toEqual(0);
+  });
+
   it('classForValue', () => {
     const today = new Date();
     const numDays = 10;
