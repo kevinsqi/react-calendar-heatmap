@@ -42,12 +42,17 @@ class Demo extends React.Component {
 
   getTooltipDataAttrs = (value) => {
     // Temporary hack around null value.date issue
-    if (!value || !value.date) {
-      return null;
-    }
+    if (!value || !value.date) return null;
     // Configuration for react-tooltip
     return {
       'data-tip': `${value.date.toISOString().slice(0, 10)} has count: ${value.count}`,
+    };
+  };
+
+  getWeeklyTooltipDataAttrs = (value) => {
+    if (!value || (!value.week && value.week != 0)) return null;
+    return {
+      'data-tip': `Week ${value.week + 1} has count: ${value.count}`,
     };
   };
 
@@ -68,8 +73,18 @@ class Demo extends React.Component {
                 }
                 return `color-github-${value.count}`;
               }}
+              classForWeekSummaryValue={(value) => {
+                if (!value || value.count < 8) return 'color-empty';
+                return `color-gitlab-${value.count % 5}`;
+              }}
               tooltipDataAttrs={this.getTooltipDataAttrs}
+              weekSummaryTooltipDataAttrs={this.getWeeklyTooltipDataAttrs}
               onClick={this.handleClick}
+              showWeekdayLabels
+              weekdayLabels={['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']}
+              showWeekSummaries
+              weekSummariesSquaresOffset={0}
+              weekStartDay={6}
             />
           </div>
           <div className="col-12 col-sm-6">

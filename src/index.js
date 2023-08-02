@@ -65,7 +65,9 @@ class CalendarHeatmap extends React.Component {
   }
 
   getNumEmptyDaysAtStart() {
-    return this.getStartDate().getDay();
+    const sd = this.getStartDate().getDay();
+    if (this.props.weekStartDay <= sd) return sd - this.props.weekStartDay;
+    return 7 - this.props.weekStartDay;
   }
 
   getNumEmptyDaysAtEnd() {
@@ -79,7 +81,11 @@ class CalendarHeatmap extends React.Component {
   }
 
   getWeekWidth() {
-    return DAYS_IN_WEEK * this.getSquareSizeWithGutter();
+    return (
+      (DAYS_IN_WEEK +
+        (this.props.showWeekSummaries ? 1 + this.props.weekSummariesSquaresOffset : 0)) *
+      this.getSquareSizeWithGutter()
+    );
   }
 
   getWidth() {
@@ -119,11 +125,25 @@ class CalendarHeatmap extends React.Component {
     return null;
   }
 
+  getValueSumForWeekIndex(weekIndex) {
+    return {
+      week: weekIndex,
+      count: getRange(DAYS_IN_WEEK)
+        .map((dayIndex) => this.getValueForIndex(weekIndex * DAYS_IN_WEEK + dayIndex))
+        .filter((v) => v != null)
+        .map((v) => v.count)
+        .reduce((a, b) => a + b, 0),
+    };
+  }
+
   getClassNameForIndex(index) {
     if (this.valueCache[index]) {
       return this.valueCache[index].className;
     }
     return this.props.classForValue(null);
+  }
+  getClassNameForWeek(weekSummaryValue) {
+    return this.props.classForWeekSummaryValue(weekSummaryValue);
   }
 
   getTitleForIndex(index) {
@@ -147,6 +167,15 @@ class CalendarHeatmap extends React.Component {
       return tooltipDataAttrs(value);
     }
     return tooltipDataAttrs;
+  }
+
+  getTooltipDataAttrsForWeekSummary(value) {
+    const { weekSummaryTooltipDataAttrs } = this.props;
+
+    if (typeof weekSummaryTooltipDataAttrs === 'function') {
+      return weekSummaryTooltipDataAttrs(value);
+    }
+    return weekSummaryTooltipDataAttrs;
   }
 
   getTransformForWeek(weekIndex) {
@@ -193,6 +222,7 @@ class CalendarHeatmap extends React.Component {
   }
 
   getWeekdayLabelCoordinates(dayIndex) {
+    dayIndex = (dayIndex - this.props.weekStartDay + 7) % 7;
     if (this.props.horizontal) {
       return [0, (dayIndex + 1) * SQUARE_SIZE + dayIndex * this.props.gutterSize];
     }
@@ -229,6 +259,7 @@ class CalendarHeatmap extends React.Component {
   }
 
   renderSquare(dayIndex, index) {
+    const isWeekSummary = dayIndex >= DAYS_IN_WEEK;
     const indexOutOfRange =
       index < this.getNumEmptyDaysAtStart() ||
       index >= this.getNumEmptyDaysAtStart() + this.getDateDifferenceInDays();
@@ -236,7 +267,9 @@ class CalendarHeatmap extends React.Component {
       return null;
     }
     const [x, y] = this.getSquareCoordinates(dayIndex);
-    const value = this.getValueForIndex(index);
+    const value = isWeekSummary
+      ? this.getValueSumForWeekIndex(index) // is week summary
+      : this.getValueForIndex(index); // is regular day
     const rect = (
       // eslint-disable-next-line jsx-a11y/mouse-events-have-key-events
       <rect
@@ -245,11 +278,15 @@ class CalendarHeatmap extends React.Component {
         height={SQUARE_SIZE}
         x={x}
         y={y}
-        className={this.getClassNameForIndex(index)}
+        className={
+          isWeekSummary ? this.getClassNameForWeek(value) : this.getClassNameForIndex(index)
+        }
         onClick={() => this.handleClick(value)}
         onMouseOver={(e) => this.handleMouseOver(e, value)}
         onMouseLeave={(e) => this.handleMouseLeave(e, value)}
-        {...this.getTooltipDataAttrsForIndex(index)}
+        {...(isWeekSummary
+          ? { ...this.getTooltipDataAttrsForWeekSummary(value) }
+          : { ...this.getTooltipDataAttrsForIndex(index) })}
       >
         <title>{this.getTitleForIndex(index)}</title>
       </rect>
@@ -268,6 +305,8 @@ class CalendarHeatmap extends React.Component {
         {getRange(DAYS_IN_WEEK).map((dayIndex) =>
           this.renderSquare(dayIndex, weekIndex * DAYS_IN_WEEK + dayIndex),
         )}
+        {this.props.showWeekSummaries &&
+          this.renderSquare(DAYS_IN_WEEK + this.props.weekSummariesSquaresOffset, weekIndex)}
       </g>
     );
   }
@@ -353,15 +392,20 @@ CalendarHeatmap.propTypes = {
   showMonthLabels: PropTypes.bool, // whether to show month labels
   showWeekdayLabels: PropTypes.bool, // whether to show weekday labels
   showOutOfRangeDays: PropTypes.bool, // whether to render squares for extra days in week after endDate, and before start date
+  showWeekSummaries: PropTypes.bool, // whether to render squares that summarize all values for a week
+  weekSummariesSquaresOffset: PropTypes.number, // the number of squares that the week summaries row/col will be offset from the rest
   tooltipDataAttrs: PropTypes.oneOfType([PropTypes.object, PropTypes.func]), // data attributes to add to square for setting 3rd party tooltips, e.g. { 'data-toggle': 'tooltip' } for bootstrap tooltips
+  weekSummaryTooltipDataAttrs: PropTypes.oneOfType([PropTypes.object, PropTypes.func]), // data attributes to add to square for setting 3rd party tooltips for week summary square tooltips, e.g. { 'data-toggle': 'tooltip' } for bootstrap tooltips
   titleForValue: PropTypes.func, // function which returns title text for value
   classForValue: PropTypes.func, // function which returns html class for value
+  classForWeekSummaryValue: PropTypes.func, // function which returns html class for value in the week summaries range
   monthLabels: PropTypes.arrayOf(PropTypes.string), // An array with 12 strings representing the text from janurary to december
   weekdayLabels: PropTypes.arrayOf(PropTypes.string), // An array with 7 strings representing the text from Sun to Sat
   onClick: PropTypes.func, // callback function when a square is clicked
   onMouseOver: PropTypes.func, // callback function when mouse pointer is over a square
   onMouseLeave: PropTypes.func, // callback function when mouse pointer is left a square
   transformDayElement: PropTypes.func, // function to further transform the svg element for a single day
+  weekStartDay: PropTypes.number, // the first day of the week where 0 = sunday, 1 = monday, ...
 };
 
 CalendarHeatmap.defaultProps = {
@@ -373,15 +417,20 @@ CalendarHeatmap.defaultProps = {
   showMonthLabels: true,
   showWeekdayLabels: false,
   showOutOfRangeDays: false,
+  showWeekSummaries: false,
+  weekSummariesSquaresOffset: 1,
   tooltipDataAttrs: null,
+  weekSummaryTooltipDataAttrs: null,
   titleForValue: null,
   classForValue: (value) => (value ? 'color-filled' : 'color-empty'),
+  classForWeekSummaryValue: (value) => (value ? 'color-filled' : 'color-empty'),
   monthLabels: MONTH_LABELS,
   weekdayLabels: DAY_LABELS,
   onClick: null,
   onMouseOver: null,
   onMouseLeave: null,
   transformDayElement: null,
+  weekStartDay: 0,
 };
 
 export default CalendarHeatmap;
