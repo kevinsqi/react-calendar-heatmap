@@ -263,7 +263,7 @@ class CalendarHeatmap extends React.Component {
     const indexOutOfRange =
       index < this.getNumEmptyDaysAtStart() ||
       index >= this.getNumEmptyDaysAtStart() + this.getDateDifferenceInDays();
-    if (indexOutOfRange && !this.props.showOutOfRangeDays) {
+    if (indexOutOfRange && !this.props.showOutOfRangeDays && !isWeekSummary) {
       return null;
     }
     const [x, y] = this.getSquareCoordinates(dayIndex);
