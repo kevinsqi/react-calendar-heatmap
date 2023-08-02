@@ -71,7 +71,8 @@ class CalendarHeatmap extends React.Component {
   }
 
   getNumEmptyDaysAtEnd() {
-    return DAYS_IN_WEEK - 1 - this.getEndDate().getDay();
+    const ld = this.getEndDate().getDay();
+    return (this.props.weekStartDay + 6 - ld) % 7;
   }
 
   getWeekCount() {

@@ -50,7 +50,7 @@ class Demo extends React.Component {
   };
 
   getWeeklyTooltipDataAttrs = (value) => {
-    if (!value || (!value.week && value.week != 0)) return null;
+    if (!value || (!value.week && value.week !== 0)) return null;
     return {
       'data-tip': `Week ${value.week + 1} has count: ${value.count}`,
     };
@@ -84,7 +84,7 @@ class Demo extends React.Component {
               weekdayLabels={['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']}
               showWeekSummaries
               weekSummariesSquaresOffset={0}
-              weekStartDay={6}
+              weekStartDay={1}
             />
           </div>
           <div className="col-12 col-sm-6">
