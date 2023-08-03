@@ -131,7 +131,7 @@ class CalendarHeatmap extends React.Component {
       week: weekIndex,
       values: getRange(DAYS_IN_WEEK)
         .map((dayIndex) => this.getValueForIndex(weekIndex * DAYS_IN_WEEK + dayIndex))
-        .filter((v) => v != null)
+        .filter((v) => v != null),
     };
   }
 

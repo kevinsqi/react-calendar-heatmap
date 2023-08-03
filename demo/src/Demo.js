@@ -49,14 +49,13 @@ class Demo extends React.Component {
     };
   };
 
-  summarizeWeek = weekValue => {
-      return weekValue.values.map((v) => v.count)
-        .reduce((a, b) => a + b, 0)
-  }
+  summarizeWeek = (weekValue) => {
+    return weekValue.values.map((v) => v.count).reduce((a, b) => a + b, 0);
+  };
 
   getWeeklyTooltipDataAttrs = (weekValue) => {
     if (!weekValue || (!weekValue.week && weekValue.week !== 0)) return null;
-    const count = this.summarizeWeek(weekValue)
+    const count = this.summarizeWeek(weekValue);
     return {
       'data-tip': `Week ${weekValue.week + 1} has total count: ${count}`,
     };
@@ -80,10 +79,9 @@ class Demo extends React.Component {
                 return `color-github-${value.count}`;
               }}
               classForWeekSummaryValue={(weekValue) => {
-                if (!weekValue)
-                  return 'color-empty'
+                if (!weekValue) return 'color-empty';
 
-                const count = this.summarizeWeek(weekValue)
+                const count = this.summarizeWeek(weekValue);
                 if (count < 8) return 'color-empty';
                 return `color-gitlab-${count % 5}`;
               }}
