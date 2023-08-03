@@ -150,7 +150,10 @@ describe('CalendarHeatmap props', () => {
     const expectedStartDate = shiftDate(today, -numDays + 1);
     const wrapper = shallow(
       <CalendarHeatmap
-        values={[{ date: expectedStartDate, count: 0 }, { date: today, count: 1 }]}
+        values={[
+          { date: expectedStartDate, count: 0 },
+          { date: today, count: 1 },
+        ]}
         endDate={today}
         startDate={dateNDaysAgo(numDays)}
         titleForValue={(value) => (value ? value.count : null)}
@@ -226,7 +229,10 @@ describe('CalendarHeatmap props', () => {
       const expectedStartDate = shiftDate(today, -numDays + 1);
       const wrapper = shallow(
         <CalendarHeatmap
-          values={[{ date: today, count: 1 }, { date: expectedStartDate, count: 0 }]}
+          values={[
+            { date: today, count: 1 },
+            { date: expectedStartDate, count: 0 },
+          ]}
           endDate={today}
           startDate={expectedStartDate}
           tooltipDataAttrs={({ count }) => ({

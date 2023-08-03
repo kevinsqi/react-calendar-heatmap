@@ -42,12 +42,22 @@ class Demo extends React.Component {
 
   getTooltipDataAttrs = (value) => {
     // Temporary hack around null value.date issue
-    if (!value || !value.date) {
-      return null;
-    }
+    if (!value || !value.date) return null;
     // Configuration for react-tooltip
     return {
       'data-tip': `${value.date.toISOString().slice(0, 10)} has count: ${value.count}`,
+    };
+  };
+
+  summarizeWeek = (weekValue) => {
+    return weekValue.values.map((v) => v.count).reduce((a, b) => a + b, 0);
+  };
+
+  getWeeklyTooltipDataAttrs = (weekValue) => {
+    if (!weekValue || (!weekValue.week && weekValue.week !== 0)) return null;
+    const count = this.summarizeWeek(weekValue);
+    return {
+      'data-tip': `Week ${weekValue.week + 1} has total count: ${count}`,
     };
   };
 
@@ -68,8 +78,22 @@ class Demo extends React.Component {
                 }
                 return `color-github-${value.count}`;
               }}
+              classForWeekSummaryValue={(weekValue) => {
+                if (!weekValue) return 'color-empty';
+
+                const count = this.summarizeWeek(weekValue);
+                if (count < 8) return 'color-empty';
+                return `color-gitlab-${count % 5}`;
+              }}
               tooltipDataAttrs={this.getTooltipDataAttrs}
+              weekSummaryTooltipDataAttrs={this.getWeeklyTooltipDataAttrs}
               onClick={this.handleClick}
+              showWeekdayLabels
+              weekdayLabels={['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']}
+              showWeekSummaries
+              weekSummary
+              weekSummariesSquaresOffset={0}
+              weekStartDay={1}
             />
           </div>
           <div className="col-12 col-sm-6">
