@@ -126,14 +126,12 @@ class CalendarHeatmap extends React.Component {
     return null;
   }
 
-  getValueSumForWeekIndex(weekIndex) {
+  getValuesForWeekIndex(weekIndex) {
     return {
       week: weekIndex,
-      count: getRange(DAYS_IN_WEEK)
+      values: getRange(DAYS_IN_WEEK)
         .map((dayIndex) => this.getValueForIndex(weekIndex * DAYS_IN_WEEK + dayIndex))
         .filter((v) => v != null)
-        .map((v) => v.count)
-        .reduce((a, b) => a + b, 0),
     };
   }
 
@@ -143,6 +141,7 @@ class CalendarHeatmap extends React.Component {
     }
     return this.props.classForValue(null);
   }
+
   getClassNameForWeek(weekSummaryValue) {
     return this.props.classForWeekSummaryValue(weekSummaryValue);
   }
@@ -269,7 +268,7 @@ class CalendarHeatmap extends React.Component {
     }
     const [x, y] = this.getSquareCoordinates(dayIndex);
     const value = isWeekSummary
-      ? this.getValueSumForWeekIndex(index) // is week summary
+      ? this.getValuesForWeekIndex(index) // is week summary
       : this.getValueForIndex(index); // is regular day
     const rect = (
       // eslint-disable-next-line jsx-a11y/mouse-events-have-key-events
