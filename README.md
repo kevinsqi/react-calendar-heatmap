@@ -3,7 +3,6 @@
 A calendar heatmap component built on SVG, inspired by github's commit calendar graph. The component expands to size of container and is super configurable. [**Try it out on CodeSandbox**](https://codesandbox.io/s/73mk9wlyx).
 
 [![npm version](https://badge.fury.io/js/react-calendar-heatmap.svg)](https://badge.fury.io/js/react-calendar-heatmap)
-[![Build Status](https://travis-ci.org/kevinsqi/react-calendar-heatmap.svg?branch=master)](https://travis-ci.org/kevinsqi/react-calendar-heatmap)
 [![bundle size](https://img.shields.io/bundlephobia/min/react-calendar-heatmap.svg)](https://bundlephobia.com/result?p=react-calendar-heatmap)
 
 [![react-calendar-heatmap screenshot](/demo/public/react-calendar-heatmap.png?raw=true)](https://codesandbox.io/s/73mk9wlyx)
