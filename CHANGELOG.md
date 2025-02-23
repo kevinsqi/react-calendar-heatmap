@@ -1,3 +1,7 @@
+## v1.10.0 (2025-02-23)
+
+- Allow all major versions of React in peerDependencies
+
 ## v1.9.0 (2022-06-26)
 
 - Add React 17 and 18 to allowed peerDependencies
