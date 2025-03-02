@@ -301,12 +301,11 @@ class CalendarHeatmap extends React.Component {
       const cssClasses = `${
         this.props.horizontal ? '' : `${CSS_PSEDUO_NAMESPACE}small-text`
       } ${CSS_PSEDUO_NAMESPACE}weekday-label`;
-      // eslint-disable-next-line no-bitwise
-      return dayIndex & 1 ? (
+      return (
         <text key={`${x}${y}`} x={x} y={y} className={cssClasses}>
           {weekdayLabel}
         </text>
-      ) : null;
+      );
     });
   }
 
